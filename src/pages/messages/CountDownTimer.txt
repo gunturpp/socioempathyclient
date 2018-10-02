@@ -1,0 +1,87 @@
+<template>
+<div>
+	<div v-if="type == 'dashboard'">
+	    <div style="display: inline-block;" v-if="this.seconds > 0 || this.minutes > 0 || this.hours > 0 || this.days > 0">
+	        <div style="display: inline-block;" v-show="this.days > 0">
+	            <div class="mb-0 normal">{{ days }} {{ this.days != 1 ? 'days remain' : 'day remain' }}</div>
+	        </div>
+	        <div style="display: inline-block;" v-show="this.hours > 0 && this.days === 0">
+	            <div class="mb-0 normal">{{ hours }}h </div>
+	            <!--<div class="text">Hours</div>-->
+	        </div>
+	        <div style="display: inline-block;" v-show="this.minutes >= 0 && this.days === 0">
+	            <div class="mb-0 normal">{{ minutes }}m </div>
+	            <!--<div class="text">Minutes</div>-->
+	        </div>
+	    </div>
+	    <div style="display: inline-block;" v-else>Finished</div>
+	</div>
+	<div v-else-if="type == 'daily'">
+	    <div style="display: inline-block;" v-if="this.seconds > 0 || this.minutes > 0 || this.hours > 0 || this.days > 0">
+	        <div style="display: inline-block;" v-show="this.days > 0">
+	            <div class="text-center">{{ days }} {{ this.days != 1 ? 'days remain' : 'day remain' }}</div>
+	        </div>
+	        <div style="display: inline-block;" v-show="this.hours > 0 && this.days === 0">
+	            <div class="text-center">{{ hours }} : </div>
+	            <!--<div class="text">Hours</div>-->
+	        </div>
+	        <div style="display: inline-block;" v-show="this.minutes >= 0 && this.days === 0">
+	            <div class="text-center">{{ minutes }} : </div>
+	            <!--<div class="text">Minutes</div>-->
+	        </div>
+	        <div style="display: inline-block;" v-show="this.seconds >= 0 && this.days === 0">
+	            <div class="text-center">{{ seconds }}</div>
+	            <!--<div class="text">Seconds</div>-->
+	        </div>
+	    </div>
+	    <div style="display: inline-block;" v-else>Finished</div>
+	</div>
+</div>
+</template>
+<script>
+	export default{
+		props: ['starting', 'ending', 'type'],
+		data(){
+			return{
+				now: this.starting,
+				end: this.ending
+			}
+		},
+	    watch: {
+	        starting: function() {
+	            this.now = this.starting;
+	        },
+	        ending: function() {
+	        	this.end = this.ending;
+	        }
+	    },
+		mounted() {
+	        // this.ind_time = this.date_now;
+	        let timer = window.setInterval(() => {
+	            this.now++;
+	            if(this.seconds < 0 && this.minutes < 0 && this.hours < 0 && this.days < 0)
+	            	window.clearInterval(timer);
+	            // else if(this.seconds < 0 && this.minutes < 0 && this.hours < 0 && this.days < 0 && this.type == "upcoming")
+	            	// window.location.reload();
+	        },1000);
+	    },
+		computed: {
+	        seconds() {
+	            return parseInt((this.end - this.now) % 60);
+	        },
+
+	        minutes() {
+	            return Math.trunc((this.end - this.now) / 60) % 60;
+	        },
+
+	        hours() {
+
+	            return Math.trunc((this.end - this.now) / 60 / 60) % 24;
+	        },
+
+	        days() {
+	            return Math.trunc((this.end - this.now) / 60 / 60 / 24);
+	        }
+	    }
+	};
+</script>

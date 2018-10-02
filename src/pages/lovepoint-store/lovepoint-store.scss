@@ -1,0 +1,85 @@
+page-lovepoint-store {
+  .alertInformation {
+    background-color: rgba(100, 100, 100, 0.6);
+    position: absolute;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    padding-top: 30%;
+    text-align: center;
+    .icon-info {
+        height: 120;
+        width: 120px;
+    }
+    .inAlert {
+      width: 80vw;
+      margin: auto;
+      padding: 20px;
+      height: auto;
+      background-color: #ffffff;
+    }
+    p.alertTitle { 
+      text-align: center !important;        
+      color: $sociocolor;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: -10px;
+    }
+    p {
+      text-align: justify !important;
+    }
+    .close {
+      text-align: right;
+      color: $sociocolor;
+    }
+  }
+  .saldoDov {
+    display: flex;
+    padding: 10px;
+  }
+  .saldoLP,
+  .saldoValue {
+    width: 50%;
+    color: $sociocolor;
+    font-weight: bold;
+    padding: 5px 0;
+    margin-bottom: 15px;
+    border-bottom: solid #cccccc 1px;
+  }
+  .saldoValue {
+    text-align: right;
+  }
+  ion-col {
+    width: 100%;
+  }
+  ion-row {
+    padding: 10px;
+  }
+  .menu1,
+  .menu2 {
+    height: 150px;
+    margin: 5px;
+  }
+  .menu1 {
+    background-color: red;
+  }
+  .menu2 {
+    background-color: $sociocolor;
+  }
+  .icon {
+    padding-top:10%;
+  }
+  h4,
+  span {
+    color: #ffffff;
+  }
+  span {
+    font-size: 10px;
+  }
+  .right-icon {
+    position: relative;
+    float: right;
+    top: 20%;
+    color: #ffffff;
+  }
+}

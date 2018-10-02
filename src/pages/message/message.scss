@@ -1,0 +1,33 @@
+page-message {
+  .session_end {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    padding: 20px;
+  }
+  .problems {
+    position: fixed;
+    display: block;
+    width: 100%;
+    z-index: 15;
+    background-color: white;
+    padding: 10px;
+  }
+  .field-problem {
+    font-size: 10px;
+    color: #aaaaaa;
+  }
+  .rating {
+    width: 80vw;
+    height: 300px;
+    background-color: green;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 20vh;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    z-index: 2;
+  }
+}

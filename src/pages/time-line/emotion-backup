@@ -1,0 +1,57 @@
+    <ion-card>
+        <ion-card-header class="headerCss">
+            How's your mood today?
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row class="centerin">
+                    <ion-col col-2 class="moodCol" style="margin-left:10px;">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Depress'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Depress')" src="assets/images/depress.png" />
+                            <p class="moodLable">Depressed</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Pressure'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Pressure')" src="assets/images/pressure.png" />
+                            <p class="moodLable">Pressured</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <!-- <button class="circle"  (click)="changeMoodLevel('Normal')" ion-button block> -->
+                            <ion-icon *ngIf="moodLevel == 'Normal'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Normal')" src="assets/images/normal.png" />
+                            <!-- </button> -->
+                            <p class="moodLable"> Normal</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Good'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Good')" src="assets/images/good.png" />
+                            <p class="moodLable">&nbsp; Good</p>
+                        </ion-row>
+                    </ion-col>
+
+                    <ion-col col-2 class="moodCol">
+                        <ion-row>
+                            <ion-icon *ngIf="moodLevel == 'Happy'" class="icon-checked" name="md-checkmark-circle-outline"></ion-icon>
+                            <img class="imggCss" (click)="changeMoodLevel('Happy')" src="assets/images/happy.png" />
+                            <p class="moodLable">&nbsp;Happy</p>
+                        </ion-row>
+                    </ion-col>
+
+                </ion-row>
+                <ion-row style="padding-top:7px;">
+                    <!-- <ion-col text-right> -->
+                    <p class="moodCss" (click)="moodTracker()">Mood Tracker >></p>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>

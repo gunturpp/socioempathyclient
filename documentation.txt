@@ -1,0 +1,32 @@
+https://github.com/angular/angularfire2/blob/master/docs/install-and-setup.md
+AngularFireModule.initializeApp(environment.firebase)
+AngularFirestoreModule
+AngularFireAuthModule
+AngularFireStorageModule
+AngularFirestore
+
+https://github.com/angular/angularfire2/blob/master/docs/firestore/documents.md
+AngularFirestoreDocument
+
+https://github.com/angular/angularfire2/blob/master/docs/firestore/collections.md
+AngularFirestoreCollection
+DocumentChangeAction
+.snapshotChanges()
+
+.stateChanges() 
+.auditTrail()
+Manipulating individual documents
+State based vs. action based
+Adding documents to a collection
+Limiting events
+
+https://github.com/angular/angularfire2/blob/master/docs/firestore/querying-collections.md
+Creating a query with primitive/scalar values
+nvalid query combinations
+Dynamic querying
+
+https://github.com/angular/angularfire2/blob/master/docs/auth/getting-started.md
+Getting started with Firebase Authentication
+
+ionic calendar tutorial using
+https://devdactic.com/ionic-calendar-app/

@@ -1,0 +1,72 @@
+<!--
+  Generated template for the LovepointStorePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar hideBackButton color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="pop()">
+        <ion-icon name="ios-arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Lovepoints Store</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only tappable (click)="informationLovepoints()">
+        <ion-icon name="ios-information-circle-outline"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  
+  <div *ngIf="status" class="alertInformation">
+    <div class="inAlert">
+      <p class="alertTitle">Apa itu Lovepoints</p>
+      <img class="icon-info" src="../assets/images/lovepoints.png" />
+      <p>Credits yang kamu dapat gunakan untuk berkonsultasi dengan para psikolog persesinya. Masalahmu akan diberikan jalan
+        oleh yang sudah berpengalaman dan kompeten di bidangnya.
+      </p>
+      <div class="close" (click)="close()">OK</div>
+    </div>
+  </div>
+  <div class="saldoDov">
+    <div class="saldoLP">Saldo Lovepoints</div>
+    <div class="saldoValue">0</div>
+  </div>
+  <!-- Top Up -->
+  <ion-row class="menu1" (click)="menuTopUp()">
+    <ion-col col-4>
+      <img class="icon" src="../assets/images/lovepoints.png" />
+    </ion-col>
+    <ion-col col-8>
+      <ion-icon name="ios-arrow-forward" class="right-icon"></ion-icon>
+      <h4>Top Up</h4>
+      <span>Belum punya Lovepoints?</span>
+      <br>
+      <span>Lovepoints kamu habis?</span>
+      <br>
+      <span>Isi ulang lovepoints kamu sekarang juga!</span>
+    </ion-col>
+  </ion-row>
+
+  <!-- Transactions -->
+  <ion-row class="menu2" (click)="menuTransactions()">
+    <ion-col col-4>
+      <img class="icon" src="../assets/images/lovepoints.png" />
+    </ion-col>
+    <ion-col col-8>
+      <ion-icon name="ios-arrow-forward" class="right-icon"></ion-icon>
+      <h4>Transactions</h4>
+      <span>Riwayat pembelian dan pengeluaran</span>
+      <br>
+      <span>dari saldo Lovepoints kamu</span>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

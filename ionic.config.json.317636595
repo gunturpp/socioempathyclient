@@ -1,0 +1,7 @@
+{
+  "name": "socioempathy",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

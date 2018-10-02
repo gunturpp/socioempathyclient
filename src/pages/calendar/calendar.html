@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar hideBackButton color="primary">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="pop()">
+        <ion-icon name="ios-arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Pilih Tanggal
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addEvent()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="footer">
+    <button class="btn-pilih" ion-button (click)="sessionByDate()">Pilih</button>
+  </div>
+  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar">
+  </calendar>
+  <!-- <div *ngFor="let tgl of date; let i = index;">
+      <ion-label stacked primary>An item</ion-label>
+      <p type="text">{{ date[i].key }}</p>
+    </div>    -->
+</ion-content>
+
+<!-- KETERANGAN DI ATAS
+eventSource: The data we feed to the calendar view
+currentDate: Needed to mark “today”
+onEventSelected: Handle a tap on a single event
+onTitleChanged: Happens when we swipe to a new month
+onTimeSelected: Happens when we select a day or time
+step: Used for accuracy of a day or week view
+ -->

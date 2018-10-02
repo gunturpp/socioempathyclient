@@ -1,0 +1,27 @@
+page-payment {
+  .right-side {
+    text-align: right;
+    color: $sociocolor;
+  }
+  .petunjuk {
+      word-wrap: break-word;
+      padding: 15px;
+  }
+  p, span {
+      font-size: 16px;
+  }
+  ion-col.imgBank {
+      text-align: right;
+  }
+  .footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+  }
+  .btn-pilih {
+    width: 100%;
+  }
+
+}

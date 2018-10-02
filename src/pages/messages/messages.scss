@@ -1,0 +1,36 @@
+page-messages {
+  ion-item span {
+    color: $primary;
+    font-size: 75%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 0.75em;
+    padding-top: 0.75em;
+  }
+
+  ion-badge {
+    float: right;
+  }
+  
+  div.bold {
+    h2 {
+      font-weight: bold !important;
+    }
+    font-weight: bold;
+  }
+  .date {
+    color: #000;
+    font-size: 8px;
+  }
+  .countdown {
+    font-size: 10px;
+    color: green;
+  }
+  .socioCss {
+    height: 50%;
+    width: 50%;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+}

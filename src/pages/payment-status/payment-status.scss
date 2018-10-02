@@ -1,0 +1,19 @@
+page-payment-status {
+  .center {
+    text-align: center;
+    .justify {
+      text-align: justify !important;
+    }
+  }
+
+  .footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+  }
+  .btn-pilih {
+    width: 100%;
+  }
+}

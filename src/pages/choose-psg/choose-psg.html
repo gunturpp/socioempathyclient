@@ -1,0 +1,73 @@
+<!--
+  Generated template for the ChoosePsgPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>choose-psg</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-row>
+    <ion-col col-6>
+      <span>{{ day }}</span>
+    </ion-col>
+    <ion-col class="right" col-6>
+      <ion-icon name="md-people"></ion-icon>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-6>
+      <span *ngIf="session == 'session1'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;08.00-10.00</span>
+      <span *ngIf="session == 'session2'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;10.00-12.00</span>
+      <span *ngIf="session == 'session3'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;12.00-14.00</span>
+      <span *ngIf="session == 'session4'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;14.00-16.00</span>
+      <span *ngIf="session == 'session5'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;18.00-20.00</span>
+    </ion-col>
+    <ion-col class="right" col-6>
+      <span>{{jumlahpsg}}</span>
+    </ion-col>
+  </ion-row>
+  
+  <ion-list class="border-btm" *ngFor="let psg of psgAva">
+    <ion-item (click)="viewPsg(psg.userId)">
+      <ion-avatar item-left>
+        <img src="{{ psg.img }}">
+      </ion-avatar>
+      <h2>{{psg.name}}</h2>
+      <p>{{psg.gender}}, 22 tahun</p>
+      <!-- <ion-avatar item-start>
+        <img src="{{ psg.img }}">
+      </ion-avatar>
+      <h2>Guntur Putra Pratama</h2>
+      <p>Male,22 tahun</p> -->
+
+      <!-- <ion-row class="rows">
+        <ion-col col-5>
+          <img src="{{ psg.img }}">          
+        </ion-col>
+        <ion-col col-7>
+          <h3>Guntur Putra Pratama</h3>
+          <span>Male, 22 tahun</span>      
+        </ion-col>
+      </ion-row> -->
+
+      <!-- sementara -->
+      <!-- <h2>{{ psg.name }}</h2>
+      <p>{{ psg.gender }}</p> -->
+
+      <!-- dummy -->
+    </ion-item>
+  </ion-list>
+</ion-content>

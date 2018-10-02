@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar>
+      <!-- <img class="socioCss" src="assets/images/headerSocio.png" /> -->
+      <ion-title>Profile</ion-title>
+      <ion-buttons end>
+          <button ion-button (click)="editProfile()">
+            <ion-icon class="edit-icon" name="create" item-right></ion-icon>
+          </button>
+      </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="background" *ngIf="user">
+    <div class="profile">
+      <img src="{{user.img}}" tappable (click)="setPhoto()" />
+    </div>
+    <!-- Show icon of logged in provider -->
+    
+    <p tappable class="username" tappable (click)="setPhoto()">Edit Photo</p>
+    <!-- <p tappable class="username">Remove Photo</p> -->
+    <!-- <p tappable (click)="setDescription()" class="gender">{{user.description}}</p> -->
+    <!-- <p tappable class="gender">{{user.gender}}</p> -->
+    <!-- Profile Menu -->
+    <ion-list>
+      <ion-item>
+          <ion-label>Personal Information</ion-label>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Name </h5>
+          <h2 class="name">{{user.name}} </h2>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Username </h5>
+          <h2 class="username">@{{user.username}} </h2>
+        </ion-item>
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Email </h5>
+          <h2 class="email">{{user.email}} </h2>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Phone number </h5>
+          <h2 class="phone">{{user.phoneNumber}}</h2>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> City </h5>
+          <h2 class="city">{{user.city}}</h2>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Profession </h5>
+          <h2 class="profession">{{user.profession}}</h2>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Status </h5>
+          <h2 class="status">{{user.status}}</h2>
+      </ion-item>
+
+      <ion-item no-lines>
+          <h5 style="margin-bottom: 8px;"> Date of Birth </h5>
+          <h2 class="birth">{{user.birth}}</h2>
+      </ion-item>
+      
+
+    </ion-list>
+  </div>
+</ion-content>
