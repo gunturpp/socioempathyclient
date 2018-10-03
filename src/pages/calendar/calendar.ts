@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import {
-  IonicPage,
   NavParams,
   NavController,
   ModalController,
@@ -16,7 +15,6 @@ import { ColdObservable } from "rxjs/testing/ColdObservable";
 import { HomePage } from "../home/home";
 import { MessagesPage } from "../messages/messages";
 
-@IonicPage()
 @Component({
   selector: "page-calendar",
   templateUrl: "calendar.html"

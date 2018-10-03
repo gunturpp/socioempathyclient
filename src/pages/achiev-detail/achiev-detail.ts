@@ -1,8 +1,6 @@
   import { Component, ChangeDetectorRef } from '@angular/core';
   import { IonicPage, Platform, NavController, NavParams } from 'ionic-angular';
   
-
-  @IonicPage()
   @Component({
     selector: 'page-achiev-detail',
     templateUrl: 'achiev-detail.html',

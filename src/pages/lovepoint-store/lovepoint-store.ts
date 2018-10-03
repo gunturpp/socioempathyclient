@@ -1,16 +1,8 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { NavController, NavParams } from "ionic-angular";
 import { TransactionPage } from "../transaction/transaction";
 import { TopupPage } from "../topup/topup";
 
-/**
- * Generated class for the LovepointStorePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: "page-lovepoint-store",
   templateUrl: "lovepoint-store.html"

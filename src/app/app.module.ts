@@ -80,6 +80,7 @@ import { LovepointStorePage } from '../pages/lovepoint-store/lovepoint-store';
 import { TopupPage } from '../pages/topup/topup';
 import { TransactionPage } from '../pages/transaction/transaction';
 import { PaymentStatusPage } from '../pages/payment-status/payment-status';
+import { ImageModalPage } from '../pages/image-modal/image-modal';
 
 firebase.initializeApp(Login.firebaseConfig);
 
@@ -133,6 +134,7 @@ firebase.initializeApp(Login.firebaseConfig);
     SignupPage,
     ProfilePage,
     EditprofilePage,
+    ImageModalPage,
     CalendarPage
   ],
   imports: [
@@ -195,6 +197,7 @@ firebase.initializeApp(Login.firebaseConfig);
     CommentPage,
     ProfilePage,
     EditprofilePage,
+    ImageModalPage,
     CalendarPage
   ],
   providers: [

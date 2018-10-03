@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from '../../providers/data';
 import { BookingPage } from "../booking/booking";
 import { LoadingProvider } from "../../providers/loading";
 
 
-@IonicPage()
 @Component({
   selector: 'page-profile-psg',
   templateUrl: 'profile-psg.html',

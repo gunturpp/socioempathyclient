@@ -1,4 +1,3 @@
-import { IonicPage } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { NavController, AlertController, NavParams, App } from 'ionic-angular';
 import { LogoutProvider } from '../../providers/logout';
@@ -12,7 +11,6 @@ import { Camera } from '@ionic-native/camera';
 import { ModalController, ViewController } from 'ionic-angular';
 import { EditprofilePage } from '../../pages/editprofile/editprofile';
 
-@IonicPage()
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',

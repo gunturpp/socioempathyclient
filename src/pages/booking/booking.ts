@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import * as firebase from "firebase/app";
 import { AngularFireDatabase} from 'angularfire2/database';
 import { LoadingProvider } from "../../providers/loading";
@@ -7,7 +7,6 @@ import * as moment from 'moment';
 import { MessagesPage } from '../messages/messages';
 
 
-@IonicPage()
 @Component({
   selector: 'page-booking',
   templateUrl: 'booking.html',

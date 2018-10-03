@@ -1,16 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Payment1Page } from '../payment1/payment1';
 import { PaymentStatusPage } from '../payment-status/payment-status';
 
-/**
- * Generated class for the PaymentPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-payment',
   templateUrl: 'payment.html',

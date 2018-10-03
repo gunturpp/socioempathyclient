@@ -1,6 +1,5 @@
 import { Component } from "@angular/core";
 import {
-  IonicPage,
   NavController,
   NavParams,
   ViewController
@@ -10,7 +9,6 @@ import { DataProvider } from "../../providers/data";
 import { LoadingProvider } from "../../providers/loading";
 import * as firebase from "firebase/app";
 
-@IonicPage()
 @Component({
   selector: "page-add-schedule",
   templateUrl: "add-schedule.html"

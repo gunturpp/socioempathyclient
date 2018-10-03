@@ -1,4 +1,3 @@
-import { IonicPage } from 'ionic-angular';
 import { DocverRegPage } from './../docver-reg/docver-reg';
 import { DocverPage } from './../docver/docver';
 import { Component } from '@angular/core';
@@ -15,7 +14,6 @@ import * as firebase from 'firebase';
 import { ModalController, ViewController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 
-@IonicPage()
 @Component({
   selector: 'page-editprofile',
   templateUrl: 'editprofile.html',

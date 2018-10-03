@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Calendar } from '@ionic-native/calendar';
 import { CalendarPage } from '../calendar/calendar';
 import { LovepointStorePage } from '../lovepoint-store/lovepoint-store';
 
-@IonicPage()
 @Component({
   selector: 'page-consultation',
   templateUrl: 'consultation.html',

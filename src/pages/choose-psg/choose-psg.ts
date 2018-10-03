@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from '../../providers/data';
 import { ProfilePsgPage } from "../profile-psg/profile-psg";
 import { LoadingProvider } from "../../providers/loading";
 
-@IonicPage()
 @Component({
   selector: 'page-choose-psg',
   templateUrl: 'choose-psg.html',
