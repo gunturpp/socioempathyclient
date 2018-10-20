@@ -17,7 +17,7 @@
        under the License.
  */
 
-package io.ionic.socioempathyClient;
+package io.ionic.socioempathyclient;
 
 import android.os.Bundle;
 import org.apache.cordova.*;

@@ -14,10 +14,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Calendar } from '@ionic-native/calendar';
 import { Camera } from '@ionic-native/camera';
 import { GooglePlus } from '@ionic-native/google-plus';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
+import { Firebase } from '@ionic-native/firebase';
 import { AchievDetailPage } from './../pages/achiev-detail/achiev-detail';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SignupPage } from '../pages/signup/signup';
+
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -81,6 +84,7 @@ import { TopupPage } from '../pages/topup/topup';
 import { TransactionPage } from '../pages/transaction/transaction';
 import { PaymentStatusPage } from '../pages/payment-status/payment-status';
 import { ImageModalPage } from '../pages/image-modal/image-modal';
+import { FcmProvider } from '../providers/fcm/fcm';
 
 firebase.initializeApp(Login.firebaseConfig);
 
@@ -201,7 +205,12 @@ firebase.initializeApp(Login.firebaseConfig);
     CalendarPage
   ],
   providers: [
-    Calendar,StatusBar, SplashScreen, Camera, GooglePlus, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider]
+    InAppBrowser,
+    Firebase,
+    FcmProvider,
+    GooglePlus,
+    Calendar,StatusBar, SplashScreen, Camera, Keyboard, { provide: ErrorHandler, useClass: IonicErrorHandler }, LoginProvider, LogoutProvider, LoadingProvider, AlertProvider, ImageProvider, DataProvider, FirebaseProvider,
+    ]
 })
 export class AppModule { }
   

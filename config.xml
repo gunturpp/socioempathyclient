@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.socioempathyClient" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.ionic.socioempathyclient" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SocioEmpathy</name>
     <description>Aplikasi Client.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Dreamous</author>
@@ -83,7 +83,6 @@
     <plugin name="cordova-plugin-googleplus" spec="^5.1.1">
         <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.51721161314-67u0ici4rhkqk1h7kn1iq7v0nrho5i4q" />
     </plugin>
-    <plugin name="cordova-plugin-inappbrowser" spec="^1.7.1" />
     <plugin name="cordova-plugin-speechrecognition" spec="^1.1.2" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.2" />
@@ -91,5 +90,11 @@
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
     <plugin name="cordova-plugin-calendar" spec="^5.0.0" />
     <engine name="ios" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
+    <plugin name="phonegap-plugin-push" spec="~2.2.3">
+        <variable name="ANDROID_SUPPORT_V13_VERSION" value="27.+" />
+        <variable name="FCM_VERSION" value="11.6.2" />
+    </plugin>
+    <plugin name="cordova-plugin-firebase" spec="~2.0.5" />
     <engine name="android" spec="7.1.1" />
 </widget>

@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
+    "id": "cordova-plugin-calendar.Calendar",
+    "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
+    "pluginId": "cordova-plugin-calendar",
+    "clobbers": [
+      "Calendar"
+    ]
+  },
+  {
     "id": "cordova-plugin-camera.Camera",
     "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
     "pluginId": "cordova-plugin-camera",
@@ -38,6 +46,14 @@ module.exports = [
     "pluginId": "cordova-plugin-device",
     "clobbers": [
       "device"
+    ]
+  },
+  {
+    "id": "cordova-plugin-firebase.FirebasePlugin",
+    "file": "plugins/cordova-plugin-firebase/www/firebase.js",
+    "pluginId": "cordova-plugin-firebase",
+    "clobbers": [
+      "FirebasePlugin"
     ]
   },
   {
@@ -91,27 +107,31 @@ module.exports = [
     "runs": true
   },
   {
-    "id": "cordova-plugin-calendar.Calendar",
-    "file": "plugins/cordova-plugin-calendar/www/Calendar.js",
-    "pluginId": "cordova-plugin-calendar",
+    "id": "phonegap-plugin-push.PushNotification",
+    "file": "plugins/phonegap-plugin-push/www/push.js",
+    "pluginId": "phonegap-plugin-push",
     "clobbers": [
-      "Calendar"
+      "PushNotification"
     ]
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
+  "cordova-plugin-calendar": "5.1.2",
   "cordova-plugin-camera": "4.0.3",
   "cordova-plugin-device": "2.0.2",
+  "cordova-plugin-firebase": "2.0.5",
   "cordova-plugin-googleplus": "5.3.2",
   "cordova-plugin-inappbrowser": "2.0.2",
   "cordova-plugin-speechrecognition": "1.1.2",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
   "cordova-plugin-whitelist": "1.3.3",
+  "cordova-support-google-services": "1.1.0",
   "ionic-plugin-keyboard": "2.2.1",
-  "cordova-plugin-calendar": "5.1.2"
+  "phonegap-plugin-multidex": "1.0.0",
+  "phonegap-plugin-push": "2.2.3"
 };
 // BOTTOM OF METADATA
 });

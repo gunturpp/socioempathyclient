@@ -1,10 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.socioempathyClient" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.ionic.socioempathyclient" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Calendar">
+        <param name="android-package" value="nl.xservices.plugins.Calendar" />
+    </feature>
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="FirebasePlugin">
+        <param name="android-package" value="org.apache.cordova.firebase.FirebasePlugin" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="GooglePlus">
         <param name="android-package" value="nl.xservices.plugins.GooglePlus" />
@@ -33,8 +40,8 @@
         <param name="android-package" value="io.ionic.keyboard.IonicKeyboard" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="Calendar">
-        <param name="android-package" value="nl.xservices.plugins.Calendar" />
+    <feature name="PushNotification">
+        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
     </feature>
     <name>SocioEmpathy</name>
     <description>Aplikasi Client.</description>
