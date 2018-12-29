@@ -33,20 +33,22 @@ export class TabsPage {
   }
 
   ionViewDidLoad() {
-   
+    this.conversationsInfo = 0;
+    this.getUnreadMessagesCount();
+
     // Get friend requests count.
-    this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
-      console.log("friend request",requests);
-      if (requests) {
-        this.friendRequestCount = requests.length;
-      } else {
-        this.friendRequestCount = null;
-      }
-    });
+    // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
+    //   console.log("friend request",requests);
+    //   if (requests) {
+    //     this.friendRequestCount = requests.length;
+    //   } else {
+    //     this.friendRequestCount = null;
+    //   }
+    // });
 
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
     this.dataProvider.getConversations().subscribe((conversationsInfo) => {
-      console.log("conversationsInfo : "+JSON.stringify(conversationsInfo));
+      console.log("conversationsInfo : ",conversationsInfo);
       this.unreadMessagesCount = null;
       this.conversationsInfo = null;
       this.conversationList = null;

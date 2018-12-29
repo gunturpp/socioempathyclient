@@ -20,13 +20,20 @@
   <div class="footer">
     <button class="btn-pilih" ion-button (click)="sessionByDate()">Pilih</button>
   </div>
-  <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onEventSelected)="onEventSelected($event)"
-    (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar">
+  <calendar 
+  [eventSource]="eventSource" 
+  [calendarMode]="calendar.mode" 
+  [currentDate]="calendar.currentDate" 
+  (onEventSelected)="onEventSelected($event)"
+   (onRangeChanged)="reloadSource(startTime, endTime)"
+  (onTitleChanged)="onViewTitleChanged($event)" 
+  (onTimeSelected)="onTimeSelected($event)" 
+  step="30" class="calendar">
   </calendar>
-  <!-- <div *ngFor="let tgl of date; let i = index;">
+  <div *ngFor="let tgl of date; let i = index;">
       <ion-label stacked primary>An item</ion-label>
       <p type="text">{{ date[i].key }}</p>
-    </div>    -->
+    </div>   
 </ion-content>
 
 <!-- KETERANGAN DI ATAS

@@ -227,11 +227,21 @@ export class MessagesPage {
       }
     }
   }
+  devicesTokenUpdate() {
+    this.dataProvider.updateDevicesToken(localStorage.getItem("devices_token"))
+    .update({
+      userId: firebase.auth().currentUser.uid
+    })
+    this.dataProvider.updateCurrentUser()
+    .update({
+      devices_token: localStorage.getItem("devices_token")
+    })
+  }
   // close timer countdown
-
   ionViewDidLoad() {
     // Create userData on the database if it doesn't exist yet.
     this.createUserData();
+    this.devicesTokenUpdate();
     this.searchFriend = "";
     this.loadingProvider.show();
 
@@ -249,7 +259,8 @@ export class MessagesPage {
             // Get conversation partner info.
             this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(listConv => {
                 // Get conversation info.
-                listConv.forEach(listConversations => { this.mainIdConversation = listConversations;
+                listConv.forEach(listConversations => { 
+                  this.mainIdConversation = listConversations;
                   // console.log("list conversation", listConversations);
                   this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
                       // Get last message of conversation.
@@ -289,19 +300,19 @@ export class MessagesPage {
                         }
                       }
                       // Add or update listConversations.
-                      // this.addOrUpdateConversation(conversation);
-                      this.conversations.push(listConversations);
-                      this.conversations.sort((a: any, b: any) => {
-                        let date1 = new Date(a.date);
-                        let date2 = new Date(b.date);
-                        if (date1 > date2) {
-                          return -1;
-                        } else if (date1 < date2) {
-                          return 1;
-                        } else {
-                          return 0;
-                        }
-                      });
+                      this.addOrUpdateConversation(listConversations);
+                      // this.conversations.push(listConversations);
+                      // this.conversations.sort((a: any, b: any) => {
+                      //   let date1 = new Date(a.date);
+                      //   let date2 = new Date(b.date);
+                      //   if (date1 > date2) {
+                      //     return -1;
+                      //   } else if (date1 < date2) {
+                      //     return 1;
+                      //   } else {
+                      //     return 0;
+                      //   }
+                      // });
                     });
                 });
               });
@@ -440,6 +451,7 @@ export class MessagesPage {
               KTM: "",
               PsyCard: "",
               KTP: "",
+              devices_token: localStorage.getItem("devices_token"),
               gender: localStorage.getItem("gender"),
               email: email,
               phoneNumber: localStorage.getItem("phoneNumber"),
@@ -461,19 +473,16 @@ export class MessagesPage {
   newMessage() {
     this.app.getRootNav().push(NewMessagePage);
   }
-
+  
   // Open chat with friend.
   message(userId, idConversation) {
-    console.log(
-      "psgIds",
-      userId,
-      "idConvv",
-      this.mainIdConversation.conversationId
-    );
-    console.log("finise?", this.hasFinished);
-    this.app.getRootNav().push(MessagePage, {
-      userId: userId,
+    console.log("idConvv",this.mainIdConversation.conversationId
+  );
+  console.log("finise?", this.hasFinished);
+  console.log("idConversation", idConversation);
+  this.app.getRootNav().push(MessagePage, {
       psgId: this.profilePsg.userId,
+      userId: userId,
       idConversation: idConversation,
       stopConversation: this.hasFinished
     });

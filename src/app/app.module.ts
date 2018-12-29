@@ -20,7 +20,9 @@ import { Firebase } from '@ionic-native/firebase';
 import { AchievDetailPage } from './../pages/achiev-detail/achiev-detail';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SignupPage } from '../pages/signup/signup';
-
+import { OneSignal } from '@ionic-native/onesignal';
+import { Push } from '@ionic-native/push';
+import { FCM } from '@ionic-native/fcm';
 
 import { MyApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -55,6 +57,7 @@ import { AlertProvider } from '../providers/alert';
 import { ImageProvider } from '../providers/image';
 import { DataProvider } from '../providers/data';
 import { FirebaseProvider } from '../providers/firebase';
+import { FcmProvider } from '../providers/fcm/fcm';
 
 import * as firebase from 'firebase';
 import { AngularFireModule } from 'angularfire2';
@@ -84,7 +87,6 @@ import { TopupPage } from '../pages/topup/topup';
 import { TransactionPage } from '../pages/transaction/transaction';
 import { PaymentStatusPage } from '../pages/payment-status/payment-status';
 import { ImageModalPage } from '../pages/image-modal/image-modal';
-import { FcmProvider } from '../providers/fcm/fcm';
 
 firebase.initializeApp(Login.firebaseConfig);
 
@@ -205,6 +207,9 @@ firebase.initializeApp(Login.firebaseConfig);
     CalendarPage
   ],
   providers: [
+    Push,
+    FCM,
+    OneSignal,
     InAppBrowser,
     Firebase,
     FcmProvider,

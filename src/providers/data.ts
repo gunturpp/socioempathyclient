@@ -49,6 +49,11 @@ export class DataProvider {
       "/users/" + firebase.auth().currentUser.uid
     );
   }
+  updateDevicesToken(token) {
+    return this.angularfireDatabase.object(
+      "/devices_token/"+token
+    );
+  }
 
   // Get user by their userId
   getUser(userId) {
@@ -224,10 +229,8 @@ export class DataProvider {
     return this.items;
   }
   // get schedule by date
-  getSchedulingByDay(date) {
-    this.items = this.angularfireDatabase
-      .object("/scheduling/" + date)
-      .valueChanges();
+  getSchedulingByDay(date,session) {
+    this.items = this.angularfireDatabase.object("/scheduling/" + date + session).valueChanges();
     return this.items;
   }
   // get key schedule by date

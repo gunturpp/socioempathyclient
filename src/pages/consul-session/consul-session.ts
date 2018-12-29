@@ -83,7 +83,6 @@ export class  ConsulSessionPage {
     this.navCtrl.push(ChoosePsgPage, {
       selectedDay: this.sessionByDay,
       psgBySession: sesi
-      
     });
   }
 }

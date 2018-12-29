@@ -1,13 +1,13 @@
 webpackJsonp([0],{
 
-/***/ 115:
+/***/ 116:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_login__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_login__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__validator__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__signup_signup__ = __webpack_require__(504);
@@ -84,7 +84,7 @@ var LoginPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 116:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -94,7 +94,7 @@ var LoginPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alert__ = __webpack_require__(42);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -156,6 +156,8 @@ var LoginProvider = /** @class */ (function () {
         this.loadingProvider.show();
         __WEBPACK_IMPORTED_MODULE_1_firebase__["auth"]().signInWithEmailAndPassword(email, password)
             .then(function (success) {
+            localStorage.setItem('uid_client', __WEBPACK_IMPORTED_MODULE_1_firebase__["auth"]().currentUser.uid);
+            localStorage.setItem('email_client', __WEBPACK_IMPORTED_MODULE_1_firebase__["auth"]().currentUser.email);
             _this.loadingProvider.hide();
         })
             .catch(function (error) {
@@ -205,550 +207,6 @@ var LoginProvider = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=login.js.map
-
-/***/ }),
-
-/***/ 117:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MessagesPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__providers_firebase__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_message_new_message__ = __webpack_require__(367);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__message_message__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase_app__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_firebase_app__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_moment__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_moment__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-
-
-var MessagesPage = /** @class */ (function () {
-    // MessagesPage
-    // This is the page where the user can see their current conversations with their friends.
-    // The user can also start a new conversation.
-    function MessagesPage(actionSheetCtrl, navCtrl, navParams, angularfireDatabase, loadingProvider, app, dataProvider, firebaseProvider, alertCtrl) {
-        this.actionSheetCtrl = actionSheetCtrl;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.angularfireDatabase = angularfireDatabase;
-        this.loadingProvider = loadingProvider;
-        this.app = app;
-        this.dataProvider = dataProvider;
-        this.firebaseProvider = firebaseProvider;
-        this.alertCtrl = alertCtrl;
-        this.inputSeconds = [];
-        this.remainingTime = [];
-        this.displayTime = [];
-        this.currentUser = __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid;
-        this.iterate = 0;
-        // conversation: any;
-        this.conversations = [];
-        this.roles = localStorage.getItem("registerRole");
-        this.phones = localStorage.getItem("phoneNumber");
-    }
-    MessagesPage.prototype.i = function (arg0) {
-        throw new Error("Method not implemented.");
-    };
-    MessagesPage.prototype.countdown = function () {
-        var bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
-        bookDay = this.bookingDay.substring(9, 11);
-        bookMonth = this.bookingDay.substring(6, 8);
-        bookYear = this.bookingDay.substring(1, 5);
-        this.bookSession;
-        switch (this.bookSession) {
-            case "session1":
-                bookHour = 8;
-                break;
-            case "session2":
-                bookHour = 10;
-                break;
-            case "session3":
-                bookHour = 12;
-                break;
-            case "session4":
-                bookHour = 14;
-                break;
-            case "session5":
-                bookHour = 22;
-                break;
-            default:
-                return 0;
-        }
-        console.log("sesi", bookHour);
-        // current date
-        var sec, min, hour, day, days, month, year, spareDay, now, later;
-        var nowww = __WEBPACK_IMPORTED_MODULE_9_moment__();
-        var dayyy = nowww.day();
-        var jam = __WEBPACK_IMPORTED_MODULE_9_moment__().hours() + 1;
-        year = __WEBPACK_IMPORTED_MODULE_9_moment__().year();
-        month = __WEBPACK_IMPORTED_MODULE_9_moment__().month() + 1;
-        days = nowww.date();
-        hour = (bookHour - jam) * 3600;
-        min = (60 - __WEBPACK_IMPORTED_MODULE_9_moment__().minutes()) * 60;
-        sec = 60 - __WEBPACK_IMPORTED_MODULE_9_moment__().seconds();
-        // console.log("hour banget", min, hour, jam, bookHour, month);
-        // console.log("melesekon", moment().seconds(), moment().minutes(), moment().hours());
-        // booking date
-        later = __WEBPACK_IMPORTED_MODULE_9_moment__([bookYear, bookMonth, bookDay]);
-        now = __WEBPACK_IMPORTED_MODULE_9_moment__([year, month, days]);
-        spareDay = later.diff(now, "days");
-        console.log("booking day later", bookDay, bookMonth, bookYear);
-        console.log("booking day now", days, month, year);
-        console.log("spare day", spareDay);
-        // waktunya countdownnya masih sama tiap list
-        day = spareDay * 86400;
-        console.log("times", day, hour, min, sec);
-        this.inputSeconds[this.iterate] = day + hour + min + sec;
-        console.log("inputseconds", this.inputSeconds[this.iterate]);
-        localStorage.setItem("inputSec", JSON.stringify(this.inputSeconds));
-        this.iterate++;
-    };
-    /* Initialize and setup the time for question */
-    MessagesPage.prototype.initTimer = function () {
-        // Pomodoro is usually for 25 minutes
-        this.timeInSeconds = JSON.parse(localStorage.getItem("inputSec"));
-        console.log("init timer", this.timeInSeconds);
-        for (var i = 0; i < this.timeInSeconds.length; i++) {
-            // console.log("increment", i);
-            this.time = this.timeInSeconds[i];
-            this.runTimer = false;
-            this.hasStarted = false;
-            this.hasFinished = false;
-            this.remainingTime[i] = this.timeInSeconds[i];
-            console.log("remain", this.remainingTime[i]);
-            this.displayTime[i] = this.getSecondsAsDigitalClock(this.remainingTime[i]);
-            // console.log("display", this.displayTime[i]);
-        }
-        if (this.timeInSeconds == null) {
-            return null;
-        }
-    };
-    // timer countdown
-    MessagesPage.prototype.startTimer = function () {
-        this.runTimer = true;
-        this.hasStarted = true;
-        this.timerTick();
-    };
-    MessagesPage.prototype.pauseTimer = function () {
-        this.runTimer = false;
-    };
-    MessagesPage.prototype.resumeTimer = function () {
-        this.startTimer();
-    };
-    MessagesPage.prototype.timerTick = function () {
-        var _this = this;
-        setTimeout(function () {
-            var length = JSON.parse(localStorage.getItem("inputSec")).length;
-            for (var i = 0; i < length; i++) {
-                if (!_this.runTimer) {
-                    return;
-                }
-                _this.remainingTime[i]--;
-                _this.displayTime[i] = _this.getSecondsAsDigitalClock(_this.remainingTime[i]);
-            }
-            // masi statis di array 0 doang
-            if (_this.remainingTime[i] > 0) {
-                _this.timerTick();
-            }
-            else {
-                _this.hasFinished = true;
-            }
-        }, 1000);
-    };
-    MessagesPage.prototype.getSecondsAsDigitalClock = function (inputSeconds) {
-        if (this.inputSeconds != null) {
-            var sec_num = parseInt(inputSeconds.toString(), 10); // don't forget the second param
-            console.log("sec sum", sec_num); //just uncoment to show countdown in console
-        }
-        if (sec_num < 0) {
-            this.timeover = "timeover";
-            return this.timeover;
-        }
-        else {
-            var days = Math.floor(sec_num / 86400); // 3600 * 24
-            var hours = Math.floor(sec_num / 3600) - days * 24;
-            var temphours = Math.floor(sec_num / 3600);
-            var minutes = Math.floor((sec_num - temphours * 3600) / 60);
-            // console.log("minutes", minutes);
-            var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);
-            var hoursString = "";
-            var minutesString = "";
-            var secondsString = "";
-            var daysString = "";
-            hoursString = hours < 10 ? "0" + hours : hours.toString();
-            minutesString = minutes < 10 ? "0" + minutes : minutes.toString();
-            secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
-            daysString = days.toString();
-            // return daysString + "days ";
-            if (daysString == "0") {
-                return hoursString + ":" + minutesString + ":" + secondsString;
-            }
-            else {
-                return (daysString +
-                    "days " +
-                    hoursString +
-                    ":" +
-                    minutesString +
-                    ":" +
-                    secondsString);
-            }
-        }
-    };
-    // close timer countdown
-    MessagesPage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        // Create userData on the database if it doesn't exist yet.
-        this.createUserData();
-        this.searchFriend = "";
-        this.loadingProvider.show();
-        // Get info of conversations of current logged in user.
-        this.dataProvider.getConversations().subscribe(function (conversations) {
-            console.log("CONVRSSS", conversations);
-            if (conversations.length > 0) {
-                conversations.forEach(function (conversation) {
-                    // console.log("psgId", conversation.key);
-                    _this.dataProvider.getPsgAvailable(conversation.key).subscribe(function (psgProfile) {
-                        _this.profilePsg = psgProfile;
-                        // console.log("psgProfile", psgProfile);
-                    });
-                    if (conversation.key) {
-                        // Get conversation partner info.
-                        _this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(function (listConv) {
-                            // Get conversation info.
-                            listConv.forEach(function (listConversations) {
-                                _this.mainIdConversation = listConversations;
-                                // console.log("list conversation", listConversations);
-                                _this.dataProvider.getConversation(listConversations.conversationId).subscribe(function (obj) {
-                                    // Get last message of conversation.
-                                    // console.log("scheduleeyid", obj.scheduleId);
-                                    _this.bookingDay = JSON.stringify(obj.scheduleId);
-                                    _this.bookSession = obj.sessionke;
-                                    _this.countdown();
-                                    // console.log("bookingday", this.bookingDay);
-                                    // console.log("bookSession", this.bookSession);
-                                    var lastMessage = obj.messages[obj.messages.length - 1];
-                                    listConversations.date = lastMessage.date;
-                                    listConversations.sender = lastMessage.sender;
-                                    // Set unreadMessagesCount
-                                    listConversations.unreadMessagesCount =
-                                        obj.messages.length - listConversations.messagesRead;
-                                    // Process last message depending on messageType.
-                                    if (lastMessage.type == "text") {
-                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid) {
-                                            listConversations.message =
-                                                "You: " + lastMessage.message;
-                                        }
-                                        else {
-                                            listConversations.message = lastMessage.message;
-                                        }
-                                    }
-                                    else {
-                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid) {
-                                            listConversations.message =
-                                                "You sent a photo message.";
-                                        }
-                                        else {
-                                            listConversations.message =
-                                                "has sent you a photo message.";
-                                        }
-                                    }
-                                    // Add or update listConversations.
-                                    // this.addOrUpdateConversation(conversation);
-                                    _this.conversations.push(listConversations);
-                                    _this.conversations.sort(function (a, b) {
-                                        var date1 = new Date(a.date);
-                                        var date2 = new Date(b.date);
-                                        if (date1 > date2) {
-                                            return -1;
-                                        }
-                                        else if (date1 < date2) {
-                                            return 1;
-                                        }
-                                        else {
-                                            return 0;
-                                        }
-                                    });
-                                });
-                            });
-                        });
-                    }
-                });
-                // let now = new Date(Date.now()).getTime()/1000;
-                // let x = Date.parse("Wed Aug 01 2018 16:30:00 GMT+0700 (Western Indonesia Time)");
-                // // let dueDate = Date.parse(dueDate);
-                // this.z = ((x/1000) -now) / 3600 / 24;
-                // console.log("nowz : ", now );
-                // console.log("countdown : ", this.z );
-                // this.initTimer();
-                // this.startTimer();
-                _this.loadingProvider.hide();
-            }
-            else {
-                _this.conversations = [];
-                _this.loadingProvider.hide();
-            }
-        });
-        // Update conversations' last active date time elapsed every minute based on Moment.js.
-        var that = this;
-        if (!that.updateDateTime) {
-            that.updateDateTime = setInterval(function () {
-                if (that.conversations) {
-                    that.conversations.forEach(function (conversation) {
-                        var date = conversation.date;
-                        conversation.date = new Date(date);
-                        //console.log(conversation.date);
-                    });
-                }
-            }, 60000);
-        }
-        console.log("wadoooooooo second", this.inputSeconds);
-    };
-    // delete personal message
-    MessagesPage.prototype.deleteConversation = function (conversation) {
-        // realtime load data
-        this.navCtrl.setRoot(this.navCtrl.getActive().component);
-        this.dataProvider.deleteConversations().remove(conversation);
-    };
-    // Add or update conversation for real-time sync based on our observer, sort by active date.
-    MessagesPage.prototype.addOrUpdateConversation = function (conversation) {
-        if (!this.conversations) {
-            this.conversations = [conversation];
-        }
-        else {
-            var index = -1;
-            for (var i = 0; i < this.conversations.length; i++) {
-                if (this.conversations[i].key == conversation.key) {
-                    index = i;
-                }
-            }
-            if (index > -1) {
-                this.conversations[index] = conversation;
-            }
-            else {
-                this.conversations.push(conversation);
-            }
-            // Sort by last active date.
-            this.conversations.sort(function (a, b) {
-                var date1 = new Date(a.date);
-                var date2 = new Date(b.date);
-                if (date1 > date2) {
-                    return -1;
-                }
-                else if (date1 < date2) {
-                    return 1;
-                }
-                else {
-                    return 0;
-                }
-            });
-        }
-    };
-    // Create userData on the database if it doesn't exist yet.
-    MessagesPage.prototype.createUserData = function () {
-        var _this = this;
-        __WEBPACK_IMPORTED_MODULE_8_firebase_app__["database"]()
-            .ref("/users/" + __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid)
-            .once("value")
-            .then(function (account) {
-            //console.log(account.val());
-            // No database data yet, create user data on database
-            if (!account.val()) {
-                // this.loadingProvider.show();
-                var user = __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser;
-                console.log("user data", user, "haha");
-                // declare
-                var userId, name, provider, img, email;
-                var providerData = user.providerData[0];
-                userId = user.uid;
-                // Get name from Firebase user.
-                if (user.displayName || providerData.displayName) {
-                    name = user.displayName;
-                    name = providerData.displayName;
-                }
-                else {
-                    name = "New User";
-                }
-                // Set default username based on name and userId.
-                var username = name.replace(/ /g, "") + userId.substring(0, 8);
-                // Get provider from Firebase user.
-                if (providerData.providerId == "password") {
-                    provider = "Firebase";
-                }
-                else if (providerData.providerId == "facebook.com") {
-                    provider = "Facebook";
-                }
-                else if (providerData.providerId == "google.com") {
-                    provider = "Google";
-                }
-                // Get photoURL from Firebase user.
-                if (user.photoURL || providerData.photoURL) {
-                    img = user.photoURL;
-                    img = providerData.photoURL;
-                }
-                else {
-                    img = "assets/images/profile.png";
-                }
-                // Get email from Firebase user.
-                email = user.email;
-                // Set default description.
-                var description = "Hello! I am a new SocioEmpathy user.";
-                // set default displayName to Firebase
-                // Insert data on our database using AngularFire.
-                _this.angularfireDatabase
-                    .object("/users/" + userId)
-                    .set({
-                    userId: userId,
-                    displayName: "Ganti Nama",
-                    name: name,
-                    username: username,
-                    role: localStorage.getItem("registerRole"),
-                    anonymouse: "false",
-                    realName: name,
-                    moodLevel: "Normal",
-                    provider: provider,
-                    img: img,
-                    docStatus: "false",
-                    KTM: "",
-                    PsyCard: "",
-                    KTP: "",
-                    gender: localStorage.getItem("gender"),
-                    email: email,
-                    phoneNumber: localStorage.getItem("phoneNumber"),
-                    description: description,
-                    dateCreated: new Date().toString(),
-                    city: "None",
-                    status: "None",
-                    birth: "None",
-                    profession: "None"
-                })
-                    .then(function () {
-                    _this.loadingProvider.hide();
-                });
-            }
-        });
-    };
-    // New conversation.
-    MessagesPage.prototype.newMessage = function () {
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_6__new_message_new_message__["a" /* NewMessagePage */]);
-    };
-    // Open chat with friend.
-    MessagesPage.prototype.message = function (userId, idConversation) {
-        console.log("psgIds", userId, "idConvv", this.mainIdConversation.conversationId);
-        console.log("finise?", this.hasFinished);
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_7__message_message__["a" /* MessagePage */], {
-            userId: userId,
-            psgId: this.profilePsg.userId,
-            idConversation: idConversation,
-            stopConversation: this.hasFinished
-        });
-    };
-    // Return class based if conversation has unreadMessages or not.
-    MessagesPage.prototype.hasUnreadMessages = function (conversation) {
-        // console.log("hasunread", conversation);
-        if (conversation.unreadMessagesCount > 0) {
-            return "bold";
-        }
-        else
-            return "";
-    };
-    // alert
-    MessagesPage.prototype.showConfirm = function (i) {
-        var _this = this;
-        var confirm = this.alertCtrl.create({
-            title: "Hapus Obrolan?",
-            message: "Setelah anda menghapus obrolan,histori akan hilang, anda yakin?",
-            buttons: [
-                {
-                    text: "Tidak",
-                    handler: function () {
-                        console.log("Disagree clicked");
-                    }
-                },
-                {
-                    text: "Iya",
-                    handler: function () {
-                        _this.deleteConversation(i);
-                    }
-                }
-            ]
-        });
-        confirm.present();
-    };
-    //hold button
-    MessagesPage.prototype.pressEvent = function (e) {
-        this.openMenu(e);
-    };
-    // action sheet
-    // press button
-    MessagesPage.prototype.openMenu = function (deleteChat) {
-        var _this = this;
-        var actionSheet = this.actionSheetCtrl.create({
-            title: "Opsi",
-            buttons: [
-                {
-                    text: "Delete",
-                    role: "Delete",
-                    handler: function () {
-                        _this.showConfirm(deleteChat);
-                    }
-                },
-                // ,{
-                //   text: 'Block',
-                //   handler: () => {
-                //     console.log('Archive clicked');
-                //   }
-                // }
-                {
-                    text: "Cancel",
-                    role: "cancel",
-                    handler: function () {
-                        console.log("Cancel clicked");
-                    }
-                }
-            ]
-        });
-        actionSheet.present();
-    };
-    MessagesPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-            selector: "page-messages",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="newMessage()">\n\n        <ion-icon name="ios-create"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- Fablist -->\n\n  <ion-fab right bottom>\n\n    <button color="theblues" ion-fab mini (click)="newMessage()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <!-- No conversations to show -->\n\n  <div class="empty-list" *ngIf="conversations && conversations.length <= 0">\n\n    <h1>\n\n      <ion-icon name="md-text"></ion-icon>\n\n    </h1>\n\n    <p>Uh-oh! You are not part of any conversation yet.</p>\n\n    <button ion-button icon-left tappable (click)="newMessage()">\n\n      <ion-icon name="md-add"></ion-icon>New Conversation</button>\n\n  </div>\n\n  <!-- Show conversations -->\n\n  <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">\n\n    <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->\n\n    <!-- press button di comment -->\n\n    <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"\n\n      no-lines tappable (click)="message(conversation.sender,conversation.conversationId)">\n\n      <ion-avatar item-left *ngIf="profilePsg">\n\n          <img src="{{profilePsg.img}}">\n\n        </ion-avatar>\n\n        <div [ngClass]=hasUnreadMessages(conversation)>\n\n          <h2 *ngIf="profilePsg">{{profilePsg.name}}</h2>\n\n          <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>\n\n          <p>{{conversation.message}}</p>\n\n          <span class="date">\n\n            <!-- <b class="countdown">{{displayTime[i]}}</b> -->\n\n            <br>{{conversation.date | DateFormat}}</span>\n\n        </div>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* ActionSheetController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* App */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* DataProvider */],
-            __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */]])
-    ], MessagesPage);
-    return MessagesPage;
-}());
-
-//# sourceMappingURL=messages.js.map
 
 /***/ }),
 
@@ -861,6 +319,9 @@ var DataProvider = /** @class */ (function () {
     };
     DataProvider.prototype.updateCurrentUser = function () {
         return this.angularfireDatabase.object("/users/" + __WEBPACK_IMPORTED_MODULE_2_firebase__["auth"]().currentUser.uid);
+    };
+    DataProvider.prototype.updateDevicesToken = function (token) {
+        return this.angularfireDatabase.object("/devices_token/" + token);
     };
     // Get user by their userId
     DataProvider.prototype.getUser = function (userId) {
@@ -1360,9 +821,9 @@ var DocverPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_data__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_firebase__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(90);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2004,8 +1465,8 @@ var DocverRegPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BoardingPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_login__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_login__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_login__ = __webpack_require__(117);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2071,11 +1532,9 @@ var BoardingPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(364);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__messages_messages__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__messages_messages__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__consultation_consultation__ = __webpack_require__(491);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_firebase__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_firebase__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2085,7 +1544,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -2110,19 +1568,20 @@ var TabsPage = /** @class */ (function () {
     }
     TabsPage.prototype.ionViewDidLoad = function () {
         var _this = this;
+        this.conversationsInfo = 0;
+        this.getUnreadMessagesCount();
         // Get friend requests count.
-        this.dataProvider.getRequests(__WEBPACK_IMPORTED_MODULE_6_firebase__["auth"]().currentUser.uid).subscribe(function (requests) {
-            console.log("friend request", requests);
-            if (requests) {
-                _this.friendRequestCount = requests.length;
-            }
-            else {
-                _this.friendRequestCount = null;
-            }
-        });
+        // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
+        //   console.log("friend request",requests);
+        //   if (requests) {
+        //     this.friendRequestCount = requests.length;
+        //   } else {
+        //     this.friendRequestCount = null;
+        //   }
+        // });
         // Get conversations and add/update if the conversation exists, otherwise delete from list.
         this.dataProvider.getConversations().subscribe(function (conversationsInfo) {
-            console.log("conversationsInfo : " + JSON.stringify(conversationsInfo));
+            console.log("conversationsInfo : ", conversationsInfo);
             _this.unreadMessagesCount = null;
             _this.conversationsInfo = null;
             _this.conversationList = null;
@@ -2188,7 +1647,7 @@ var TabsPage = /** @class */ (function () {
     };
     TabsPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-tabs',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\tabs\tabs.html"*/'<ion-tabs  show="false" small selectedIndex="0">\n\n  <ion-tab [root]="messages" tabIcon="chatboxes" tabBadgeStyle="danger" tabBadge="{{getUnreadMessagesCount()}}"></ion-tab>\n\n  <!-- <ion-tab [root]="timeLine" tabIcon="time" tabBadgeStyle="danger"></ion-tab> -->\n\n  <ion-tab [root]="consultation" tabIcon="md-star-outline" tabBadgeStyle="danger"></ion-tab>\n\n  <!-- <ion-tab [root]="friends" tabIcon="md-people" tabBadgeStyle="danger" tabBadge="{{friendRequestCount}}"></ion-tab> -->\n\n  <ion-tab [root]="profile" tabIcon="md-settings" ></ion-tab>\n\n</ion-tabs>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\tabs\tabs.html"*/
+            selector: 'page-tabs',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\tabs\tabs.html"*/'<ion-tabs show="false" small selectedIndex="0">\n\n  <ion-tab [root]="messages" tabIcon="chatboxes" tabBadgeStyle="danger" tabBadge="{{getUnreadMessagesCount()}}"></ion-tab>\n\n  <!-- <ion-tab [root]="timeLine" tabIcon="time" tabBadgeStyle="danger"></ion-tab> -->\n\n  <ion-tab [root]="consultation" tabIcon="md-star-outline" tabBadgeStyle="danger"></ion-tab>\n\n  <!-- <ion-tab [root]="friends" tabIcon="md-people" tabBadgeStyle="danger" tabBadge="{{friendRequestCount}}"></ion-tab> -->\n\n  <ion-tab [root]="profile" tabIcon="md-settings" ></ion-tab>\n\n</ion-tabs>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\tabs\tabs.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* DataProvider */]])
     ], TabsPage);
@@ -2210,7 +1669,7 @@ var TabsPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_image__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__providers_data__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angularfire2_database__ = __webpack_require__(23);
@@ -2753,7 +2212,7 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_database__ = __webpack_require__(23);
@@ -2870,7 +2329,7 @@ var ProfilePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_database__ = __webpack_require__(23);
@@ -3546,7 +3005,7 @@ var NewMessagePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 41:
+/***/ 42:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4660,7 +4119,7 @@ var ProfilePsgPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__messages_messages__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__messages_messages__ = __webpack_require__(89);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4942,7 +4401,7 @@ var PaymentPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentStatusPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__messages_messages__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__messages_messages__ = __webpack_require__(89);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4994,7 +4453,7 @@ var PaymentStatusPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__validator__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase__ = __webpack_require__(24);
@@ -5223,8 +4682,8 @@ var VerificationPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validator__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_login__ = __webpack_require__(116);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_login__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login__ = __webpack_require__(116);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5363,15 +4822,16 @@ var AchievDetailPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 510:
+/***/ 512:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FcmProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_firebase__ = __webpack_require__(508);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_data__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_fcm__ = __webpack_require__(511);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5420,35 +4880,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var FcmProvider = /** @class */ (function () {
-    function FcmProvider(firebaseNative, afd, platform) {
+    function FcmProvider(firebaseNative, afd, dataProvider, fcmNative) {
         this.firebaseNative = firebaseNative;
         this.afd = afd;
-        this.platform = platform;
+        this.dataProvider = dataProvider;
+        this.fcmNative = fcmNative;
     }
+    //Notifications
+    //end notifications.
     // Get permission from the user
     FcmProvider.prototype.getToken = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var token;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        if (!this.platform.is('android')) return [3 /*break*/, 2];
-                        return [4 /*yield*/, this.firebaseNative.getToken()];
-                    case 1:
-                        token = _a.sent();
-                        _a.label = 2;
-                    case 2:
-                        if (!this.platform.is('ios')) return [3 /*break*/, 5];
-                        return [4 /*yield*/, this.firebaseNative.getToken()];
-                    case 3:
-                        token = _a.sent();
-                        return [4 /*yield*/, this.firebaseNative.grantPermission()];
-                    case 4:
-                        _a.sent();
-                        _a.label = 5;
-                    case 5: return [2 /*return*/, this.saveTokenToDatabaseRealtime(token)];
-                }
+                this.fcmNative.getToken().then(function (token) {
+                    console.log("token", token);
+                    return _this.saveTokenToDatabaseRealtime(token);
+                });
+                return [2 /*return*/];
             });
         });
     };
@@ -5456,22 +4907,39 @@ var FcmProvider = /** @class */ (function () {
     FcmProvider.prototype.saveTokenToDatabaseRealtime = function (token) {
         if (!token)
             return;
+        // create db Notifications( devices_token
         var devicesRef = this.afd.object("/devices_token/" + token);
+        localStorage.setItem('devices_token', token);
         var docData = {
             token: token,
-            userId: 'testUser',
+            userId: "uid_client",
         };
         return devicesRef.set(docData);
     };
     // Listen to incoming FCM messages
     FcmProvider.prototype.listenToNotifications = function () {
-        return this.firebaseNative.onNotificationOpen();
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.fcmNative.onNotification().subscribe(function (data) {
+                        if (data.wasTapped) {
+                            console.log("Received in background");
+                            console.log(data);
+                        }
+                        else {
+                            console.log("Received in foreground");
+                            console.log(data);
+                        }
+                        ;
+                    })];
+            });
+        });
     };
     FcmProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_firebase__["a" /* Firebase */],
-            __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* Platform */]])
+            __WEBPACK_IMPORTED_MODULE_2_angularfire2_database__["a" /* AngularFireDatabase */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* DataProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_native_fcm__["a" /* FCM */]])
     ], FcmProvider);
     return FcmProvider;
 }());
@@ -5480,7 +4948,7 @@ var FcmProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 525:
+/***/ 513:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5489,9 +4957,9 @@ var FcmProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_data__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_firebase__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(90);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5685,13 +5153,13 @@ var RequestsPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 531:
+/***/ 532:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(532);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(538);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(533);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(539);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -5699,96 +5167,102 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 538:
+/***/ 539:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_comment_comment__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_mood_tracker_mood_tracker__ = __webpack_require__(681);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_mood_tracker_mood_tracker__ = __webpack_require__(682);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_docver_reg_docver_reg__ = __webpack_require__(360);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_boarding_boarding__ = __webpack_require__(362);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_achievement_achievement__ = __webpack_require__(691);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_duplicate_message_duplicate_message__ = __webpack_require__(692);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_time_line_time_line__ = __webpack_require__(693);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_achievement_achievement__ = __webpack_require__(692);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_duplicate_message_duplicate_message__ = __webpack_require__(693);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_time_line_time_line__ = __webpack_require__(694);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_splash_screen__ = __webpack_require__(506);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(507);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_calendar__ = __webpack_require__(694);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_calendar__ = __webpack_require__(695);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_google_plus__ = __webpack_require__(695);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_in_app_browser__ = __webpack_require__(696);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_google_plus__ = __webpack_require__(696);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_in_app_browser__ = __webpack_require__(697);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_keyboard__ = __webpack_require__(118);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__ionic_native_firebase__ = __webpack_require__(508);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_achiev_detail_achiev_detail__ = __webpack_require__(505);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_angular2_text_mask__ = __webpack_require__(697);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_angular2_text_mask__ = __webpack_require__(698);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_angular2_text_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19_angular2_text_mask__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_signup_signup__ = __webpack_require__(504);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__app_component__ = __webpack_require__(698);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_login_login__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_home_home__ = __webpack_require__(364);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_verification_verification__ = __webpack_require__(503);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_tabs_tabs__ = __webpack_require__(363);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_messages_messages__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_friends_friends__ = __webpack_require__(785);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_search_people_search_people__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_requests_requests__ = __webpack_require__(525);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_user_info_user_info__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_new_message_new_message__ = __webpack_require__(367);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_message_message__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__pages_payment_payment__ = __webpack_require__(501);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__pages_pay_detail_pay_detail__ = __webpack_require__(786);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__pages_pay_success_pay_success__ = __webpack_require__(787);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__pages_buy_premium_buy_premium__ = __webpack_require__(788);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__pages_payment1_payment1__ = __webpack_require__(789);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__pages_payment2_payment2__ = __webpack_require__(790);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__pages_payment3_payment3__ = __webpack_require__(791);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__pages_profile_profile__ = __webpack_require__(365);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__pages_editprofile_editprofile__ = __webpack_require__(366);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__pages_dynamiclink_dynamiclink__ = __webpack_require__(792);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__providers_login__ = __webpack_require__(116);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__providers_logout__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__providers_alert__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_image__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__providers_data__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_firebase__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50_firebase__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_50_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51_angularfire2__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52_angularfire2_auth__ = __webpack_require__(793);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53_angularfire2_database__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54_angularfire2_storage__ = __webpack_require__(797);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__login__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56_ionic2_calendar__ = __webpack_require__(800);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__pipes_friend__ = __webpack_require__(811);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__pipes_search__ = __webpack_require__(812);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__pipes_conversation__ = __webpack_require__(813);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__pipes_date__ = __webpack_require__(814);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__pages_docver_docver__ = __webpack_require__(197);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__pages_docver_plus_docver_plus__ = __webpack_require__(815);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__pages_testaja_testaja__ = __webpack_require__(816);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__pages_consultation_consultation__ = __webpack_require__(491);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__pages_calendar_calendar__ = __webpack_require__(492);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__pages_add_schedule_add_schedule__ = __webpack_require__(493);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__pages_consul_session_consul_session__ = __webpack_require__(494);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__pages_choose_psg_choose_psg__ = __webpack_require__(495);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__pages_profile_psg_profile_psg__ = __webpack_require__(496);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__pages_booking_booking__ = __webpack_require__(497);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__pages_lovepoint_store_lovepoint_store__ = __webpack_require__(498);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__pages_topup_topup__ = __webpack_require__(500);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__pages_transaction_transaction__ = __webpack_require__(499);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_74__pages_payment_status_payment_status__ = __webpack_require__(502);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_75__pages_image_modal_image_modal__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_76__providers_fcm_fcm__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__ionic_native_onesignal__ = __webpack_require__(699);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__ionic_native_push__ = __webpack_require__(510);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ionic_native_fcm__ = __webpack_require__(511);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__app_component__ = __webpack_require__(700);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_login_login__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_home_home__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_verification_verification__ = __webpack_require__(503);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_tabs_tabs__ = __webpack_require__(363);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_messages_messages__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_friends_friends__ = __webpack_require__(701);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_search_people_search_people__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_requests_requests__ = __webpack_require__(513);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__pages_user_info_user_info__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__pages_new_message_new_message__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__pages_message_message__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__pages_payment_payment__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__pages_pay_detail_pay_detail__ = __webpack_require__(702);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__pages_pay_success_pay_success__ = __webpack_require__(703);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__pages_buy_premium_buy_premium__ = __webpack_require__(704);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__pages_payment1_payment1__ = __webpack_require__(705);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__pages_payment2_payment2__ = __webpack_require__(706);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__pages_payment3_payment3__ = __webpack_require__(707);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__pages_profile_profile__ = __webpack_require__(365);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__pages_editprofile_editprofile__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__pages_dynamiclink_dynamiclink__ = __webpack_require__(708);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__providers_login__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_logout__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__providers_loading__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_alert__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__providers_image__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__providers_data__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__providers_firebase__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__providers_fcm_fcm__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54_firebase__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_54_firebase__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55_angularfire2__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56_angularfire2_auth__ = __webpack_require__(709);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57_angularfire2_database__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58_angularfire2_storage__ = __webpack_require__(713);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__login__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60_ionic2_calendar__ = __webpack_require__(803);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__pipes_friend__ = __webpack_require__(814);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__pipes_search__ = __webpack_require__(815);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__pipes_conversation__ = __webpack_require__(816);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__pipes_date__ = __webpack_require__(817);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__pages_docver_docver__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__pages_docver_plus_docver_plus__ = __webpack_require__(818);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__pages_testaja_testaja__ = __webpack_require__(819);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__pages_consultation_consultation__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__pages_calendar_calendar__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__pages_add_schedule_add_schedule__ = __webpack_require__(493);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__pages_consul_session_consul_session__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__pages_choose_psg_choose_psg__ = __webpack_require__(495);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__pages_profile_psg_profile_psg__ = __webpack_require__(496);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_74__pages_booking_booking__ = __webpack_require__(497);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_75__pages_lovepoint_store_lovepoint_store__ = __webpack_require__(498);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_76__pages_topup_topup__ = __webpack_require__(500);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_77__pages_transaction_transaction__ = __webpack_require__(499);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_78__pages_payment_status_payment_status__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_79__pages_image_modal_image_modal__ = __webpack_require__(199);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -5867,134 +5341,137 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-__WEBPACK_IMPORTED_MODULE_50_firebase__["initializeApp"](__WEBPACK_IMPORTED_MODULE_55__login__["a" /* Login */].firebaseConfig);
+__WEBPACK_IMPORTED_MODULE_54_firebase__["initializeApp"](__WEBPACK_IMPORTED_MODULE_59__login__["a" /* Login */].firebaseConfig);
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_8__angular_core__["NgModule"])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_74__pages_payment_status_payment_status__["a" /* PaymentStatusPage */],
-                __WEBPACK_IMPORTED_MODULE_72__pages_topup_topup__["a" /* TopupPage */],
-                __WEBPACK_IMPORTED_MODULE_73__pages_transaction_transaction__["a" /* TransactionPage */],
-                __WEBPACK_IMPORTED_MODULE_71__pages_lovepoint_store_lovepoint_store__["a" /* LovepointStorePage */],
-                __WEBPACK_IMPORTED_MODULE_70__pages_booking_booking__["a" /* BookingPage */],
-                __WEBPACK_IMPORTED_MODULE_69__pages_profile_psg_profile_psg__["a" /* ProfilePsgPage */],
-                __WEBPACK_IMPORTED_MODULE_68__pages_choose_psg_choose_psg__["a" /* ChoosePsgPage */],
-                __WEBPACK_IMPORTED_MODULE_67__pages_consul_session_consul_session__["a" /* ConsulSessionPage */],
-                __WEBPACK_IMPORTED_MODULE_66__pages_add_schedule_add_schedule__["a" /* AddSchedulePage */],
-                __WEBPACK_IMPORTED_MODULE_64__pages_consultation_consultation__["a" /* ConsultationPage */],
-                __WEBPACK_IMPORTED_MODULE_63__pages_testaja_testaja__["a" /* TestajaPage */],
-                __WEBPACK_IMPORTED_MODULE_21__app_component__["a" /* MyApp */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_login_login__["a" /* LoginPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_24__pages_verification_verification__["a" /* VerificationPage */],
-                __WEBPACK_IMPORTED_MODULE_25__pages_tabs_tabs__["a" /* TabsPage */],
-                __WEBPACK_IMPORTED_MODULE_26__pages_messages_messages__["a" /* MessagesPage */],
-                __WEBPACK_IMPORTED_MODULE_27__pages_friends_friends__["a" /* FriendsPage */],
-                __WEBPACK_IMPORTED_MODULE_28__pages_search_people_search_people__["a" /* SearchPeoplePage */],
-                __WEBPACK_IMPORTED_MODULE_29__pages_requests_requests__["a" /* RequestsPage */],
-                __WEBPACK_IMPORTED_MODULE_30__pages_user_info_user_info__["a" /* UserInfoPage */],
-                __WEBPACK_IMPORTED_MODULE_31__pages_new_message_new_message__["a" /* NewMessagePage */],
-                __WEBPACK_IMPORTED_MODULE_32__pages_message_message__["a" /* MessagePage */],
-                __WEBPACK_IMPORTED_MODULE_57__pipes_friend__["a" /* FriendPipe */],
-                __WEBPACK_IMPORTED_MODULE_59__pipes_conversation__["a" /* ConversationPipe */],
-                __WEBPACK_IMPORTED_MODULE_58__pipes_search__["a" /* SearchPipe */],
-                __WEBPACK_IMPORTED_MODULE_60__pipes_date__["a" /* DateFormatPipe */],
+                __WEBPACK_IMPORTED_MODULE_78__pages_payment_status_payment_status__["a" /* PaymentStatusPage */],
+                __WEBPACK_IMPORTED_MODULE_76__pages_topup_topup__["a" /* TopupPage */],
+                __WEBPACK_IMPORTED_MODULE_77__pages_transaction_transaction__["a" /* TransactionPage */],
+                __WEBPACK_IMPORTED_MODULE_75__pages_lovepoint_store_lovepoint_store__["a" /* LovepointStorePage */],
+                __WEBPACK_IMPORTED_MODULE_74__pages_booking_booking__["a" /* BookingPage */],
+                __WEBPACK_IMPORTED_MODULE_73__pages_profile_psg_profile_psg__["a" /* ProfilePsgPage */],
+                __WEBPACK_IMPORTED_MODULE_72__pages_choose_psg_choose_psg__["a" /* ChoosePsgPage */],
+                __WEBPACK_IMPORTED_MODULE_71__pages_consul_session_consul_session__["a" /* ConsulSessionPage */],
+                __WEBPACK_IMPORTED_MODULE_70__pages_add_schedule_add_schedule__["a" /* AddSchedulePage */],
+                __WEBPACK_IMPORTED_MODULE_68__pages_consultation_consultation__["a" /* ConsultationPage */],
+                __WEBPACK_IMPORTED_MODULE_67__pages_testaja_testaja__["a" /* TestajaPage */],
+                __WEBPACK_IMPORTED_MODULE_24__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_25__pages_login_login__["a" /* LoginPage */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_home_home__["a" /* HomePage */],
+                __WEBPACK_IMPORTED_MODULE_27__pages_verification_verification__["a" /* VerificationPage */],
+                __WEBPACK_IMPORTED_MODULE_28__pages_tabs_tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_29__pages_messages_messages__["a" /* MessagesPage */],
+                __WEBPACK_IMPORTED_MODULE_30__pages_friends_friends__["a" /* FriendsPage */],
+                __WEBPACK_IMPORTED_MODULE_31__pages_search_people_search_people__["a" /* SearchPeoplePage */],
+                __WEBPACK_IMPORTED_MODULE_32__pages_requests_requests__["a" /* RequestsPage */],
+                __WEBPACK_IMPORTED_MODULE_33__pages_user_info_user_info__["a" /* UserInfoPage */],
+                __WEBPACK_IMPORTED_MODULE_34__pages_new_message_new_message__["a" /* NewMessagePage */],
+                __WEBPACK_IMPORTED_MODULE_35__pages_message_message__["a" /* MessagePage */],
+                __WEBPACK_IMPORTED_MODULE_61__pipes_friend__["a" /* FriendPipe */],
+                __WEBPACK_IMPORTED_MODULE_63__pipes_conversation__["a" /* ConversationPipe */],
+                __WEBPACK_IMPORTED_MODULE_62__pipes_search__["a" /* SearchPipe */],
+                __WEBPACK_IMPORTED_MODULE_64__pipes_date__["a" /* DateFormatPipe */],
                 __WEBPACK_IMPORTED_MODULE_6__pages_time_line_time_line__["a" /* TimeLinePage */],
                 __WEBPACK_IMPORTED_MODULE_5__pages_duplicate_message_duplicate_message__["a" /* DuplicateMessagePage */],
                 __WEBPACK_IMPORTED_MODULE_4__pages_achievement_achievement__["a" /* AchievementPage */],
                 __WEBPACK_IMPORTED_MODULE_3__pages_boarding_boarding__["a" /* BoardingPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_achiev_detail_achiev_detail__["a" /* AchievDetailPage */],
-                __WEBPACK_IMPORTED_MODULE_42__pages_dynamiclink_dynamiclink__["a" /* DynamiclinkPage */],
-                __WEBPACK_IMPORTED_MODULE_61__pages_docver_docver__["a" /* DocverPage */],
-                __WEBPACK_IMPORTED_MODULE_62__pages_docver_plus_docver_plus__["a" /* DocverPlusPage */],
+                __WEBPACK_IMPORTED_MODULE_45__pages_dynamiclink_dynamiclink__["a" /* DynamiclinkPage */],
+                __WEBPACK_IMPORTED_MODULE_65__pages_docver_docver__["a" /* DocverPage */],
+                __WEBPACK_IMPORTED_MODULE_66__pages_docver_plus_docver_plus__["a" /* DocverPlusPage */],
                 __WEBPACK_IMPORTED_MODULE_2__pages_docver_reg_docver_reg__["a" /* DocverRegPage */],
                 __WEBPACK_IMPORTED_MODULE_1__pages_mood_tracker_mood_tracker__["a" /* MoodTrackerPage */],
-                __WEBPACK_IMPORTED_MODULE_34__pages_pay_detail_pay_detail__["a" /* PayDetailPage */],
-                __WEBPACK_IMPORTED_MODULE_33__pages_payment_payment__["a" /* PaymentPage */],
-                __WEBPACK_IMPORTED_MODULE_35__pages_pay_success_pay_success__["a" /* PaySuccessPage */],
-                __WEBPACK_IMPORTED_MODULE_36__pages_buy_premium_buy_premium__["a" /* BuyPremiumPage */],
-                __WEBPACK_IMPORTED_MODULE_37__pages_payment1_payment1__["a" /* Payment1Page */],
-                __WEBPACK_IMPORTED_MODULE_38__pages_payment2_payment2__["a" /* Payment2Page */],
-                __WEBPACK_IMPORTED_MODULE_39__pages_payment3_payment3__["a" /* Payment3Page */],
+                __WEBPACK_IMPORTED_MODULE_37__pages_pay_detail_pay_detail__["a" /* PayDetailPage */],
+                __WEBPACK_IMPORTED_MODULE_36__pages_payment_payment__["a" /* PaymentPage */],
+                __WEBPACK_IMPORTED_MODULE_38__pages_pay_success_pay_success__["a" /* PaySuccessPage */],
+                __WEBPACK_IMPORTED_MODULE_39__pages_buy_premium_buy_premium__["a" /* BuyPremiumPage */],
+                __WEBPACK_IMPORTED_MODULE_40__pages_payment1_payment1__["a" /* Payment1Page */],
+                __WEBPACK_IMPORTED_MODULE_41__pages_payment2_payment2__["a" /* Payment2Page */],
+                __WEBPACK_IMPORTED_MODULE_42__pages_payment3_payment3__["a" /* Payment3Page */],
                 __WEBPACK_IMPORTED_MODULE_0__pages_comment_comment__["a" /* CommentPage */],
                 __WEBPACK_IMPORTED_MODULE_20__pages_signup_signup__["a" /* SignupPage */],
-                __WEBPACK_IMPORTED_MODULE_40__pages_profile_profile__["a" /* ProfilePage */],
-                __WEBPACK_IMPORTED_MODULE_41__pages_editprofile_editprofile__["a" /* EditprofilePage */],
-                __WEBPACK_IMPORTED_MODULE_75__pages_image_modal_image_modal__["a" /* ImageModalPage */],
-                __WEBPACK_IMPORTED_MODULE_65__pages_calendar_calendar__["a" /* CalendarPage */]
+                __WEBPACK_IMPORTED_MODULE_43__pages_profile_profile__["a" /* ProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_44__pages_editprofile_editprofile__["a" /* EditprofilePage */],
+                __WEBPACK_IMPORTED_MODULE_79__pages_image_modal_image_modal__["a" /* ImageModalPage */],
+                __WEBPACK_IMPORTED_MODULE_69__pages_calendar_calendar__["a" /* CalendarPage */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_19_angular2_text_mask__["TextMaskModule"],
-                __WEBPACK_IMPORTED_MODULE_56_ionic2_calendar__["a" /* NgCalendarModule */],
-                __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["g" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_21__app_component__["a" /* MyApp */], {
+                __WEBPACK_IMPORTED_MODULE_60_ionic2_calendar__["a" /* NgCalendarModule */],
+                __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["g" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_24__app_component__["a" /* MyApp */], {
                     scrollAssist: false,
                     autoFocusAssist: false
                 }, {
                     links: []
                 }),
-                __WEBPACK_IMPORTED_MODULE_51_angularfire2__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_55__login__["a" /* Login */].firebaseConfig),
-                __WEBPACK_IMPORTED_MODULE_53_angularfire2_database__["b" /* AngularFireDatabaseModule */],
-                __WEBPACK_IMPORTED_MODULE_52_angularfire2_auth__["a" /* AngularFireAuthModule */],
-                __WEBPACK_IMPORTED_MODULE_54_angularfire2_storage__["a" /* AngularFireStorageModule */],
+                __WEBPACK_IMPORTED_MODULE_55_angularfire2__["a" /* AngularFireModule */].initializeApp(__WEBPACK_IMPORTED_MODULE_59__login__["a" /* Login */].firebaseConfig),
+                __WEBPACK_IMPORTED_MODULE_57_angularfire2_database__["b" /* AngularFireDatabaseModule */],
+                __WEBPACK_IMPORTED_MODULE_56_angularfire2_auth__["a" /* AngularFireAuthModule */],
+                __WEBPACK_IMPORTED_MODULE_58_angularfire2_storage__["a" /* AngularFireStorageModule */],
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_9_ionic_angular__["e" /* IonicApp */]],
             entryComponents: [
-                __WEBPACK_IMPORTED_MODULE_74__pages_payment_status_payment_status__["a" /* PaymentStatusPage */],
-                __WEBPACK_IMPORTED_MODULE_72__pages_topup_topup__["a" /* TopupPage */],
-                __WEBPACK_IMPORTED_MODULE_73__pages_transaction_transaction__["a" /* TransactionPage */],
-                __WEBPACK_IMPORTED_MODULE_71__pages_lovepoint_store_lovepoint_store__["a" /* LovepointStorePage */],
-                __WEBPACK_IMPORTED_MODULE_70__pages_booking_booking__["a" /* BookingPage */],
-                __WEBPACK_IMPORTED_MODULE_69__pages_profile_psg_profile_psg__["a" /* ProfilePsgPage */],
-                __WEBPACK_IMPORTED_MODULE_68__pages_choose_psg_choose_psg__["a" /* ChoosePsgPage */],
-                __WEBPACK_IMPORTED_MODULE_67__pages_consul_session_consul_session__["a" /* ConsulSessionPage */],
-                __WEBPACK_IMPORTED_MODULE_66__pages_add_schedule_add_schedule__["a" /* AddSchedulePage */],
-                __WEBPACK_IMPORTED_MODULE_64__pages_consultation_consultation__["a" /* ConsultationPage */],
-                __WEBPACK_IMPORTED_MODULE_63__pages_testaja_testaja__["a" /* TestajaPage */],
-                __WEBPACK_IMPORTED_MODULE_21__app_component__["a" /* MyApp */],
+                __WEBPACK_IMPORTED_MODULE_78__pages_payment_status_payment_status__["a" /* PaymentStatusPage */],
+                __WEBPACK_IMPORTED_MODULE_76__pages_topup_topup__["a" /* TopupPage */],
+                __WEBPACK_IMPORTED_MODULE_77__pages_transaction_transaction__["a" /* TransactionPage */],
+                __WEBPACK_IMPORTED_MODULE_75__pages_lovepoint_store_lovepoint_store__["a" /* LovepointStorePage */],
+                __WEBPACK_IMPORTED_MODULE_74__pages_booking_booking__["a" /* BookingPage */],
+                __WEBPACK_IMPORTED_MODULE_73__pages_profile_psg_profile_psg__["a" /* ProfilePsgPage */],
+                __WEBPACK_IMPORTED_MODULE_72__pages_choose_psg_choose_psg__["a" /* ChoosePsgPage */],
+                __WEBPACK_IMPORTED_MODULE_71__pages_consul_session_consul_session__["a" /* ConsulSessionPage */],
+                __WEBPACK_IMPORTED_MODULE_70__pages_add_schedule_add_schedule__["a" /* AddSchedulePage */],
+                __WEBPACK_IMPORTED_MODULE_68__pages_consultation_consultation__["a" /* ConsultationPage */],
+                __WEBPACK_IMPORTED_MODULE_67__pages_testaja_testaja__["a" /* TestajaPage */],
+                __WEBPACK_IMPORTED_MODULE_24__app_component__["a" /* MyApp */],
                 __WEBPACK_IMPORTED_MODULE_20__pages_signup_signup__["a" /* SignupPage */],
-                __WEBPACK_IMPORTED_MODULE_22__pages_login_login__["a" /* LoginPage */],
-                __WEBPACK_IMPORTED_MODULE_23__pages_home_home__["a" /* HomePage */],
-                __WEBPACK_IMPORTED_MODULE_24__pages_verification_verification__["a" /* VerificationPage */],
-                __WEBPACK_IMPORTED_MODULE_25__pages_tabs_tabs__["a" /* TabsPage */],
-                __WEBPACK_IMPORTED_MODULE_26__pages_messages_messages__["a" /* MessagesPage */],
-                __WEBPACK_IMPORTED_MODULE_27__pages_friends_friends__["a" /* FriendsPage */],
-                __WEBPACK_IMPORTED_MODULE_28__pages_search_people_search_people__["a" /* SearchPeoplePage */],
-                __WEBPACK_IMPORTED_MODULE_29__pages_requests_requests__["a" /* RequestsPage */],
-                __WEBPACK_IMPORTED_MODULE_30__pages_user_info_user_info__["a" /* UserInfoPage */],
-                __WEBPACK_IMPORTED_MODULE_31__pages_new_message_new_message__["a" /* NewMessagePage */],
-                __WEBPACK_IMPORTED_MODULE_32__pages_message_message__["a" /* MessagePage */],
+                __WEBPACK_IMPORTED_MODULE_25__pages_login_login__["a" /* LoginPage */],
+                __WEBPACK_IMPORTED_MODULE_26__pages_home_home__["a" /* HomePage */],
+                __WEBPACK_IMPORTED_MODULE_27__pages_verification_verification__["a" /* VerificationPage */],
+                __WEBPACK_IMPORTED_MODULE_28__pages_tabs_tabs__["a" /* TabsPage */],
+                __WEBPACK_IMPORTED_MODULE_29__pages_messages_messages__["a" /* MessagesPage */],
+                __WEBPACK_IMPORTED_MODULE_30__pages_friends_friends__["a" /* FriendsPage */],
+                __WEBPACK_IMPORTED_MODULE_31__pages_search_people_search_people__["a" /* SearchPeoplePage */],
+                __WEBPACK_IMPORTED_MODULE_32__pages_requests_requests__["a" /* RequestsPage */],
+                __WEBPACK_IMPORTED_MODULE_33__pages_user_info_user_info__["a" /* UserInfoPage */],
+                __WEBPACK_IMPORTED_MODULE_34__pages_new_message_new_message__["a" /* NewMessagePage */],
+                __WEBPACK_IMPORTED_MODULE_35__pages_message_message__["a" /* MessagePage */],
                 __WEBPACK_IMPORTED_MODULE_6__pages_time_line_time_line__["a" /* TimeLinePage */],
                 __WEBPACK_IMPORTED_MODULE_5__pages_duplicate_message_duplicate_message__["a" /* DuplicateMessagePage */],
                 __WEBPACK_IMPORTED_MODULE_4__pages_achievement_achievement__["a" /* AchievementPage */],
                 __WEBPACK_IMPORTED_MODULE_3__pages_boarding_boarding__["a" /* BoardingPage */],
                 __WEBPACK_IMPORTED_MODULE_18__pages_achiev_detail_achiev_detail__["a" /* AchievDetailPage */],
-                __WEBPACK_IMPORTED_MODULE_42__pages_dynamiclink_dynamiclink__["a" /* DynamiclinkPage */],
-                __WEBPACK_IMPORTED_MODULE_61__pages_docver_docver__["a" /* DocverPage */],
-                __WEBPACK_IMPORTED_MODULE_62__pages_docver_plus_docver_plus__["a" /* DocverPlusPage */],
+                __WEBPACK_IMPORTED_MODULE_45__pages_dynamiclink_dynamiclink__["a" /* DynamiclinkPage */],
+                __WEBPACK_IMPORTED_MODULE_65__pages_docver_docver__["a" /* DocverPage */],
+                __WEBPACK_IMPORTED_MODULE_66__pages_docver_plus_docver_plus__["a" /* DocverPlusPage */],
                 __WEBPACK_IMPORTED_MODULE_2__pages_docver_reg_docver_reg__["a" /* DocverRegPage */],
                 __WEBPACK_IMPORTED_MODULE_1__pages_mood_tracker_mood_tracker__["a" /* MoodTrackerPage */],
-                __WEBPACK_IMPORTED_MODULE_34__pages_pay_detail_pay_detail__["a" /* PayDetailPage */],
-                __WEBPACK_IMPORTED_MODULE_33__pages_payment_payment__["a" /* PaymentPage */],
-                __WEBPACK_IMPORTED_MODULE_35__pages_pay_success_pay_success__["a" /* PaySuccessPage */],
-                __WEBPACK_IMPORTED_MODULE_36__pages_buy_premium_buy_premium__["a" /* BuyPremiumPage */],
-                __WEBPACK_IMPORTED_MODULE_37__pages_payment1_payment1__["a" /* Payment1Page */],
-                __WEBPACK_IMPORTED_MODULE_38__pages_payment2_payment2__["a" /* Payment2Page */],
-                __WEBPACK_IMPORTED_MODULE_39__pages_payment3_payment3__["a" /* Payment3Page */],
+                __WEBPACK_IMPORTED_MODULE_37__pages_pay_detail_pay_detail__["a" /* PayDetailPage */],
+                __WEBPACK_IMPORTED_MODULE_36__pages_payment_payment__["a" /* PaymentPage */],
+                __WEBPACK_IMPORTED_MODULE_38__pages_pay_success_pay_success__["a" /* PaySuccessPage */],
+                __WEBPACK_IMPORTED_MODULE_39__pages_buy_premium_buy_premium__["a" /* BuyPremiumPage */],
+                __WEBPACK_IMPORTED_MODULE_40__pages_payment1_payment1__["a" /* Payment1Page */],
+                __WEBPACK_IMPORTED_MODULE_41__pages_payment2_payment2__["a" /* Payment2Page */],
+                __WEBPACK_IMPORTED_MODULE_42__pages_payment3_payment3__["a" /* Payment3Page */],
                 __WEBPACK_IMPORTED_MODULE_0__pages_comment_comment__["a" /* CommentPage */],
-                __WEBPACK_IMPORTED_MODULE_40__pages_profile_profile__["a" /* ProfilePage */],
-                __WEBPACK_IMPORTED_MODULE_41__pages_editprofile_editprofile__["a" /* EditprofilePage */],
-                __WEBPACK_IMPORTED_MODULE_75__pages_image_modal_image_modal__["a" /* ImageModalPage */],
-                __WEBPACK_IMPORTED_MODULE_65__pages_calendar_calendar__["a" /* CalendarPage */]
+                __WEBPACK_IMPORTED_MODULE_43__pages_profile_profile__["a" /* ProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_44__pages_editprofile_editprofile__["a" /* EditprofilePage */],
+                __WEBPACK_IMPORTED_MODULE_79__pages_image_modal_image_modal__["a" /* ImageModalPage */],
+                __WEBPACK_IMPORTED_MODULE_69__pages_calendar_calendar__["a" /* CalendarPage */]
             ],
             providers: [
+                __WEBPACK_IMPORTED_MODULE_22__ionic_native_push__["a" /* Push */],
+                __WEBPACK_IMPORTED_MODULE_23__ionic_native_fcm__["a" /* FCM */],
+                __WEBPACK_IMPORTED_MODULE_21__ionic_native_onesignal__["a" /* OneSignal */],
                 __WEBPACK_IMPORTED_MODULE_15__ionic_native_in_app_browser__["a" /* InAppBrowser */],
                 __WEBPACK_IMPORTED_MODULE_17__ionic_native_firebase__["a" /* Firebase */],
-                __WEBPACK_IMPORTED_MODULE_76__providers_fcm_fcm__["a" /* FcmProvider */],
+                __WEBPACK_IMPORTED_MODULE_53__providers_fcm_fcm__["a" /* FcmProvider */],
                 __WEBPACK_IMPORTED_MODULE_14__ionic_native_google_plus__["a" /* GooglePlus */],
-                __WEBPACK_IMPORTED_MODULE_12__ionic_native_calendar__["a" /* Calendar */], __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_10__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_16__ionic_native_keyboard__["a" /* Keyboard */], { provide: __WEBPACK_IMPORTED_MODULE_8__angular_core__["ErrorHandler"], useClass: __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["f" /* IonicErrorHandler */] }, __WEBPACK_IMPORTED_MODULE_43__providers_login__["a" /* LoginProvider */], __WEBPACK_IMPORTED_MODULE_44__providers_logout__["a" /* LogoutProvider */], __WEBPACK_IMPORTED_MODULE_45__providers_loading__["a" /* LoadingProvider */], __WEBPACK_IMPORTED_MODULE_46__providers_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_47__providers_image__["a" /* ImageProvider */], __WEBPACK_IMPORTED_MODULE_48__providers_data__["a" /* DataProvider */], __WEBPACK_IMPORTED_MODULE_49__providers_firebase__["a" /* FirebaseProvider */],
+                __WEBPACK_IMPORTED_MODULE_12__ionic_native_calendar__["a" /* Calendar */], __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_10__ionic_native_splash_screen__["a" /* SplashScreen */], __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__["a" /* Camera */], __WEBPACK_IMPORTED_MODULE_16__ionic_native_keyboard__["a" /* Keyboard */], { provide: __WEBPACK_IMPORTED_MODULE_8__angular_core__["ErrorHandler"], useClass: __WEBPACK_IMPORTED_MODULE_9_ionic_angular__["f" /* IonicErrorHandler */] }, __WEBPACK_IMPORTED_MODULE_46__providers_login__["a" /* LoginProvider */], __WEBPACK_IMPORTED_MODULE_47__providers_logout__["a" /* LogoutProvider */], __WEBPACK_IMPORTED_MODULE_48__providers_loading__["a" /* LoadingProvider */], __WEBPACK_IMPORTED_MODULE_49__providers_alert__["a" /* AlertProvider */], __WEBPACK_IMPORTED_MODULE_50__providers_image__["a" /* ImageProvider */], __WEBPACK_IMPORTED_MODULE_51__providers_data__["a" /* DataProvider */], __WEBPACK_IMPORTED_MODULE_52__providers_firebase__["a" /* FirebaseProvider */],
             ]
         })
     ], AppModule);
@@ -6005,7 +5482,7 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 681:
+/***/ 682:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6050,7 +5527,7 @@ var MoodTrackerPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 690:
+/***/ 691:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -6315,11 +5792,11 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 690;
+webpackContext.id = 691;
 
 /***/ }),
 
-/***/ 691:
+/***/ 692:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6390,7 +5867,7 @@ var AchievementPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 692:
+/***/ 693:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6693,7 +6170,7 @@ var DuplicateMessagePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 693:
+/***/ 694:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7158,85 +6635,6 @@ var TimeLinePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 698:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_boarding_boarding__ = __webpack_require__(362);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(507);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(506);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_keyboard__ = __webpack_require__(118);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_fcm_fcm__ = __webpack_require__(510);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_operators__ = __webpack_require__(511);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_operators___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(115);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-//Pages
-
-var MyApp = /** @class */ (function () {
-    function MyApp(platform, fcm, toastCtrl, statusBar, splashScreen, keyboard) {
-        if (localStorage.getItem("toggle") == "true") {
-            this.rootPage = __WEBPACK_IMPORTED_MODULE_8__pages_login_login__["a" /* LoginPage */];
-            // this.rootPage = LovepointStorePage;
-        }
-        else {
-            this.rootPage = __WEBPACK_IMPORTED_MODULE_0__pages_boarding_boarding__["a" /* BoardingPage */];
-        }
-        platform.ready().then(function () {
-            // access token for push Notification
-            fcm.getToken();
-            fcm.listenToNotifications().pipe(Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["tap"])(function (msg) {
-                // show a toast
-                var toast = toastCtrl.create({
-                    message: msg.body,
-                    duration: 3000
-                });
-                toast.present();
-            }))
-                .subscribe();
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
-            statusBar.styleDefault();
-            splashScreen.hide();
-            keyboard.hideKeyboardAccessoryBar(true);
-        });
-    }
-    MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({template:/*ion-inline-start:"E:\Github\socioempathyclient\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\app\app.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* Platform */],
-            __WEBPACK_IMPORTED_MODULE_6__providers_fcm_fcm__["a" /* FcmProvider */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["n" /* ToastController */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__["a" /* StatusBar */],
-            __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__["a" /* SplashScreen */],
-            __WEBPACK_IMPORTED_MODULE_5__ionic_native_keyboard__["a" /* Keyboard */]])
-    ], MyApp);
-    return MyApp;
-}());
-
-//# sourceMappingURL=app.component.js.map
-
-/***/ }),
-
 /***/ 70:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7298,6 +6696,558 @@ var LogoutProvider = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=logout.js.map
+
+/***/ }),
+
+/***/ 700:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_boarding_boarding__ = __webpack_require__(362);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(507);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__ = __webpack_require__(506);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_keyboard__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_firebase__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_firebase__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_fcm_fcm__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_login_login__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_messages_messages__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_push__ = __webpack_require__(510);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+//Pages
+
+
+
+var MyApp = /** @class */ (function () {
+    function MyApp(platform, fcm, toastCtrl, statusBar, splashScreen, keyboard, push) {
+        this.push = push;
+        if (localStorage.getItem("toggle") == "true") {
+            if (__WEBPACK_IMPORTED_MODULE_6_firebase__["auth"]().currentUser) {
+                this.rootPage = __WEBPACK_IMPORTED_MODULE_9__pages_messages_messages__["a" /* MessagesPage */];
+            }
+            else {
+                this.rootPage = __WEBPACK_IMPORTED_MODULE_8__pages_login_login__["a" /* LoginPage */];
+            }
+            // this.rootPage = LovepointStorePage;
+        }
+        else {
+            this.rootPage = __WEBPACK_IMPORTED_MODULE_0__pages_boarding_boarding__["a" /* BoardingPage */];
+        }
+        platform.ready().then(function () {
+            // // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            // access token for push Notification
+            fcm.getToken();
+            fcm.listenToNotifications();
+            statusBar.styleDefault();
+            splashScreen.hide();
+            keyboard.hideKeyboardAccessoryBar(true);
+        });
+    }
+    MyApp = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({template:/*ion-inline-start:"E:\Github\socioempathyclient\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\app\app.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["l" /* Platform */],
+            __WEBPACK_IMPORTED_MODULE_7__providers_fcm_fcm__["a" /* FcmProvider */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["n" /* ToastController */],
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__["a" /* StatusBar */],
+            __WEBPACK_IMPORTED_MODULE_4__ionic_native_splash_screen__["a" /* SplashScreen */],
+            __WEBPACK_IMPORTED_MODULE_5__ionic_native_keyboard__["a" /* Keyboard */],
+            __WEBPACK_IMPORTED_MODULE_10__ionic_native_push__["a" /* Push */]])
+    ], MyApp);
+    return MyApp;
+}());
+
+//# sourceMappingURL=app.component.js.map
+
+/***/ }),
+
+/***/ 701:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FriendsPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_people_search_people__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_info_user_info__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__message_message__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requests_requests__ = __webpack_require__(513);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_loading__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_firebase__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+var FriendsPage = /** @class */ (function () {
+    // FriendsPage
+    // This is the page where the user can search, view, and initiate a chat with their friends.
+    function FriendsPage(actionSheetCtrl, navCtrl, navParams, app, dataProvider, loadingProvider) {
+        this.actionSheetCtrl = actionSheetCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.app = app;
+        this.dataProvider = dataProvider;
+        this.loadingProvider = loadingProvider;
+    }
+    FriendsPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        // Initialize
+        this.searchFriend = '';
+        this.loadingProvider.show();
+        // Get friendRequests to show friendRequests count.
+        this.dataProvider.getRequests(__WEBPACK_IMPORTED_MODULE_8_firebase__["auth"]().currentUser.uid).subscribe(function (requests) {
+            _this.friendRequests = requests.length;
+            // console.log("friendrequest",this.friendRequests);
+        });
+        // Get user data on database and get list of friends.
+        this.dataProvider.getCurrentUser().subscribe(function (account) {
+            if (account.friends) {
+                for (var i = 0; i < account.friends.length; i++) {
+                    _this.dataProvider.getUser(account.friends[i]).subscribe(function (friend) {
+                        _this.addOrUpdateFriend(friend);
+                    });
+                }
+            }
+            else {
+                _this.friends = [];
+            }
+            _this.loadingProvider.hide();
+        });
+    };
+    // hold button
+    FriendsPage.prototype.pressEvent = function (e) {
+        this.openMenu();
+    };
+    // Add or update friend data for real-time sync.
+    FriendsPage.prototype.addOrUpdateFriend = function (friend) {
+        if (!this.friends) {
+            this.friends = [friend];
+        }
+        else {
+            var index = -1;
+            for (var i = 0; i < this.friends.length; i++) {
+                if (this.friends[i].$key == friend.$key) {
+                    index = i;
+                }
+            }
+            if (index > -1) {
+                this.friends[index] = friend;
+            }
+            else {
+                this.friends.push(friend);
+            }
+        }
+    };
+    // Proceed to searchPeople page.
+    FriendsPage.prototype.searchPeople = function () {
+        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_2__search_people_search_people__["a" /* SearchPeoplePage */]);
+    };
+    // Proceed to requests page.
+    FriendsPage.prototype.manageRequests = function () {
+        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_5__requests_requests__["a" /* RequestsPage */]);
+    };
+    // Proceed to userInfo page.
+    FriendsPage.prototype.viewUser = function (userId) {
+        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_3__user_info_user_info__["a" /* UserInfoPage */], { userId: userId });
+    };
+    // Proceed to chat page.
+    FriendsPage.prototype.message = function (userId) {
+        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_4__message_message__["a" /* MessagePage */], { userId: userId });
+    };
+    // action sheet
+    FriendsPage.prototype.openMenu = function () {
+        var actionSheet = this.actionSheetCtrl.create({
+            title: 'Options',
+            buttons: [
+                {
+                    text: 'Delete Friend',
+                    role: 'Delete',
+                    handler: function () {
+                        console.log('Destructive clicked');
+                    }
+                }, {
+                    text: 'Block',
+                    handler: function () {
+                        console.log('Archive clicked');
+                    }
+                }, {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: function () {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+    };
+    FriendsPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-friends',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\friends\friends.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="manageRequests()">\n\n        <ion-icon name="md-filing"></ion-icon>\n\n        <ion-badge color="danger" *ngIf="friendRequests">{{friendRequests}}</ion-badge>\n\n      </button>\n\n    </ion-buttons>\n\n    <ion-buttons end>\n\n      <button style="margin-left:15px" ion-button icon-only tappable (click)="searchPeople()">\n\n        <ion-icon name="md-person-add"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- No friends to show -->\n\n  <!-- <div class="empty-list" *ngIf="friends && friends.length == 0"> -->\n\n  <div *ngIf="friends && friends.length == 0">\n\n    <!-- <h1>\n\n      <ion-icon name="md-contacts"></ion-icon>\n\n    </h1>\n\n    <p>Uh-oh! You have not added any friends right now.</p>\n\n    <button ion-button icon-left tappable (click)="searchPeople()"> -->\n\n    <!-- <ion-icon name="md-search"></ion-icon>Search People</button> -->\n\n    <ion-list>\n\n      <ion-list-header>Regular Users</ion-list-header>\n\n      <ion-item>\n\n        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>\n\n        <p style="text-align:center">You have no users added as a friend.\n\n          <br>Tap the\n\n          <ion-icon name="md-person-add"></ion-icon>\n\n          icon on the right corer to add new.\n\n        </p>\n\n      </ion-item>\n\n    </ion-list>\n\n    <br>\n\n    <br>\n\n    <ion-list>\n\n      <ion-list-header>Psychologist Student</ion-list-header>\n\n      <ion-item>\n\n        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>\n\n        <p style="text-align:center">You have no psychologist student added as a friend\n\n          <br>Tap the\n\n          <ion-icon name="md-person-add"></ion-icon>\n\n          icon on the right corer to add new.\n\n        </p>\n\n      </ion-item>\n\n    </ion-list>\n\n    <br>\n\n    <br>\n\n    <ion-list>\n\n      <ion-list-header>Psychologist\n\n        <p class="premiumCss" item-end>\n\n          <ion-icon name="star"></ion-icon>PREMIUM FEATURE\n\n        </p>\n\n      </ion-list-header>\n\n\n\n      <ion-item>\n\n        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>\n\n        <p style="text-align:center">You have no psychologist added as a friend\n\n          <br>Tap the\n\n          <ion-icon name="md-person-add"></ion-icon>\n\n          icon on the right corer to add new.\n\n        </p>\n\n      </ion-item>\n\n\n\n    </ion-list>\n\n  </div>\n\n\n\n  <!-- CLOSE No friends to show -->\n\n\n\n\n\n  <!-- Show list of friends -->\n\n  <ion-list class="avatar-list" *ngIf="friends && friends.length > 0">\n\n    <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar>\n\n    <ion-item (press)="pressEvent($event)" *ngFor="let friend of friends | friendFilter:searchFriend" no-lines tappable (click)="viewUser(friend)">\n\n      <ion-fab middle right>\n\n        <button ion-fab mini tappable (click)="message(friend.$key); $event.stopPropagation();">\n\n          <ion-icon name="md-text" class="success"></ion-icon>\n\n        </button>\n\n      </ion-fab>\n\n      <ion-avatar item-left>\n\n        <img src="{{friend.img}}">\n\n      </ion-avatar>\n\n      <h2>{{friend.name}}</h2>\n\n      <p>@{{friend.username}}</p>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\friends\friends.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* App */], __WEBPACK_IMPORTED_MODULE_6__providers_data__["a" /* DataProvider */],
+            __WEBPACK_IMPORTED_MODULE_7__providers_loading__["a" /* LoadingProvider */]])
+    ], FriendsPage);
+    return FriendsPage;
+}());
+
+//# sourceMappingURL=friends.js.map
+
+/***/ }),
+
+/***/ 702:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PayDetailPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PayDetailPage = /** @class */ (function () {
+    function PayDetailPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    PayDetailPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad PayDetailPage');
+    };
+    PayDetailPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-pay-detail',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\pay-detail\pay-detail.html"*/'<!--\n\n  Generated template for the PayDetailPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>pay-detail</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\pay-detail\pay-detail.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], PayDetailPage);
+    return PayDetailPage;
+}());
+
+//# sourceMappingURL=pay-detail.js.map
+
+/***/ }),
+
+/***/ 703:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaySuccessPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PaySuccessPage = /** @class */ (function () {
+    function PaySuccessPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    PaySuccessPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad PaySuccessPage');
+    };
+    PaySuccessPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-pay-success',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\pay-success\pay-success.html"*/'<!--\n\n  Generated template for the PaySuccessPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>pay-success</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\pay-success\pay-success.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], PaySuccessPage);
+    return PaySuccessPage;
+}());
+
+//# sourceMappingURL=pay-success.js.map
+
+/***/ }),
+
+/***/ 704:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BuyPremiumPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var BuyPremiumPage = /** @class */ (function () {
+    function BuyPremiumPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        // pop up pertama kali doang
+        this.popUp = true;
+    }
+    BuyPremiumPage.prototype.ionViewDidLoad = function () {
+    };
+    BuyPremiumPage.prototype.closeBtn = function () {
+        this.popUp = false;
+    };
+    BuyPremiumPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-buy-premium',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\buy-premium\buy-premium.html"*/'<!--\n\n  Generated template for the BuyPremiumPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Buy Premium</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-card class="cardCss">\n\n    <h1 class="middleCss pinkCss">\n\n      <b>LOVE POINTS</b>\n\n    </h1>\n\n    <div class="imgCss">\n\n      <img src="assets/images/lovepoints.png" />\n\n    </div>\n\n\n\n  </ion-card>\n\n  <ion-card>\n\n    <ion-row>\n\n      <ion-col>\n\n        <p class="marginCss">Your Balance :</p>\n\n      </ion-col>\n\n      <ion-col>\n\n        <p class="marginCss" style="text-align:right;color:#eb5487">100 Loves</p>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-card>\n\n  <!-- UN COMMENT UNTUK LIAT POP UP -->\n\n\n\n  <!-- <div class="container">\n\n    <h1 class="middleCss pinkCss">\n\n      <b>APA ITU LOVEPOINTS</b>\n\n    </h1>\n\n\n\n    <div class="imgCss">\n\n      <img src="assets/images/lovepoints.png" />\n\n    </div>\n\n\n\n    <p class="middleCss">LovePoints adalah credits yang kamu gunakan untuk berkonsultasi dengan psikolog per\n\n      <i>session</i>-nya.</p>\n\n    <p class="middleCss">Dengan berkonsultasi ke psikolog, masalahmu akan ditangani oleh tenaga ahli yang sudah pengalaman dan kompeten.</p>\n\n    <p class="middleCss">Pembelian LovePoints dapat dilakukan melalui transfer ATM, BNI, BRI, BCA, Mandiri, dan CIMB.</p>\n\n    <p class="closeButton" (click)="closeBtn()">CLOSE</p>\n\n  </div> -->\n\n\n\n\n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-navbar>\n\n    <button ion-button medium full>\n\n      BUY LOVEPOINTS\n\n    </button>\n\n  </ion-navbar>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\buy-premium\buy-premium.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], BuyPremiumPage);
+    return BuyPremiumPage;
+}());
+
+//# sourceMappingURL=buy-premium.js.map
+
+/***/ }),
+
+/***/ 705:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Payment1Page; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var Payment1Page = /** @class */ (function () {
+    function Payment1Page(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    Payment1Page.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad Payment1Page');
+    };
+    Payment1Page.prototype.takePhoto = function () {
+    };
+    Payment1Page.prototype.fromGallery = function () {
+    };
+    Payment1Page = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-payment1',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\payment1\payment1.html"*/'<!--\n\n  Generated template for the Payment1Page page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Payment</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n<p>Unggah Bukti Pembayaran</p>\n\n<img src="../assets/images/lovepoints.png">\n\n<div class="buttons">\n\n  <button ion-button (click)="takePhoto()">TAKE PHOTO</button>\n\n  <button ion-button (click)="fromGallery()">FROM GALLERY</button>\n\n</div>\n\n\n\n<h4>Catatan</h4>\n\n<p>Jika terjadi masalah dalam pengunggahan bukti pembayaran, Anda dapat mengunggah bukti pembayaran melalui <a href="#">Official Account Line Socioempathy.</a></p>\n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-navbar>\n\n    <button ion-button full (click)="next()">NEXT</button>\n\n  </ion-navbar>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\payment1\payment1.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], Payment1Page);
+    return Payment1Page;
+}());
+
+//# sourceMappingURL=payment1.js.map
+
+/***/ }),
+
+/***/ 706:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Payment2Page; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var Payment2Page = /** @class */ (function () {
+    function Payment2Page(alertCtrl, navCtrl, navParams) {
+        this.alertCtrl = alertCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    Payment2Page.prototype.imageUpload = function () {
+        this.alert = this.alertCtrl.create({
+            title: 'Upload bukti transfer',
+            message: 'Harap bukti transfer yang diupload benar.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: function (data) { }
+                },
+                {
+                    text: 'Choose from Gallery',
+                    handler: function () {
+                        // Call imageProvider to process, upload, and update user photo.
+                        // this.imageProvider.setProfilePhoto(this.user, this.camera.PictureSourceType.PHOTOLIBRARY);
+                    }
+                },
+                {
+                    text: 'Take Photo',
+                    handler: function () {
+                        // Call imageProvider to process, upload, and update user photo.
+                        // this.imageProvider.setProfilePhoto(this.user, this.camera.PictureSourceType.CAMERA);
+                    }
+                }
+            ]
+        }).present();
+    };
+    Payment2Page.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad Payment2Page');
+    };
+    Payment2Page = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-payment2',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\payment2\payment2.html"*/'<!--\n\n  Generated template for the Payment2Page page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>payment2</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-label>\n\n      Upload Bukti Pembayaran      \n\n  </ion-label>\n\n\n\n  <div class="imgCss">\n\n    <img (click)="imageUpload()" src="assets/images/upload.png" />\n\n  </div>\n\n  <br>\n\n  <p style="text-align:center">\n\n    Silahkan upload foto bukti transfer Anda.\n\n  </p>\n\n\n\n  <img style="margin-top:170px;" src="assets/images/statusbar2.png"/>\n\n  \n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-navbar>\n\n    <ion-row>\n\n      <ion-col>\n\n        <button ion-button full small block>PREVIOUS\n\n          </button>          \n\n      </ion-col>\n\n      <ion-col>\n\n          <button ion-button  full small block>NEXT\n\n            </button>              \n\n      </ion-col>\n\n    </ion-row>\n\n\n\n  </ion-navbar>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\payment2\payment2.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], Payment2Page);
+    return Payment2Page;
+}());
+
+//# sourceMappingURL=payment2.js.map
+
+/***/ }),
+
+/***/ 707:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Payment3Page; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var Payment3Page = /** @class */ (function () {
+    function Payment3Page(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    Payment3Page.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad Payment3Page');
+    };
+    Payment3Page = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-payment3',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\payment3\payment3.html"*/'<!--\n\n  Generated template for the Payment3Page page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>payment3</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n    <ion-label>\n\n        Status Pembayaran      \n\n    </ion-label>\n\n  \n\n    <div class="imgCss">\n\n      <img src="assets/images/done.png" />\n\n    </div>\n\n    <br>\n\n    <h3 style="text-align:center">\n\n      <b>Pembayaran Selesai!</b>\n\n    </h3>\n\n    <br>\n\n    <p style="text-align:center;font-size:12px;">Terimakasih telah melakukan transaksi di SocioEmpathy.<br><br>\n\n    Silahkan menunuggu email verifikasi transaksi dari kami maksimal dalam 1x24 jam.<br><br>\n\n    LovePoints akan ditambahkan segera setelah tim kami memverifikasi.</p>\n\n  \n\n    <img style="margin-top:40px;" src="assets/images/statusbar3.png"/>\n\n    \n\n  </ion-content>\n\n  \n\n  <ion-footer>\n\n    <ion-navbar>\n\n            <button ion-button  full small block>OK\n\n              </button>              \n\n  \n\n    </ion-navbar>\n\n  </ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\payment3\payment3.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], Payment3Page);
+    return Payment3Page;
+}());
+
+//# sourceMappingURL=payment3.js.map
+
+/***/ }),
+
+/***/ 708:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DynamiclinkPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the DynamiclinkPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var DynamiclinkPage = /** @class */ (function () {
+    function DynamiclinkPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    DynamiclinkPage.prototype.gunturLinked = function () {
+        window.open('https://sbs7a.app.goo.gl/bVbA', '_system');
+    };
+    DynamiclinkPage.prototype.yogaLinked = function () {
+        window.open('https://sbs7a.app.goo.gl/Lr7u', '_system');
+    };
+    DynamiclinkPage.prototype.nizarLinked = function () {
+        window.open('https://sbs7a.app.goo.gl/rY6Y', '_system');
+    };
+    DynamiclinkPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-dynamiclink',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\dynamiclink\dynamiclink.html"*/'<!--\n\n  Generated template for the DynamiclinkPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>About Us</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n  <img src="assets/images/88637.png">\n\n\n\n  <h2><b>Co Founder </b></h2>\n\n    <div class="profile">\n\n      <img (click)="gunturLinked()" src="assets/images/guntur.jpg">\n\n    </div>\n\n    <p (click)="gunturLinked()" style="text-align: center">Guntur Putra Pratama <b>Hustler</b></p>\n\n    <div class="profile">\n\n      <img (click)="yogaLinked()"  src="assets/images/yoga.jpg">\n\n    </div>\n\n    <p (click)="yogaLinked()" style="text-align: center">Dwi Yoga Wibawa <b>Hacker</b></p>\n\n    <div class="profile">\n\n      <img (click)="nizarLinked()" src="assets/images/nizar.jpg">\n\n    </div>\n\n    <p (click)="nizarLinked()" style="text-align: center">Nizar Maulana Azhari <b>Hipster</b></p>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\dynamiclink\dynamiclink.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], DynamiclinkPage);
+    return DynamiclinkPage;
+}());
+
+//# sourceMappingURL=dynamiclink.js.map
 
 /***/ }),
 
@@ -7378,7 +7328,7 @@ var Validator;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
@@ -7585,7 +7535,7 @@ var FirebaseProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_info_user_info__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_info_user_info__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__image_modal_image_modal__ = __webpack_require__(199);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_camera__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_keyboard__ = __webpack_require__(118);
@@ -7845,6 +7795,10 @@ var MessagePage = /** @class */ (function () {
             that.ionViewDidLoad();
         }, 1000);
     };
+    MessagePage.prototype.ionViewDidEnter = function () {
+        this.setMessagesRead(this.allMessage.length);
+        console.log('read', this.allMessage);
+    };
     // Update messagesRead when user lefts this page.
     MessagePage.prototype.ionViewWillLeave = function () {
         if (this.allMessage)
@@ -7856,9 +7810,7 @@ var MessagePage = /** @class */ (function () {
         if (this.navCtrl.getActive().instance instanceof MessagePage_1) {
             // Update user's messagesRead on database.
             var totalMessagesCount;
-            this.dataProvider
-                .getConversationMessages(this.idConversation)
-                .subscribe(function (messages) {
+            this.dataProvider.getConversationMessages(this.idConversation).subscribe(function (messages) {
                 totalMessagesCount = messages.length;
             });
             this.angularfireDatabase
@@ -7869,7 +7821,7 @@ var MessagePage = /** @class */ (function () {
                 "/" +
                 this.idConversation)
                 .update({
-                messagesRead: this.allMessage.length
+                messagesRead: messages
             });
         }
     };
@@ -8146,484 +8098,14 @@ var MessagePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 785:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FriendsPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_people_search_people__ = __webpack_require__(198);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_info_user_info__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__message_message__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requests_requests__ = __webpack_require__(525);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_firebase__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-
-var FriendsPage = /** @class */ (function () {
-    // FriendsPage
-    // This is the page where the user can search, view, and initiate a chat with their friends.
-    function FriendsPage(actionSheetCtrl, navCtrl, navParams, app, dataProvider, loadingProvider) {
-        this.actionSheetCtrl = actionSheetCtrl;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.app = app;
-        this.dataProvider = dataProvider;
-        this.loadingProvider = loadingProvider;
-    }
-    FriendsPage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        // Initialize
-        this.searchFriend = '';
-        this.loadingProvider.show();
-        // Get friendRequests to show friendRequests count.
-        this.dataProvider.getRequests(__WEBPACK_IMPORTED_MODULE_8_firebase__["auth"]().currentUser.uid).subscribe(function (requests) {
-            _this.friendRequests = requests.length;
-            // console.log("friendrequest",this.friendRequests);
-        });
-        // Get user data on database and get list of friends.
-        this.dataProvider.getCurrentUser().subscribe(function (account) {
-            if (account.friends) {
-                for (var i = 0; i < account.friends.length; i++) {
-                    _this.dataProvider.getUser(account.friends[i]).subscribe(function (friend) {
-                        _this.addOrUpdateFriend(friend);
-                    });
-                }
-            }
-            else {
-                _this.friends = [];
-            }
-            _this.loadingProvider.hide();
-        });
-    };
-    // hold button
-    FriendsPage.prototype.pressEvent = function (e) {
-        this.openMenu();
-    };
-    // Add or update friend data for real-time sync.
-    FriendsPage.prototype.addOrUpdateFriend = function (friend) {
-        if (!this.friends) {
-            this.friends = [friend];
-        }
-        else {
-            var index = -1;
-            for (var i = 0; i < this.friends.length; i++) {
-                if (this.friends[i].$key == friend.$key) {
-                    index = i;
-                }
-            }
-            if (index > -1) {
-                this.friends[index] = friend;
-            }
-            else {
-                this.friends.push(friend);
-            }
-        }
-    };
-    // Proceed to searchPeople page.
-    FriendsPage.prototype.searchPeople = function () {
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_2__search_people_search_people__["a" /* SearchPeoplePage */]);
-    };
-    // Proceed to requests page.
-    FriendsPage.prototype.manageRequests = function () {
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_5__requests_requests__["a" /* RequestsPage */]);
-    };
-    // Proceed to userInfo page.
-    FriendsPage.prototype.viewUser = function (userId) {
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_3__user_info_user_info__["a" /* UserInfoPage */], { userId: userId });
-    };
-    // Proceed to chat page.
-    FriendsPage.prototype.message = function (userId) {
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_4__message_message__["a" /* MessagePage */], { userId: userId });
-    };
-    // action sheet
-    FriendsPage.prototype.openMenu = function () {
-        var actionSheet = this.actionSheetCtrl.create({
-            title: 'Options',
-            buttons: [
-                {
-                    text: 'Delete Friend',
-                    role: 'Delete',
-                    handler: function () {
-                        console.log('Destructive clicked');
-                    }
-                }, {
-                    text: 'Block',
-                    handler: function () {
-                        console.log('Archive clicked');
-                    }
-                }, {
-                    text: 'Cancel',
-                    role: 'cancel',
-                    handler: function () {
-                        console.log('Cancel clicked');
-                    }
-                }
-            ]
-        });
-        actionSheet.present();
-    };
-    FriendsPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-friends',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\friends\friends.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="manageRequests()">\n\n        <ion-icon name="md-filing"></ion-icon>\n\n        <ion-badge color="danger" *ngIf="friendRequests">{{friendRequests}}</ion-badge>\n\n      </button>\n\n    </ion-buttons>\n\n    <ion-buttons end>\n\n      <button style="margin-left:15px" ion-button icon-only tappable (click)="searchPeople()">\n\n        <ion-icon name="md-person-add"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- No friends to show -->\n\n  <!-- <div class="empty-list" *ngIf="friends && friends.length == 0"> -->\n\n  <div *ngIf="friends && friends.length == 0">\n\n    <!-- <h1>\n\n      <ion-icon name="md-contacts"></ion-icon>\n\n    </h1>\n\n    <p>Uh-oh! You have not added any friends right now.</p>\n\n    <button ion-button icon-left tappable (click)="searchPeople()"> -->\n\n    <!-- <ion-icon name="md-search"></ion-icon>Search People</button> -->\n\n    <ion-list>\n\n      <ion-list-header>Regular Users</ion-list-header>\n\n      <ion-item>\n\n        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>\n\n        <p style="text-align:center">You have no users added as a friend.\n\n          <br>Tap the\n\n          <ion-icon name="md-person-add"></ion-icon>\n\n          icon on the right corer to add new.\n\n        </p>\n\n      </ion-item>\n\n    </ion-list>\n\n    <br>\n\n    <br>\n\n    <ion-list>\n\n      <ion-list-header>Psychologist Student</ion-list-header>\n\n      <ion-item>\n\n        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>\n\n        <p style="text-align:center">You have no psychologist student added as a friend\n\n          <br>Tap the\n\n          <ion-icon name="md-person-add"></ion-icon>\n\n          icon on the right corer to add new.\n\n        </p>\n\n      </ion-item>\n\n    </ion-list>\n\n    <br>\n\n    <br>\n\n    <ion-list>\n\n      <ion-list-header>Psychologist\n\n        <p class="premiumCss" item-end>\n\n          <ion-icon name="star"></ion-icon>PREMIUM FEATURE\n\n        </p>\n\n      </ion-list-header>\n\n\n\n      <ion-item>\n\n        <p style="text-align:center;font-size:24px"><b>Oops!</b></p>\n\n        <p style="text-align:center">You have no psychologist added as a friend\n\n          <br>Tap the\n\n          <ion-icon name="md-person-add"></ion-icon>\n\n          icon on the right corer to add new.\n\n        </p>\n\n      </ion-item>\n\n\n\n    </ion-list>\n\n  </div>\n\n\n\n  <!-- CLOSE No friends to show -->\n\n\n\n\n\n  <!-- Show list of friends -->\n\n  <ion-list class="avatar-list" *ngIf="friends && friends.length > 0">\n\n    <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar>\n\n    <ion-item (press)="pressEvent($event)" *ngFor="let friend of friends | friendFilter:searchFriend" no-lines tappable (click)="viewUser(friend)">\n\n      <ion-fab middle right>\n\n        <button ion-fab mini tappable (click)="message(friend.$key); $event.stopPropagation();">\n\n          <ion-icon name="md-text" class="success"></ion-icon>\n\n        </button>\n\n      </ion-fab>\n\n      <ion-avatar item-left>\n\n        <img src="{{friend.img}}">\n\n      </ion-avatar>\n\n      <h2>{{friend.name}}</h2>\n\n      <p>@{{friend.username}}</p>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\friends\friends.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* App */], __WEBPACK_IMPORTED_MODULE_6__providers_data__["a" /* DataProvider */],
-            __WEBPACK_IMPORTED_MODULE_7__providers_loading__["a" /* LoadingProvider */]])
-    ], FriendsPage);
-    return FriendsPage;
-}());
-
-//# sourceMappingURL=friends.js.map
-
-/***/ }),
-
-/***/ 786:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PayDetailPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var PayDetailPage = /** @class */ (function () {
-    function PayDetailPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    PayDetailPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad PayDetailPage');
-    };
-    PayDetailPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-pay-detail',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\pay-detail\pay-detail.html"*/'<!--\n\n  Generated template for the PayDetailPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>pay-detail</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\pay-detail\pay-detail.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], PayDetailPage);
-    return PayDetailPage;
-}());
-
-//# sourceMappingURL=pay-detail.js.map
-
-/***/ }),
-
-/***/ 787:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaySuccessPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var PaySuccessPage = /** @class */ (function () {
-    function PaySuccessPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    PaySuccessPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad PaySuccessPage');
-    };
-    PaySuccessPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-pay-success',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\pay-success\pay-success.html"*/'<!--\n\n  Generated template for the PaySuccessPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>pay-success</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\pay-success\pay-success.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], PaySuccessPage);
-    return PaySuccessPage;
-}());
-
-//# sourceMappingURL=pay-success.js.map
-
-/***/ }),
-
-/***/ 788:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BuyPremiumPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var BuyPremiumPage = /** @class */ (function () {
-    function BuyPremiumPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        // pop up pertama kali doang
-        this.popUp = true;
-    }
-    BuyPremiumPage.prototype.ionViewDidLoad = function () {
-    };
-    BuyPremiumPage.prototype.closeBtn = function () {
-        this.popUp = false;
-    };
-    BuyPremiumPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-buy-premium',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\buy-premium\buy-premium.html"*/'<!--\n\n  Generated template for the BuyPremiumPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Buy Premium</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-card class="cardCss">\n\n    <h1 class="middleCss pinkCss">\n\n      <b>LOVE POINTS</b>\n\n    </h1>\n\n    <div class="imgCss">\n\n      <img src="assets/images/lovepoints.png" />\n\n    </div>\n\n\n\n  </ion-card>\n\n  <ion-card>\n\n    <ion-row>\n\n      <ion-col>\n\n        <p class="marginCss">Your Balance :</p>\n\n      </ion-col>\n\n      <ion-col>\n\n        <p class="marginCss" style="text-align:right;color:#eb5487">100 Loves</p>\n\n      </ion-col>\n\n    </ion-row>\n\n  </ion-card>\n\n  <!-- UN COMMENT UNTUK LIAT POP UP -->\n\n\n\n  <!-- <div class="container">\n\n    <h1 class="middleCss pinkCss">\n\n      <b>APA ITU LOVEPOINTS</b>\n\n    </h1>\n\n\n\n    <div class="imgCss">\n\n      <img src="assets/images/lovepoints.png" />\n\n    </div>\n\n\n\n    <p class="middleCss">LovePoints adalah credits yang kamu gunakan untuk berkonsultasi dengan psikolog per\n\n      <i>session</i>-nya.</p>\n\n    <p class="middleCss">Dengan berkonsultasi ke psikolog, masalahmu akan ditangani oleh tenaga ahli yang sudah pengalaman dan kompeten.</p>\n\n    <p class="middleCss">Pembelian LovePoints dapat dilakukan melalui transfer ATM, BNI, BRI, BCA, Mandiri, dan CIMB.</p>\n\n    <p class="closeButton" (click)="closeBtn()">CLOSE</p>\n\n  </div> -->\n\n\n\n\n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-navbar>\n\n    <button ion-button medium full>\n\n      BUY LOVEPOINTS\n\n    </button>\n\n  </ion-navbar>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\buy-premium\buy-premium.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], BuyPremiumPage);
-    return BuyPremiumPage;
-}());
-
-//# sourceMappingURL=buy-premium.js.map
-
-/***/ }),
-
-/***/ 789:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Payment1Page; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var Payment1Page = /** @class */ (function () {
-    function Payment1Page(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    Payment1Page.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad Payment1Page');
-    };
-    Payment1Page.prototype.takePhoto = function () {
-    };
-    Payment1Page.prototype.fromGallery = function () {
-    };
-    Payment1Page = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-payment1',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\payment1\payment1.html"*/'<!--\n\n  Generated template for the Payment1Page page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Payment</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n<p>Unggah Bukti Pembayaran</p>\n\n<img src="../assets/images/lovepoints.png">\n\n<div class="buttons">\n\n  <button ion-button (click)="takePhoto()">TAKE PHOTO</button>\n\n  <button ion-button (click)="fromGallery()">FROM GALLERY</button>\n\n</div>\n\n\n\n<h4>Catatan</h4>\n\n<p>Jika terjadi masalah dalam pengunggahan bukti pembayaran, Anda dapat mengunggah bukti pembayaran melalui <a href="#">Official Account Line Socioempathy.</a></p>\n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-navbar>\n\n    <button ion-button full (click)="next()">NEXT</button>\n\n  </ion-navbar>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\payment1\payment1.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], Payment1Page);
-    return Payment1Page;
-}());
-
-//# sourceMappingURL=payment1.js.map
-
-/***/ }),
-
-/***/ 790:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Payment2Page; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var Payment2Page = /** @class */ (function () {
-    function Payment2Page(alertCtrl, navCtrl, navParams) {
-        this.alertCtrl = alertCtrl;
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    Payment2Page.prototype.imageUpload = function () {
-        this.alert = this.alertCtrl.create({
-            title: 'Upload bukti transfer',
-            message: 'Harap bukti transfer yang diupload benar.',
-            buttons: [
-                {
-                    text: 'Cancel',
-                    handler: function (data) { }
-                },
-                {
-                    text: 'Choose from Gallery',
-                    handler: function () {
-                        // Call imageProvider to process, upload, and update user photo.
-                        // this.imageProvider.setProfilePhoto(this.user, this.camera.PictureSourceType.PHOTOLIBRARY);
-                    }
-                },
-                {
-                    text: 'Take Photo',
-                    handler: function () {
-                        // Call imageProvider to process, upload, and update user photo.
-                        // this.imageProvider.setProfilePhoto(this.user, this.camera.PictureSourceType.CAMERA);
-                    }
-                }
-            ]
-        }).present();
-    };
-    Payment2Page.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad Payment2Page');
-    };
-    Payment2Page = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-payment2',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\payment2\payment2.html"*/'<!--\n\n  Generated template for the Payment2Page page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>payment2</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-label>\n\n      Upload Bukti Pembayaran      \n\n  </ion-label>\n\n\n\n  <div class="imgCss">\n\n    <img (click)="imageUpload()" src="assets/images/upload.png" />\n\n  </div>\n\n  <br>\n\n  <p style="text-align:center">\n\n    Silahkan upload foto bukti transfer Anda.\n\n  </p>\n\n\n\n  <img style="margin-top:170px;" src="assets/images/statusbar2.png"/>\n\n  \n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <ion-navbar>\n\n    <ion-row>\n\n      <ion-col>\n\n        <button ion-button full small block>PREVIOUS\n\n          </button>          \n\n      </ion-col>\n\n      <ion-col>\n\n          <button ion-button  full small block>NEXT\n\n            </button>              \n\n      </ion-col>\n\n    </ion-row>\n\n\n\n  </ion-navbar>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\payment2\payment2.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], Payment2Page);
-    return Payment2Page;
-}());
-
-//# sourceMappingURL=payment2.js.map
-
-/***/ }),
-
-/***/ 791:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Payment3Page; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var Payment3Page = /** @class */ (function () {
-    function Payment3Page(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    Payment3Page.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad Payment3Page');
-    };
-    Payment3Page = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-payment3',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\payment3\payment3.html"*/'<!--\n\n  Generated template for the Payment3Page page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>payment3</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n    <ion-label>\n\n        Status Pembayaran      \n\n    </ion-label>\n\n  \n\n    <div class="imgCss">\n\n      <img src="assets/images/done.png" />\n\n    </div>\n\n    <br>\n\n    <h3 style="text-align:center">\n\n      <b>Pembayaran Selesai!</b>\n\n    </h3>\n\n    <br>\n\n    <p style="text-align:center;font-size:12px;">Terimakasih telah melakukan transaksi di SocioEmpathy.<br><br>\n\n    Silahkan menunuggu email verifikasi transaksi dari kami maksimal dalam 1x24 jam.<br><br>\n\n    LovePoints akan ditambahkan segera setelah tim kami memverifikasi.</p>\n\n  \n\n    <img style="margin-top:40px;" src="assets/images/statusbar3.png"/>\n\n    \n\n  </ion-content>\n\n  \n\n  <ion-footer>\n\n    <ion-navbar>\n\n            <button ion-button  full small block>OK\n\n              </button>              \n\n  \n\n    </ion-navbar>\n\n  </ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\payment3\payment3.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], Payment3Page);
-    return Payment3Page;
-}());
-
-//# sourceMappingURL=payment3.js.map
-
-/***/ }),
-
-/***/ 792:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DynamiclinkPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-/**
- * Generated class for the DynamiclinkPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-var DynamiclinkPage = /** @class */ (function () {
-    function DynamiclinkPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    DynamiclinkPage.prototype.gunturLinked = function () {
-        window.open('https://sbs7a.app.goo.gl/bVbA', '_system');
-    };
-    DynamiclinkPage.prototype.yogaLinked = function () {
-        window.open('https://sbs7a.app.goo.gl/Lr7u', '_system');
-    };
-    DynamiclinkPage.prototype.nizarLinked = function () {
-        window.open('https://sbs7a.app.goo.gl/rY6Y', '_system');
-    };
-    DynamiclinkPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-dynamiclink',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\dynamiclink\dynamiclink.html"*/'<!--\n\n  Generated template for the DynamiclinkPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>About Us</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n  <img src="assets/images/88637.png">\n\n\n\n  <h2><b>Co Founder </b></h2>\n\n    <div class="profile">\n\n      <img (click)="gunturLinked()" src="assets/images/guntur.jpg">\n\n    </div>\n\n    <p (click)="gunturLinked()" style="text-align: center">Guntur Putra Pratama <b>Hustler</b></p>\n\n    <div class="profile">\n\n      <img (click)="yogaLinked()"  src="assets/images/yoga.jpg">\n\n    </div>\n\n    <p (click)="yogaLinked()" style="text-align: center">Dwi Yoga Wibawa <b>Hacker</b></p>\n\n    <div class="profile">\n\n      <img (click)="nizarLinked()" src="assets/images/nizar.jpg">\n\n    </div>\n\n    <p (click)="nizarLinked()" style="text-align: center">Nizar Maulana Azhari <b>Hipster</b></p>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\dynamiclink\dynamiclink.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], DynamiclinkPage);
-    return DynamiclinkPage;
-}());
-
-//# sourceMappingURL=dynamiclink.js.map
-
-/***/ }),
-
-/***/ 804:
+/***/ 807:
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
 
-/***/ 811:
+/***/ 814:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8666,7 +8148,7 @@ var FriendPipe = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 812:
+/***/ 815:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8714,7 +8196,7 @@ var SearchPipe = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 813:
+/***/ 816:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8757,7 +8239,7 @@ var ConversationPipe = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 814:
+/***/ 817:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8794,7 +8276,7 @@ var DateFormatPipe = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 815:
+/***/ 818:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8839,7 +8321,7 @@ var DocverPlusPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 816:
+/***/ 819:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8914,7 +8396,7 @@ var Login;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__alert__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__alert__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_camera__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(24);
@@ -9308,6 +8790,561 @@ var ImageProvider = /** @class */ (function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MessagesPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__providers_firebase__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_message_new_message__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__message_message__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase_app__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_firebase_app__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_moment__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+var MessagesPage = /** @class */ (function () {
+    // MessagesPage
+    // This is the page where the user can see their current conversations with their friends.
+    // The user can also start a new conversation.
+    function MessagesPage(actionSheetCtrl, navCtrl, navParams, angularfireDatabase, loadingProvider, app, dataProvider, firebaseProvider, alertCtrl) {
+        this.actionSheetCtrl = actionSheetCtrl;
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.angularfireDatabase = angularfireDatabase;
+        this.loadingProvider = loadingProvider;
+        this.app = app;
+        this.dataProvider = dataProvider;
+        this.firebaseProvider = firebaseProvider;
+        this.alertCtrl = alertCtrl;
+        this.inputSeconds = [];
+        this.remainingTime = [];
+        this.displayTime = [];
+        this.currentUser = __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid;
+        this.iterate = 0;
+        // conversation: any;
+        this.conversations = [];
+        this.roles = localStorage.getItem("registerRole");
+        this.phones = localStorage.getItem("phoneNumber");
+    }
+    MessagesPage.prototype.i = function (arg0) {
+        throw new Error("Method not implemented.");
+    };
+    MessagesPage.prototype.countdown = function () {
+        var bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
+        bookDay = this.bookingDay.substring(9, 11);
+        bookMonth = this.bookingDay.substring(6, 8);
+        bookYear = this.bookingDay.substring(1, 5);
+        this.bookSession;
+        switch (this.bookSession) {
+            case "session1":
+                bookHour = 8;
+                break;
+            case "session2":
+                bookHour = 10;
+                break;
+            case "session3":
+                bookHour = 12;
+                break;
+            case "session4":
+                bookHour = 14;
+                break;
+            case "session5":
+                bookHour = 22;
+                break;
+            default:
+                return 0;
+        }
+        console.log("sesi", bookHour);
+        // current date
+        var sec, min, hour, day, days, month, year, spareDay, now, later;
+        var nowww = __WEBPACK_IMPORTED_MODULE_9_moment__();
+        var dayyy = nowww.day();
+        var jam = __WEBPACK_IMPORTED_MODULE_9_moment__().hours() + 1;
+        year = __WEBPACK_IMPORTED_MODULE_9_moment__().year();
+        month = __WEBPACK_IMPORTED_MODULE_9_moment__().month() + 1;
+        days = nowww.date();
+        hour = (bookHour - jam) * 3600;
+        min = (60 - __WEBPACK_IMPORTED_MODULE_9_moment__().minutes()) * 60;
+        sec = 60 - __WEBPACK_IMPORTED_MODULE_9_moment__().seconds();
+        // console.log("hour banget", min, hour, jam, bookHour, month);
+        // console.log("melesekon", moment().seconds(), moment().minutes(), moment().hours());
+        // booking date
+        later = __WEBPACK_IMPORTED_MODULE_9_moment__([bookYear, bookMonth, bookDay]);
+        now = __WEBPACK_IMPORTED_MODULE_9_moment__([year, month, days]);
+        spareDay = later.diff(now, "days");
+        console.log("booking day later", bookDay, bookMonth, bookYear);
+        console.log("booking day now", days, month, year);
+        console.log("spare day", spareDay);
+        // waktunya countdownnya masih sama tiap list
+        day = spareDay * 86400;
+        console.log("times", day, hour, min, sec);
+        this.inputSeconds[this.iterate] = day + hour + min + sec;
+        console.log("inputseconds", this.inputSeconds[this.iterate]);
+        localStorage.setItem("inputSec", JSON.stringify(this.inputSeconds));
+        this.iterate++;
+    };
+    /* Initialize and setup the time for question */
+    MessagesPage.prototype.initTimer = function () {
+        // Pomodoro is usually for 25 minutes
+        this.timeInSeconds = JSON.parse(localStorage.getItem("inputSec"));
+        console.log("init timer", this.timeInSeconds);
+        for (var i = 0; i < this.timeInSeconds.length; i++) {
+            // console.log("increment", i);
+            this.time = this.timeInSeconds[i];
+            this.runTimer = false;
+            this.hasStarted = false;
+            this.hasFinished = false;
+            this.remainingTime[i] = this.timeInSeconds[i];
+            console.log("remain", this.remainingTime[i]);
+            this.displayTime[i] = this.getSecondsAsDigitalClock(this.remainingTime[i]);
+            // console.log("display", this.displayTime[i]);
+        }
+        if (this.timeInSeconds == null) {
+            return null;
+        }
+    };
+    // timer countdown
+    MessagesPage.prototype.startTimer = function () {
+        this.runTimer = true;
+        this.hasStarted = true;
+        this.timerTick();
+    };
+    MessagesPage.prototype.pauseTimer = function () {
+        this.runTimer = false;
+    };
+    MessagesPage.prototype.resumeTimer = function () {
+        this.startTimer();
+    };
+    MessagesPage.prototype.timerTick = function () {
+        var _this = this;
+        setTimeout(function () {
+            var length = JSON.parse(localStorage.getItem("inputSec")).length;
+            for (var i = 0; i < length; i++) {
+                if (!_this.runTimer) {
+                    return;
+                }
+                _this.remainingTime[i]--;
+                _this.displayTime[i] = _this.getSecondsAsDigitalClock(_this.remainingTime[i]);
+            }
+            // masi statis di array 0 doang
+            if (_this.remainingTime[i] > 0) {
+                _this.timerTick();
+            }
+            else {
+                _this.hasFinished = true;
+            }
+        }, 1000);
+    };
+    MessagesPage.prototype.getSecondsAsDigitalClock = function (inputSeconds) {
+        if (this.inputSeconds != null) {
+            var sec_num = parseInt(inputSeconds.toString(), 10); // don't forget the second param
+            console.log("sec sum", sec_num); //just uncoment to show countdown in console
+        }
+        if (sec_num < 0) {
+            this.timeover = "timeover";
+            return this.timeover;
+        }
+        else {
+            var days = Math.floor(sec_num / 86400); // 3600 * 24
+            var hours = Math.floor(sec_num / 3600) - days * 24;
+            var temphours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - temphours * 3600) / 60);
+            // console.log("minutes", minutes);
+            var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);
+            var hoursString = "";
+            var minutesString = "";
+            var secondsString = "";
+            var daysString = "";
+            hoursString = hours < 10 ? "0" + hours : hours.toString();
+            minutesString = minutes < 10 ? "0" + minutes : minutes.toString();
+            secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
+            daysString = days.toString();
+            // return daysString + "days ";
+            if (daysString == "0") {
+                return hoursString + ":" + minutesString + ":" + secondsString;
+            }
+            else {
+                return (daysString +
+                    "days " +
+                    hoursString +
+                    ":" +
+                    minutesString +
+                    ":" +
+                    secondsString);
+            }
+        }
+    };
+    MessagesPage.prototype.devicesTokenUpdate = function () {
+        this.dataProvider.updateDevicesToken(localStorage.getItem("devices_token"))
+            .update({
+            userId: __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid
+        });
+        this.dataProvider.updateCurrentUser()
+            .update({
+            devices_token: localStorage.getItem("devices_token")
+        });
+    };
+    // close timer countdown
+    MessagesPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        // Create userData on the database if it doesn't exist yet.
+        this.createUserData();
+        this.devicesTokenUpdate();
+        this.searchFriend = "";
+        this.loadingProvider.show();
+        // Get info of conversations of current logged in user.
+        this.dataProvider.getConversations().subscribe(function (conversations) {
+            console.log("CONVRSSS", conversations);
+            if (conversations.length > 0) {
+                conversations.forEach(function (conversation) {
+                    // console.log("psgId", conversation.key);
+                    _this.dataProvider.getPsgAvailable(conversation.key).subscribe(function (psgProfile) {
+                        _this.profilePsg = psgProfile;
+                        // console.log("psgProfile", psgProfile);
+                    });
+                    if (conversation.key) {
+                        // Get conversation partner info.
+                        _this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(function (listConv) {
+                            // Get conversation info.
+                            listConv.forEach(function (listConversations) {
+                                _this.mainIdConversation = listConversations;
+                                // console.log("list conversation", listConversations);
+                                _this.dataProvider.getConversation(listConversations.conversationId).subscribe(function (obj) {
+                                    // Get last message of conversation.
+                                    // console.log("scheduleeyid", obj.scheduleId);
+                                    _this.bookingDay = JSON.stringify(obj.scheduleId);
+                                    _this.bookSession = obj.sessionke;
+                                    _this.countdown();
+                                    // console.log("bookingday", this.bookingDay);
+                                    // console.log("bookSession", this.bookSession);
+                                    var lastMessage = obj.messages[obj.messages.length - 1];
+                                    listConversations.date = lastMessage.date;
+                                    listConversations.sender = lastMessage.sender;
+                                    // Set unreadMessagesCount
+                                    listConversations.unreadMessagesCount =
+                                        obj.messages.length - listConversations.messagesRead;
+                                    // Process last message depending on messageType.
+                                    if (lastMessage.type == "text") {
+                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid) {
+                                            listConversations.message =
+                                                "You: " + lastMessage.message;
+                                        }
+                                        else {
+                                            listConversations.message = lastMessage.message;
+                                        }
+                                    }
+                                    else {
+                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid) {
+                                            listConversations.message =
+                                                "You sent a photo message.";
+                                        }
+                                        else {
+                                            listConversations.message =
+                                                "has sent you a photo message.";
+                                        }
+                                    }
+                                    // Add or update listConversations.
+                                    _this.addOrUpdateConversation(listConversations);
+                                    // this.conversations.push(listConversations);
+                                    // this.conversations.sort((a: any, b: any) => {
+                                    //   let date1 = new Date(a.date);
+                                    //   let date2 = new Date(b.date);
+                                    //   if (date1 > date2) {
+                                    //     return -1;
+                                    //   } else if (date1 < date2) {
+                                    //     return 1;
+                                    //   } else {
+                                    //     return 0;
+                                    //   }
+                                    // });
+                                });
+                            });
+                        });
+                    }
+                });
+                // let now = new Date(Date.now()).getTime()/1000;
+                // let x = Date.parse("Wed Aug 01 2018 16:30:00 GMT+0700 (Western Indonesia Time)");
+                // // let dueDate = Date.parse(dueDate);
+                // this.z = ((x/1000) -now) / 3600 / 24;
+                // console.log("nowz : ", now );
+                // console.log("countdown : ", this.z );
+                // this.initTimer();
+                // this.startTimer();
+                _this.loadingProvider.hide();
+            }
+            else {
+                _this.conversations = [];
+                _this.loadingProvider.hide();
+            }
+        });
+        // Update conversations' last active date time elapsed every minute based on Moment.js.
+        var that = this;
+        if (!that.updateDateTime) {
+            that.updateDateTime = setInterval(function () {
+                if (that.conversations) {
+                    that.conversations.forEach(function (conversation) {
+                        var date = conversation.date;
+                        conversation.date = new Date(date);
+                        //console.log(conversation.date);
+                    });
+                }
+            }, 60000);
+        }
+        console.log("wadoooooooo second", this.inputSeconds);
+    };
+    // delete personal message
+    MessagesPage.prototype.deleteConversation = function (conversation) {
+        // realtime load data
+        this.navCtrl.setRoot(this.navCtrl.getActive().component);
+        this.dataProvider.deleteConversations().remove(conversation);
+    };
+    // Add or update conversation for real-time sync based on our observer, sort by active date.
+    MessagesPage.prototype.addOrUpdateConversation = function (conversation) {
+        if (!this.conversations) {
+            this.conversations = [conversation];
+        }
+        else {
+            var index = -1;
+            for (var i = 0; i < this.conversations.length; i++) {
+                if (this.conversations[i].key == conversation.key) {
+                    index = i;
+                }
+            }
+            if (index > -1) {
+                this.conversations[index] = conversation;
+            }
+            else {
+                this.conversations.push(conversation);
+            }
+            // Sort by last active date.
+            this.conversations.sort(function (a, b) {
+                var date1 = new Date(a.date);
+                var date2 = new Date(b.date);
+                if (date1 > date2) {
+                    return -1;
+                }
+                else if (date1 < date2) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
+        }
+    };
+    // Create userData on the database if it doesn't exist yet.
+    MessagesPage.prototype.createUserData = function () {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_8_firebase_app__["database"]()
+            .ref("/users/" + __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid)
+            .once("value")
+            .then(function (account) {
+            //console.log(account.val());
+            // No database data yet, create user data on database
+            if (!account.val()) {
+                // this.loadingProvider.show();
+                var user = __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser;
+                console.log("user data", user, "haha");
+                // declare
+                var userId, name, provider, img, email;
+                var providerData = user.providerData[0];
+                userId = user.uid;
+                // Get name from Firebase user.
+                if (user.displayName || providerData.displayName) {
+                    name = user.displayName;
+                    name = providerData.displayName;
+                }
+                else {
+                    name = "New User";
+                }
+                // Set default username based on name and userId.
+                var username = name.replace(/ /g, "") + userId.substring(0, 8);
+                // Get provider from Firebase user.
+                if (providerData.providerId == "password") {
+                    provider = "Firebase";
+                }
+                else if (providerData.providerId == "facebook.com") {
+                    provider = "Facebook";
+                }
+                else if (providerData.providerId == "google.com") {
+                    provider = "Google";
+                }
+                // Get photoURL from Firebase user.
+                if (user.photoURL || providerData.photoURL) {
+                    img = user.photoURL;
+                    img = providerData.photoURL;
+                }
+                else {
+                    img = "assets/images/profile.png";
+                }
+                // Get email from Firebase user.
+                email = user.email;
+                // Set default description.
+                var description = "Hello! I am a new SocioEmpathy user.";
+                // set default displayName to Firebase
+                // Insert data on our database using AngularFire.
+                _this.angularfireDatabase
+                    .object("/users/" + userId)
+                    .set({
+                    userId: userId,
+                    displayName: "Ganti Nama",
+                    name: name,
+                    username: username,
+                    role: localStorage.getItem("registerRole"),
+                    anonymouse: "false",
+                    realName: name,
+                    moodLevel: "Normal",
+                    provider: provider,
+                    img: img,
+                    docStatus: "false",
+                    KTM: "",
+                    PsyCard: "",
+                    KTP: "",
+                    devices_token: localStorage.getItem("devices_token"),
+                    gender: localStorage.getItem("gender"),
+                    email: email,
+                    phoneNumber: localStorage.getItem("phoneNumber"),
+                    description: description,
+                    dateCreated: new Date().toString(),
+                    city: "None",
+                    status: "None",
+                    birth: "None",
+                    profession: "None"
+                })
+                    .then(function () {
+                    _this.loadingProvider.hide();
+                });
+            }
+        });
+    };
+    // New conversation.
+    MessagesPage.prototype.newMessage = function () {
+        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_6__new_message_new_message__["a" /* NewMessagePage */]);
+    };
+    // Open chat with friend.
+    MessagesPage.prototype.message = function (userId, idConversation) {
+        console.log("idConvv", this.mainIdConversation.conversationId);
+        console.log("finise?", this.hasFinished);
+        console.log("idConversation", idConversation);
+        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_7__message_message__["a" /* MessagePage */], {
+            psgId: this.profilePsg.userId,
+            userId: userId,
+            idConversation: idConversation,
+            stopConversation: this.hasFinished
+        });
+    };
+    // Return class based if conversation has unreadMessages or not.
+    MessagesPage.prototype.hasUnreadMessages = function (conversation) {
+        // console.log("hasunread", conversation);
+        if (conversation.unreadMessagesCount > 0) {
+            return "bold";
+        }
+        else
+            return "";
+    };
+    // alert
+    MessagesPage.prototype.showConfirm = function (i) {
+        var _this = this;
+        var confirm = this.alertCtrl.create({
+            title: "Hapus Obrolan?",
+            message: "Setelah anda menghapus obrolan,histori akan hilang, anda yakin?",
+            buttons: [
+                {
+                    text: "Tidak",
+                    handler: function () {
+                        console.log("Disagree clicked");
+                    }
+                },
+                {
+                    text: "Iya",
+                    handler: function () {
+                        _this.deleteConversation(i);
+                    }
+                }
+            ]
+        });
+        confirm.present();
+    };
+    //hold button
+    MessagesPage.prototype.pressEvent = function (e) {
+        this.openMenu(e);
+    };
+    // action sheet
+    // press button
+    MessagesPage.prototype.openMenu = function (deleteChat) {
+        var _this = this;
+        var actionSheet = this.actionSheetCtrl.create({
+            title: "Opsi",
+            buttons: [
+                {
+                    text: "Delete",
+                    role: "Delete",
+                    handler: function () {
+                        _this.showConfirm(deleteChat);
+                    }
+                },
+                // ,{
+                //   text: 'Block',
+                //   handler: () => {
+                //     console.log('Archive clicked');
+                //   }
+                // }
+                {
+                    text: "Cancel",
+                    role: "cancel",
+                    handler: function () {
+                        console.log("Cancel clicked");
+                    }
+                }
+            ]
+        });
+        actionSheet.present();
+    };
+    MessagesPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
+            selector: "page-messages",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="newMessage()">\n\n        <ion-icon name="ios-create"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- Fablist -->\n\n  <ion-fab right bottom>\n\n    <button color="theblues" ion-fab mini (click)="newMessage()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <!-- No conversations to show -->\n\n  <div class="empty-list" *ngIf="conversations && conversations.length <= 0">\n\n    <h1>\n\n      <ion-icon name="md-text"></ion-icon>\n\n    </h1>\n\n    <p>Uh-oh! You are not part of any conversation yet.</p>\n\n    <button ion-button icon-left tappable (click)="newMessage()">\n\n      <ion-icon name="md-add"></ion-icon>New Conversation</button>\n\n  </div>\n\n  <!-- Show conversations -->\n\n  <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">\n\n    <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->\n\n    <!-- press button di comment -->\n\n    <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"\n\n      no-lines tappable (click)="message(conversation.sender,conversation.conversationId)">\n\n      <ion-avatar item-left *ngIf="profilePsg">\n\n          <img src="{{profilePsg.img}}">\n\n        </ion-avatar>\n\n        <div [ngClass]=hasUnreadMessages(conversation)>\n\n          <h2 *ngIf="profilePsg">{{profilePsg.name}}</h2>\n\n          <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>\n\n          <p>{{conversation.message}}</p>\n\n          <span class="date">\n\n            <!-- <b class="countdown">{{displayTime[i]}}</b> -->\n\n            <br>{{conversation.date | DateFormat}}</span>\n\n        </div>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* ActionSheetController */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */],
+            __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* App */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* DataProvider */],
+            __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */],
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */]])
+    ], MessagesPage);
+    return MessagesPage;
+}());
+
+//# sourceMappingURL=messages.js.map
+
+/***/ }),
+
+/***/ 90:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserInfoPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
@@ -9492,5 +9529,5 @@ var UserInfoPage = /** @class */ (function () {
 
 /***/ })
 
-},[531]);
+},[532]);
 //# sourceMappingURL=main.js.map

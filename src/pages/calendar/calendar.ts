@@ -21,9 +21,7 @@ import { MessagesPage } from "../messages/messages";
 })
 export class CalendarPage {
   tabBarElement: any;
-  currentDate: any;
-  lenKey1: any;
-  index: number;
+  index:number;
   cek: any;
   eventz = { startTime: new Date(), endTime: new Date(), allDay: false };
   temp = [];
@@ -33,11 +31,8 @@ export class CalendarPage {
   eventSource = [];
   viewTitle: string;
   selectedDay = new Date();
-  dates = {
-    startTime: new Date().toDateString(),
-    endTime: new Date().toISOString(),
-    allDay: false
-  };
+  sessionStart:string;
+  sessionEnd:string;
   calendar = {
     mode: "month",
     currentDate: new Date()
@@ -73,43 +68,29 @@ export class CalendarPage {
   ionViewDidLoad() {
 
     this.loadingProvider.show();
-    this.dataProvider.getScheduling().subscribe(schedule => {
-      for (var i = 0; i < schedule.length; i++) {
-        this.date[i] = schedule[i];
-        console.log("key date", this.date[i].key);
-        this.dates[i] = new Date(this.date[i].key);
-        // console.log("key date", this.dates[i]);
-      }
-    });
     // calendar show color
     this.dataProvider.getScheduling().subscribe(schedules => {
-      this.lenKey1 = schedules.length;
-      console.log("lenkey1", this.lenKey1);
-      console.log("schedule", schedules.key);
       this.index = 0;
-      schedules.forEach(psg => {
+      var temp = 1;
+      schedules.forEach(schedule => {      
+        this.sessionStart =  schedule.key+ "T08:00:00";
+        this.sessionEnd =  schedule.key+ "T22:00:00";
+        this.eventSource.push({
+          title: schedule.key,
+          startTime: new Date(this.sessionStart),
+          endTime: new Date(this.sessionEnd),
+          allDay: false
+        });
         this.index++;
-        console.log("arr", this.eventSource);
-        console.log("psgsc", psg.key);
-        this.currentDate = new Date();
-        console.log(this.currentDate);
-        
-        // if(this.currentDate.to(psg.key)) {
-          this.eventSource.push({
-            title: psg.key,
-            startTime: new Date(psg.key),
-            endTime: new Date(psg.key),
-            allDay: false
-          });
-        // }
+        temp +=1;
       });
-        if (this.index == this.lenKey1) {
+        if(this.index < temp) {
           this.refreshData();
         }
     });
-
     this.loadingProvider.hide();
   }
+  
   refreshData() {
     let eventData = this.eventz;
 
@@ -147,7 +128,10 @@ export class CalendarPage {
       }
     });
   }
-
+  reloadSource(startTime,endTime) {
+    startTime = this.eventSource.startTime;
+    endTime = this.eventSource.endTime;
+  }
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
@@ -163,7 +147,7 @@ export class CalendarPage {
     let end = moment(event.endTime).format("LLLL");
 
     let alert = this.alertCtrl.create({
-      title: "" + "event.title",
+      title: "" + "Detail",
       subTitle: "From: " + start + "<br>To: " + end,
       buttons: ["OK"]
     });
@@ -171,6 +155,6 @@ export class CalendarPage {
   }
 
   onTimeSelected(ev) {
-    this.selectedDay = ev.selectedTime;
+    this.selectedDay = ev.selectedTime;     
   }
 }

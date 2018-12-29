@@ -50,7 +50,10 @@ export class LoginProvider {
     this.loadingProvider.show();
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((success) => {
+        localStorage.setItem('uid_client', firebase.auth().currentUser.uid);
+        localStorage.setItem('email_client', firebase.auth().currentUser.email);
         this.loadingProvider.hide();
+
       })
       .catch((error) => {
         this.loadingProvider.hide();

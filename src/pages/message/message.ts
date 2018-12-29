@@ -270,7 +270,10 @@ export class MessagePage {
       that.ionViewDidLoad();
     }, 1000);
   }
-
+  ionViewDidEnter(){
+    this.setMessagesRead(this.allMessage.length);  
+   console.log('read',this.allMessage);
+  }
   // Update messagesRead when user lefts this page.
   ionViewWillLeave() {
     if (this.allMessage) console.log("leave msg", this.allMessage);
@@ -282,9 +285,7 @@ export class MessagePage {
     if (this.navCtrl.getActive().instance instanceof MessagePage) {
       // Update user's messagesRead on database.
       var totalMessagesCount;
-      this.dataProvider
-        .getConversationMessages(this.idConversation)
-        .subscribe(messages => {
+      this.dataProvider.getConversationMessages(this.idConversation).subscribe(messages => {
           totalMessagesCount = messages.length;
         });
       this.angularfireDatabase
@@ -297,7 +298,7 @@ export class MessagePage {
             this.idConversation
         )
         .update({
-          messagesRead: this.allMessage.length
+          messagesRead: messages
         });
     }
   }

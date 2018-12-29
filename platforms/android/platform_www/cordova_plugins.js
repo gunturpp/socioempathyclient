@@ -49,6 +49,14 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
+    "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
+    "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
+    "clobbers": [
+      "FCMPlugin"
+    ]
+  },
+  {
     "id": "cordova-plugin-firebase.FirebasePlugin",
     "file": "plugins/cordova-plugin-firebase/www/firebase.js",
     "pluginId": "cordova-plugin-firebase",
@@ -107,6 +115,14 @@ module.exports = [
     "runs": true
   },
   {
+    "id": "onesignal-cordova-plugin.OneSignal",
+    "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+    "pluginId": "onesignal-cordova-plugin",
+    "clobbers": [
+      "OneSignal"
+    ]
+  },
+  {
     "id": "phonegap-plugin-push.PushNotification",
     "file": "plugins/phonegap-plugin-push/www/push.js",
     "pluginId": "phonegap-plugin-push",
@@ -121,6 +137,7 @@ module.exports.metadata =
   "cordova-plugin-calendar": "5.1.2",
   "cordova-plugin-camera": "4.0.3",
   "cordova-plugin-device": "2.0.2",
+  "cordova-plugin-fcm-with-dependecy-updated": "2.4.0",
   "cordova-plugin-firebase": "2.0.5",
   "cordova-plugin-googleplus": "5.3.2",
   "cordova-plugin-inappbrowser": "2.0.2",
@@ -130,6 +147,7 @@ module.exports.metadata =
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-support-google-services": "1.1.0",
   "ionic-plugin-keyboard": "2.2.1",
+  "onesignal-cordova-plugin": "2.4.6",
   "phonegap-plugin-multidex": "1.0.0",
   "phonegap-plugin-push": "2.2.3"
 };
