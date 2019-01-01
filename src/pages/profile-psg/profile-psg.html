@@ -1,16 +1,11 @@
-<!--
-  Generated template for the ProfilePsgPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Profile</ion-title>
+    <ion-title>Profil Psikolog</ion-title>
     <ion-buttons end>
       <button ion-button icon-only (click)="bookingPage()">
-        <ion-icon name="ios-checkmark"></ion-icon>
+        <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
 
@@ -27,20 +22,21 @@
     <h4>
       <span class="name">{{psychologist.name}} </span>
     </h4>
-    <p class="gender">{{psychologist.gender}}, 22 tahun</p>
+    <h6 *ngIf="psychologist.gender === 'Male' "> <ion-icon name="male"  class="gender"></ion-icon> 22 tahun</h6>
+    <h6 *ngIf="psychologist.gender === 'Female' "> <ion-icon name="female" class="gender"></ion-icon> 22 tahun</h6>
     <!-- Profile Menu -->
     <ion-list *ngIf="psychologist">
       <ion-item>
-        <ion-label>Personal Information</ion-label>
+        <ion-label>Informasi</ion-label>
       </ion-item>
       <ion-item>
-        <h3>Experience</h3>
+        <h3>Pengalaman</h3>
         <p>{{psychologist.description}}</p>
         <br>
         <h3>Email</h3>
         <p>{{psychologist.email}}</p>
         <br>
-        <h3>City</h3>
+        <h3>Kota</h3>
         <p>{{psychologist.city}}</p>
         <br>
       </ion-item>

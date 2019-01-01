@@ -2,24 +2,13 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 admin.initializeApp();
 
-exports.newChatNotification = functions.database
+exports.clientChatNotification = functions.database
   .ref("/conversations/{conversationId}/messages/{messageId}")
   .onWrite((change, context) => {
     const db = admin.database();
 
-    const conversationId = context.params;
     const messageData = change.after.val();
     const psgId = messageData.sender; //sender id
-
-    db.ref("/devices_token").orderByChild('userId').equalTo('3rdVsQMhMWYbNLI8k171Dp6hQ703')
-    .on('child_added',function(snap) {
-      console.log(`snapshot4`,snap.key);
-      
-      tokens.push(snap.key);
-        });
-        
-        console.log(`tokens2`,tokens);
-    return admin.messaging().sendToDevice(tokens, payload, options)
     // Notification content
     const payload = {
       notification: {

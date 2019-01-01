@@ -1,13 +1,8 @@
-<!--
-  Generated template for the ChoosePsgPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>choose-psg</ion-title>
+    <ion-title>Pilih Psikolog</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,58 +11,65 @@
 <ion-content padding>
   <ion-row>
     <ion-col col-6>
-      <span>{{ day }}</span>
+      <span>{{ sessionByDay }}</span>
     </ion-col>
     <ion-col class="right" col-6>
       <ion-icon name="md-people"></ion-icon>
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col col-6>
-      <span *ngIf="session == 'session1'">
-        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;08.00-10.00</span>
-      <span *ngIf="session == 'session2'">
-        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;10.00-12.00</span>
-      <span *ngIf="session == 'session3'">
-        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;12.00-14.00</span>
-      <span *ngIf="session == 'session4'">
-        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;14.00-16.00</span>
-      <span *ngIf="session == 'session5'">
-        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;18.00-20.00</span>
+    <ion-col class="btn-session" col-6>
+      <span (click)="showSession()" *ngIf="session == 'noSession'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;{{warning}} <ion-icon name="arrow-down"></ion-icon></span>    
+      <span (click)="showSession()" *ngIf="session == 'session1'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;08:00-09:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session2'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;09:00-10:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session3'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;10:00-11:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session4'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;11:00-12:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session5'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;12:00-13:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session7'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;13:00-14:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session8'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;14:00-15:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session9'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;15:00-16:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session10'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;16:00-17:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session11'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;17:00-18:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session12'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;18:00-19:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session13'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;19:00-20:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session14'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;20:00-21:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session15'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;21:00-22:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session16'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;22:00-23:00 <ion-icon name="arrow-down"></ion-icon></span>
+      <span (click)="showSession()" *ngIf="session == 'session17'">
+        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;23:00-24:00 <ion-icon name="arrow-down"></ion-icon></span>
+                    
+      </ion-col>
+    <ion-col *ngIf="session == 'noSession'" class="right" col-6>
+      <span>-</span>
     </ion-col>
-    <ion-col class="right" col-6>
-      <span>{{jumlahpsg}}</span>
+    
+    <ion-col *ngIf="session !== 'noSession'"class="right" col-6>
+        <span>{{jumlahpsg}}</span>
     </ion-col>
-  </ion-row>
   
+  </ion-row>
+
   <ion-list class="border-btm" *ngFor="let psg of psgAva">
-    <ion-item (click)="viewPsg(psg.userId)">
-      <ion-avatar item-left>
-        <img src="{{ psg.img }}">
-      </ion-avatar>
+    <ion-item detail-push (click)="viewPsg(psg.userId)">
+      <ion-avatar item-left><img src="{{ psg.img }}"></ion-avatar>
       <h2>{{psg.name}}</h2>
       <p>{{psg.gender}}, 22 tahun</p>
-      <!-- <ion-avatar item-start>
-        <img src="{{ psg.img }}">
-      </ion-avatar>
-      <h2>Guntur Putra Pratama</h2>
-      <p>Male,22 tahun</p> -->
-
-      <!-- <ion-row class="rows">
-        <ion-col col-5>
-          <img src="{{ psg.img }}">          
-        </ion-col>
-        <ion-col col-7>
-          <h3>Guntur Putra Pratama</h3>
-          <span>Male, 22 tahun</span>      
-        </ion-col>
-      </ion-row> -->
-
-      <!-- sementara -->
-      <!-- <h2>{{ psg.name }}</h2>
-      <p>{{ psg.gender }}</p> -->
-
-      <!-- dummy -->
     </ion-item>
   </ion-list>
 </ion-content>

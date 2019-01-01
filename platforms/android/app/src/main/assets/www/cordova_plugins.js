@@ -73,15 +73,6 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-inappbrowser.inappbrowser",
-    "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
-    "pluginId": "cordova-plugin-inappbrowser",
-    "clobbers": [
-      "cordova.InAppBrowser.open",
-      "window.open"
-    ]
-  },
-  {
     "id": "cordova-plugin-speechrecognition.SpeechRecognition",
     "file": "plugins/cordova-plugin-speechrecognition/www/speechRecognition.js",
     "pluginId": "cordova-plugin-speechrecognition",
@@ -113,22 +104,6 @@ module.exports = [
       "cordova.plugins.Keyboard"
     ],
     "runs": true
-  },
-  {
-    "id": "onesignal-cordova-plugin.OneSignal",
-    "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
-    "pluginId": "onesignal-cordova-plugin",
-    "clobbers": [
-      "OneSignal"
-    ]
-  },
-  {
-    "id": "phonegap-plugin-push.PushNotification",
-    "file": "plugins/phonegap-plugin-push/www/push.js",
-    "pluginId": "phonegap-plugin-push",
-    "clobbers": [
-      "PushNotification"
-    ]
   }
 ];
 module.exports.metadata = 
@@ -140,16 +115,13 @@ module.exports.metadata =
   "cordova-plugin-fcm-with-dependecy-updated": "2.4.0",
   "cordova-plugin-firebase": "2.0.5",
   "cordova-plugin-googleplus": "5.3.2",
-  "cordova-plugin-inappbrowser": "2.0.2",
   "cordova-plugin-speechrecognition": "1.1.2",
   "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-statusbar": "2.4.2",
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-support-google-services": "1.1.0",
   "ionic-plugin-keyboard": "2.2.1",
-  "onesignal-cordova-plugin": "2.4.6",
-  "phonegap-plugin-multidex": "1.0.0",
-  "phonegap-plugin-push": "2.2.3"
+  "phonegap-plugin-multidex": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

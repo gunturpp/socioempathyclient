@@ -229,8 +229,8 @@ export class DataProvider {
     return this.items;
   }
   // get schedule by date
-  getSchedulingByDay(date,session) {
-    this.items = this.angularfireDatabase.object("/scheduling/" + date + session).valueChanges();
+  getSchedulingByDay(date) {
+    this.items = this.angularfireDatabase.object("/scheduling/" + date).valueChanges();
     return this.items;
   }
   // get key schedule by date

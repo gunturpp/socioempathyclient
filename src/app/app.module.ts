@@ -14,14 +14,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { Calendar } from '@ionic-native/calendar';
 import { Camera } from '@ionic-native/camera';
 import { GooglePlus } from '@ionic-native/google-plus';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
 import { Firebase } from '@ionic-native/firebase';
 import { AchievDetailPage } from './../pages/achiev-detail/achiev-detail';
 import { TextMaskModule } from 'angular2-text-mask';
 import { SignupPage } from '../pages/signup/signup';
-import { OneSignal } from '@ionic-native/onesignal';
-import { Push } from '@ionic-native/push';
 import { FCM } from '@ionic-native/fcm';
 
 import { MyApp } from './app.component';
@@ -78,7 +75,6 @@ import { TestajaPage } from '../pages/testaja/testaja';
 import { ConsultationPage } from '../pages/consultation/consultation';
 import { CalendarPage } from '../pages/calendar/calendar';
 import { AddSchedulePage } from '../pages/add-schedule/add-schedule';
-import { ConsulSessionPage } from '../pages/consul-session/consul-session';
 import { ChoosePsgPage } from '../pages/choose-psg/choose-psg';
 import { ProfilePsgPage } from '../pages/profile-psg/profile-psg';
 import { BookingPage } from '../pages/booking/booking';
@@ -99,7 +95,6 @@ firebase.initializeApp(Login.firebaseConfig);
     BookingPage,
     ProfilePsgPage,
     ChoosePsgPage,
-    ConsulSessionPage,
     AddSchedulePage,
     ConsultationPage,
     TestajaPage,
@@ -166,7 +161,6 @@ firebase.initializeApp(Login.firebaseConfig);
     BookingPage,
     ProfilePsgPage,
     ChoosePsgPage,
-    ConsulSessionPage,
     AddSchedulePage,
     ConsultationPage,
     TestajaPage,
@@ -207,10 +201,7 @@ firebase.initializeApp(Login.firebaseConfig);
     CalendarPage
   ],
   providers: [
-    Push,
     FCM,
-    OneSignal,
-    InAppBrowser,
     Firebase,
     FcmProvider,
     GooglePlus,

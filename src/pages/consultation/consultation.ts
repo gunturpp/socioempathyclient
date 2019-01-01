@@ -9,30 +9,16 @@ import { LovepointStorePage } from '../lovepoint-store/lovepoint-store';
   templateUrl: 'consultation.html',
 })
 export class ConsultationPage {
-  tabBarElement: any;
-  date: any;
-  daysInThisMonth: any;
-  daysInLastMonth: any;
-  daysInNextMonth: any;
-  monthNames: string[];
-  currentMonth: any;
-  currentYear: any;
-  currentDate: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.tabBarElement = document.querySelector('#tabs ion-tabbar-section');
-  }
-  lovepointStore() {
-    this.navCtrl.push(LovepointStorePage);
-    // hide tabs
-    let tabs = document.querySelectorAll('.tabbar');
-      if ( tabs !== null ) {
-        Object.keys(tabs).map((key) => {
-          tabs[ key ].style.transform = 'translateY(56px)';
-        });
-      } // end if
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams) {}
   checkCalendar(){
     this.navCtrl.push(CalendarPage);
+    let tabs = document.querySelectorAll('.show-tabbar');
+    console.log('ionViewDidLoad',tabs);    
+    if (tabs !== null) {
+      Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'none';
+        });
+    }
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConsultationPage');

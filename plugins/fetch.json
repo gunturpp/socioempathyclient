@@ -26,14 +26,6 @@
       "PLAY_SERVICES_VERSION": "11.8.0"
     }
   },
-  "cordova-plugin-inappbrowser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-inappbrowser@^2.0.2"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-speechrecognition": {
     "source": {
       "type": "registry",
@@ -102,26 +94,6 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-firebase@~2.0.5"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "phonegap-plugin-push": {
-    "source": {
-      "type": "registry",
-      "id": "phonegap-plugin-push@~2.2.3"
-    },
-    "is_top_level": true,
-    "variables": {
-      "SENDER_ID": "605484190997",
-      "ANDROID_SUPPORT_V13_VERSION": "27.+",
-      "FCM_VERSION": "11.6.2"
-    }
-  },
-  "onesignal-cordova-plugin": {
-    "source": {
-      "type": "registry",
-      "id": "onesignal-cordova-plugin"
     },
     "is_top_level": true,
     "variables": {}

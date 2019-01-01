@@ -8,57 +8,46 @@
   },
   "installed_plugins": {
     "cordova-plugin-calendar": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-fcm-with-dependecy-updated": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-firebase": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-googleplus": {
       "PLAY_SERVICES_VERSION": "11.8.0",
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
-    },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-speechrecognition": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "ionic-plugin-keyboard": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
-    },
-    "onesignal-cordova-plugin": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
-    },
-    "phonegap-plugin-push": {
-      "ANDROID_SUPPORT_V13_VERSION": "27.+",
-      "FCM_VERSION": "11.6.2",
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     }
   },
   "dependent_plugins": {
     "cordova-support-google-services": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     },
     "phonegap-plugin-multidex": {
-      "PACKAGE_NAME": "io.ionic.socioempathyclient"
+      "PACKAGE_NAME": "io.ionic.socioempathy"
     }
   }
 }

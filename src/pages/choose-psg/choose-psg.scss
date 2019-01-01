@@ -1,36 +1,40 @@
 page-choose-psg {
-    ion-row.border.btm {
-        border-top :  solid #000 1px;
-        border-bottom: solid #000 1px;
+  ion-row.border.btm {
+    border-top: solid #000 1px;
+    border-bottom: solid #000 1px;
+  }
+  .rows {
+    height: 100px;
+  }
+  ion-col.right {
+    text-align: center;
+  }
+  ion-col.btn-session {
+    border:1px solid #000000;
+    border-radius: 5px;
+  }
+  .profile {
+    position: relative;
+    overflow: hidden;
+    height: 15vh;
+    width: 15vh;
+    margin-bottom: -0.625em;
+    margin-left: -40px;
+    img {
+      width: 15vw;
+      height: 15vw;
+      border-radius: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      object-fit: cover;
     }
-    .rows {
-        height: 100px;
+
+    img.activated {
+      opacity: 0.5;
     }
-    ion-col.right {
-        text-align: center;
-    }
-    .profile {
-        position: relative;
-        overflow: hidden;
-        height: 15vh;
-        width: 15vh;
-        margin-bottom: -0.625em;
-        margin-left: -40px;
-        img {
-          width: 15vw;
-          height: 15vw;
-          border-radius: 100%;
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
-          object-fit: cover;
-        }
-    
-        img.activated {
-          opacity: 0.5;
-        }
-      }
+  }
 }

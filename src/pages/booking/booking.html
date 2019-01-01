@@ -1,28 +1,19 @@
-<!--
-  Generated template for the BookingPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Buat Jadwal</ion-title>
+    <ion-title>Cek Kembali</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
   <div class="footer">
-    <button class="btn-pilih" ion-button (click)="createBookingData()">BOOKING</button>
+     
+    <button disabled *ngIf="problem == ''" class="btn-pilih" ion-button (click)="showConfirmBooking()">BUAT JADWAL</button>
+    <button *ngIf="problem !== ''" class="btn-pilih" ion-button (click)="showConfirmBooking()">BUAT JADWAL</button>
   </div>
 
   <ion-list *ngIf="psgProfile">
-    <ion-item>
-      <ion-label>Lovepoint used : 350 </ion-label>
-    </ion-item>
-
     <ion-item>
       <ion-label stacked>Nama psikolog</ion-label>
       <ion-input disabled value="{{psgProfile.name}}" type="text"></ion-input>
@@ -30,23 +21,19 @@
 
     <ion-item>
       <ion-label stacked>Tanggal Konsultasi</ion-label>
-      <ion-input disabled value="{{today}}" type="text"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label stacked>Waktu Konsultasi</ion-label>
       <ion-input disabled value="{{scheduleId}}" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Biaya Lovepoints</ion-label>
-      <ion-input disabled value="230 Lovepoints" type="text"></ion-input>
+      <ion-label stacked>Waktu Konsultasi</ion-label>
+      <ion-input  disabled value="{{consultation_time}}" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Tuliskan Keluhanmu</ion-label>
-      <ion-input [(ngModel)]="problem" type="text"></ion-input>
+      <ion-label stacked>Masalah Anda <span class="mandatory">*</span> </ion-label>
+      <ion-textarea rows="3" ng-trim="false" ng-show="problem.trim()" [(ngModel)]="problem" type="text" placeholder="Cerita singkat tentang masalah anda"></ion-textarea>
     </ion-item>
+    <p class="right">{{50 - problem.length}}</p>
 
   </ion-list>
 </ion-content>

@@ -1,14 +1,20 @@
 page-booking {
-    .footer {
-        text-align: center;
-        position: fixed;
-        bottom: 0;
-        z-index: 10;
-        width: 90%;
-      }
-      .btn-pilih {
-        width: 100%;
-        background-color: green;
-      }
-    
+  .footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    z-index: 10;
+    width: 90%;
+  }
+  .btn-pilih {
+    width: 100%;
+    background-color: green;
+  }
+  .mandatory {
+    color: red;
+    font-size: 16px;
+  }
+  .right {
+    text-align: right;
+  }
 }

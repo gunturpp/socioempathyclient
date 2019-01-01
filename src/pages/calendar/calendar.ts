@@ -1,19 +1,12 @@
 import { Component } from "@angular/core";
 import {
-  NavParams,
   NavController,
-  ModalController,
   AlertController
 } from "ionic-angular";
 import * as moment from "moment";
-import { AddSchedulePage } from "../add-schedule/add-schedule";
 import { DataProvider } from "../../providers/data";
-import { ConsulSessionPage } from "../consul-session/consul-session";
-import { ConsultationPage } from "../consultation/consultation";
 import { LoadingProvider } from "../../providers/loading";
-import { ColdObservable } from "rxjs/testing/ColdObservable";
-import { HomePage } from "../home/home";
-import { MessagesPage } from "../messages/messages";
+import { ChoosePsgPage } from "../choose-psg/choose-psg";
 
 @Component({
   selector: "page-calendar",
@@ -40,57 +33,58 @@ export class CalendarPage {
 
   constructor(
     public navCtrl: NavController,
-    private modalCtrl: ModalController,
     private alertCtrl: AlertController,
-    private navParam: NavParams,
     public dataProvider: DataProvider,
     public loadingProvider: LoadingProvider
-  ) {
-    this.tabBarElement = document.querySelector('#tabs ion-tabbar-section');
-  }
-  pop(){
-    this.navCtrl.pop();
-    let tabs = document.querySelectorAll('.tabbar');
-    if ( tabs !== null ) {
-      Object.keys(tabs).map((key) => {
-        tabs[ key ].style.transform = 'translateY(0)';
-      });
-    } // end if
-  }
-  ionViewDidEnter() {
-    let tabs = document.querySelectorAll('.tabbar');
-    if ( tabs !== null ) {
-      Object.keys(tabs).map((key) => {
-        tabs[ key ].style.transform = 'translateY(56px)';
-      });
-    } // end if
+  ) {}
+  ionViewWillLeave(){
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'flex';
+        });
+    }
   }
   ionViewDidLoad() {
-
     this.loadingProvider.show();
-    // calendar show color
+    this.getSchedule();
+  }
+  // go to session consultation by date choosen
+  sessionByDate() {
+    this.navCtrl.push(ChoosePsgPage, {
+      selectedDay: this.selectedDay
+    });
+  }
+  getSchedule() {
     this.dataProvider.getScheduling().subscribe(schedules => {
       this.index = 0;
       var temp = 1;
-      schedules.forEach(schedule => {      
-        this.sessionStart =  schedule.key+ "T08:00:00";
-        this.sessionEnd =  schedule.key+ "T22:00:00";
-        this.eventSource.push({
-          title: schedule.key,
-          startTime: new Date(this.sessionStart),
-          endTime: new Date(this.sessionEnd),
-          allDay: false
-        });
-        this.index++;
-        temp +=1;
-      });
-        if(this.index < temp) {
-          this.refreshData();
+      schedules.forEach(schedule => { 
+        const date = moment(schedule.key);
+        const today = moment().format("YYYY-MM-DD");
+        console.log("this.schedule",schedule);
+        // calendar must be before expired date
+        if(date.isAfter(today)) {
+          this.sessionStart =  schedule.key+ "T08:00:00";
+          this.sessionEnd =  schedule.key+ "T24:00:00";
+          this.eventSource.push({
+            title: schedule.key,
+            startTime: new Date(this.sessionStart),
+            endTime: new Date(this.sessionEnd),
+            allDay: false,
+          });
+          this.index++;
+          temp +=1;
+        } else {
+          console.log("past");
         }
+      });
+      if(this.index < temp) {
+        this.refreshData();
+      }
+      this.loadingProvider.hide();
     });
-    this.loadingProvider.hide();
   }
-  
   refreshData() {
     let eventData = this.eventz;
 
@@ -105,44 +99,14 @@ export class CalendarPage {
       console.log("EVa: ", this.eventSource);
     });
   }
-  addEvent() {
-    let modal = this.modalCtrl.create(AddSchedulePage, {
-      selectedDay: this.selectedDay
-    });
-    modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-        let eventData = data;
 
-        eventData.startTime = new Date(data.startTime);
-        eventData.endTime = new Date(data.endTime);
-
-        let events = this.eventSource;
-        console.log("isi event", events);
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-          console.log("isi eventSource", this.eventSource);
-        });
-      }
-    });
-  }
-  reloadSource(startTime,endTime) {
-    startTime = this.eventSource.startTime;
-    endTime = this.eventSource.endTime;
-  }
   onViewTitleChanged(title) {
     this.viewTitle = title;
   }
-  // go to session consultation by date choosen
-  sessionByDate() {
-    this.navCtrl.push(ConsulSessionPage, {
-      selectedDay: this.selectedDay
-    });
-  }
 
   onEventSelected(event) {
+    console.log("this.selectedDay",event);
+
     let start = moment(event.startTime).format("LLLL");
     let end = moment(event.endTime).format("LLLL");
 
@@ -155,6 +119,6 @@ export class CalendarPage {
   }
 
   onTimeSelected(ev) {
-    this.selectedDay = ev.selectedTime;     
+    this.selectedDay = ev.selectedTime;
   }
 }

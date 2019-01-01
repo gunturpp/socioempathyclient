@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firebase } from '@ionic-native/firebase';
 import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from "firebase";
-import { DataProvider } from "../../providers/data";
 import { FCM } from '@ionic-native/fcm';
 
 
@@ -11,17 +8,9 @@ import { FCM } from '@ionic-native/fcm';
 export class FcmProvider {
 
   constructor(
-    public firebaseNative: Firebase,
     public afd: AngularFireDatabase,
-    public dataProvider: DataProvider,
     public fcmNative: FCM,
-
-
   ) {}
-
-  //Notifications
-   //end notifications.
-
   // Get permission from the user
   async getToken() {
     

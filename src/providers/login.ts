@@ -52,6 +52,7 @@ export class LoginProvider {
       .then((success) => {
         localStorage.setItem('uid_client', firebase.auth().currentUser.uid);
         localStorage.setItem('email_client', firebase.auth().currentUser.email);
+        console.log('return login', success);
         this.loadingProvider.hide();
 
       })

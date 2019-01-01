@@ -33552,6 +33552,15 @@ page-booking .btn-pilih {
   background-color: green;
 }
 
+page-booking .mandatory {
+  color: red;
+  font-size: 16px;
+}
+
+page-booking .right {
+  text-align: right;
+}
+
 page-buy-premium .middleCss {
   text-align: center;
   margin-left: 10px;
@@ -33696,6 +33705,11 @@ page-choose-psg ion-col.right {
   text-align: center;
 }
 
+page-choose-psg ion-col.btn-session {
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
 page-choose-psg .profile {
   position: relative;
   overflow: hidden;
@@ -33725,26 +33739,6 @@ page-choose-psg .profile img.activated {
 
 page-comment .line {
   display: inline;
-}
-
-page-consul-session .center {
-  text-align: center;
-}
-
-page-consul-session .fee {
-  font-size: 10px;
-}
-
-page-consul-session .lovepoint {
-  color: #549AD4;
-}
-
-page-consul-session .times-font {
-  font-size: 12px;
-}
-
-page-consul-session .btn-pilih {
-  width: 100%;
 }
 
 page-consultation .socioCss {
@@ -34642,7 +34636,8 @@ page-profile-psg .socioCss {
   margin-top: 5px;
 }
 
-page-profile-psg h3, page-profile-psg span {
+page-profile-psg h3 {
+  background-color: #ffffff;
   color: #656565;
 }
 
@@ -34675,8 +34670,7 @@ page-profile-psg .profile img.activated {
   opacity: 0.5;
 }
 
-page-profile-psg h4,
-page-profile-psg p {
+page-profile-psg h4, page-profile-psg h6 {
   text-align: center;
 }
 
@@ -34700,11 +34694,8 @@ page-profile-psg p.username {
   font-size: 115%;
 }
 
-page-profile-psg p.gender {
+page-profile-psg h6, page-profile-psg .gender {
   color: #ffffff;
-  margin-bottom: -6px !important;
-  margin-top: 6px !important;
-  font-size: 115%;
 }
 
 page-profile-psg p.description {
@@ -34728,23 +34719,6 @@ page-profile-psg .divider {
   border-bottom: solid 0.2em #1ec7fa;
   margin-left: auto;
   margin-right: auto;
-}
-
-page-profile-psg ion-icon {
-  color: #000000;
-  font-size: 1.4em;
-}
-
-page-profile-psg ion-icon.facebook {
-  color: #3052a8;
-}
-
-page-profile-psg ion-icon.google {
-  color: #dd4b39;
-}
-
-page-profile-psg ion-icon.firebase {
-  color: #1ec7fa;
 }
 
 page-profile-psg ion-list {

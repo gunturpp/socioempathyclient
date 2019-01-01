@@ -13,7 +13,6 @@ import * as firebase from 'firebase';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  us: any;
   messages: any = MessagesPage;
   // friends: any = FriendsPage;
   profile: any = HomePage;

@@ -91,11 +91,10 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../cordova-plugin-fcm-with-dependecy-updated/socioempathyclient-FCMPlugin.gradle"
-apply from: "../cordova-plugin-firebase/socioempathyclient-build.gradle"
-apply from: "../cordova-support-google-services/socioempathyclient-build.gradle"
-apply from: "../onesignal-cordova-plugin/socioempathyclient-build-extras-onesignal.gradle"
-apply from: "../phonegap-plugin-multidex/socioempathyclient-multidex.gradle"
+apply from: "../cordova-plugin-fcm-with-dependecy-updated/socioempathy-FCMPlugin.gradle"
+apply from: "../cordova-plugin-firebase/socioempathy-build.gradle"
+apply from: "../cordova-support-google-services/socioempathy-build.gradle"
+apply from: "../phonegap-plugin-multidex/socioempathy-multidex.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -280,10 +279,6 @@ dependencies {
     compile "com.google.firebase:firebase-perf:+"
     compile "com.google.android.gms:play-services-auth:11.8.0"
     compile "com.google.android.gms:play-services-identity:11.8.0"
-    compile "com.onesignal:OneSignal:3.10.5"
-    compile "com.android.support:support-v13:27.+"
-    compile "me.leolin:ShortcutBadger:1.1.17@aar"
-    compile "com.google.firebase:firebase-messaging:11.6.2"
     // SUB-PROJECT DEPENDENCIES END
 }
 

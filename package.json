@@ -1,7 +1,7 @@
 {
   "name": "io.ionic.socioempathyclient",
-  "version": "1.0.3",
-  "author": "Ionic Framework",
+  "version": "1.0.0",
+  "author": "SocioEmpathy Team",
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
@@ -29,10 +29,7 @@
     "@ionic-native/firebase": "^4.18.0",
     "@ionic-native/firebase-dynamic-links": "^4.7.0",
     "@ionic-native/google-plus": "^4.7.0",
-    "@ionic-native/in-app-browser": "^4.16.0",
     "@ionic-native/keyboard": "^4.7.0",
-    "@ionic-native/onesignal": "^4.18.0",
-    "@ionic-native/push": "^4.18.0",
     "@ionic-native/speech-recognition": "^4.7.0",
     "@ionic-native/splash-screen": "^4.7.0",
     "@ionic-native/status-bar": "^4.7.0",
@@ -53,7 +50,6 @@
     "cordova-plugin-fcm-with-dependecy-updated": "~2.4.0",
     "cordova-plugin-firebase": "~2.0.5",
     "cordova-plugin-googleplus": "^5.3.2",
-    "cordova-plugin-inappbrowser": "^2.0.2",
     "cordova-plugin-speechrecognition": "^1.2.0",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
@@ -73,8 +69,6 @@
     "moment": "^2.22.0",
     "ng2-cordova-oauth": "0.0.8",
     "node-sass": "^4.9.2",
-    "onesignal-cordova-plugin": "~2.4.6",
-    "phonegap-plugin-push": "~2.2.3",
     "promise-polyfill": "7.1.2",
     "rxjs": "5.5.11",
     "sax": "^1.2.4",
@@ -92,7 +86,6 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-inappbrowser": {},
       "cordova-plugin-camera": {},
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
@@ -105,13 +98,7 @@
       },
       "cordova-plugin-speechrecognition": {},
       "cordova-plugin-calendar": {},
-      "phonegap-plugin-push": {
-        "SENDER_ID": "605484190997",
-        "ANDROID_SUPPORT_V13_VERSION": "27.+",
-        "FCM_VERSION": "11.6.2"
-      },
       "cordova-plugin-firebase": {},
-      "onesignal-cordova-plugin": {},
       "cordova-plugin-fcm-with-dependecy-updated": {}
     },
     "platforms": [
