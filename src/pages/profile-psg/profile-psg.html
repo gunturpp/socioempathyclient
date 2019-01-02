@@ -22,8 +22,8 @@
     <h4>
       <span class="name">{{psychologist.name}} </span>
     </h4>
-    <h6 *ngIf="psychologist.gender === 'Male' "> <ion-icon name="male"  class="gender"></ion-icon> 22 tahun</h6>
-    <h6 *ngIf="psychologist.gender === 'Female' "> <ion-icon name="female" class="gender"></ion-icon> 22 tahun</h6>
+    <h6 *ngIf="psychologist.gender === 'Male' "> <ion-icon name="male"  class="gender"></ion-icon>{{old}}</h6>
+    <h6 *ngIf="psychologist.gender === 'Female' "> <ion-icon name="female" class="gender"></ion-icon>{{old}}</h6>
     <!-- Profile Menu -->
     <ion-list *ngIf="psychologist">
       <ion-item>

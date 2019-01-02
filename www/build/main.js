@@ -92,7 +92,7 @@ var LoginPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__alert__ = __webpack_require__(41);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -118,7 +118,6 @@ var LoginProvider = /** @class */ (function () {
         // Detect changes on the Firebase user and redirects the view depending on the user's status.
         __WEBPACK_IMPORTED_MODULE_1_firebase__["auth"]().onAuthStateChanged(function (user) {
             //console.log("firebase auth : ");
-            console.log(JSON.stringify(user));
             if (user) {
                 if (__WEBPACK_IMPORTED_MODULE_2__login__["a" /* Login */].emailVerification) {
                     if (1) {
@@ -158,7 +157,6 @@ var LoginProvider = /** @class */ (function () {
             .then(function (success) {
             localStorage.setItem('uid_client', __WEBPACK_IMPORTED_MODULE_1_firebase__["auth"]().currentUser.uid);
             localStorage.setItem('email_client', __WEBPACK_IMPORTED_MODULE_1_firebase__["auth"]().currentUser.email);
-            console.log('return login', success);
             _this.loadingProvider.hide();
         })
             .catch(function (error) {
@@ -222,12 +220,9 @@ var LoginProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_message_new_message__ = __webpack_require__(367);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__message_message__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase_app__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_firebase_app__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_moment__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__message_message__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase_app__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_firebase_app__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -237,8 +232,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
 
 
 
@@ -261,10 +254,11 @@ var MessagesPage = /** @class */ (function () {
         this.dataProvider = dataProvider;
         this.firebaseProvider = firebaseProvider;
         this.alertCtrl = alertCtrl;
+        this.profilePsg = [];
         this.inputSeconds = [];
         this.remainingTime = [];
         this.displayTime = [];
-        this.currentUser = __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid;
+        this.currentUser = __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser.uid;
         this.iterate = 0;
         // conversation: any;
         this.conversations = [];
@@ -273,161 +267,6 @@ var MessagesPage = /** @class */ (function () {
     }
     MessagesPage.prototype.i = function (arg0) {
         throw new Error("Method not implemented.");
-    };
-    MessagesPage.prototype.countdown = function () {
-        var bookDay, bookMonth, bookYear, bookSec, bookMin, bookHour;
-        bookDay = this.bookingDay.substring(9, 11);
-        bookMonth = this.bookingDay.substring(6, 8);
-        bookYear = this.bookingDay.substring(1, 5);
-        this.bookSession;
-        switch (this.bookSession) {
-            case "session1":
-                bookHour = 8;
-                break;
-            case "session2":
-                bookHour = 10;
-                break;
-            case "session3":
-                bookHour = 12;
-                break;
-            case "session4":
-                bookHour = 14;
-                break;
-            case "session5":
-                bookHour = 22;
-                break;
-            default:
-                return 0;
-        }
-        console.log("sesi", bookHour);
-        // current date
-        var sec, min, hour, day, days, month, year, spareDay, now, later;
-        var nowww = __WEBPACK_IMPORTED_MODULE_9_moment__();
-        var dayyy = nowww.day();
-        var jam = __WEBPACK_IMPORTED_MODULE_9_moment__().hours() + 1;
-        year = __WEBPACK_IMPORTED_MODULE_9_moment__().year();
-        month = __WEBPACK_IMPORTED_MODULE_9_moment__().month() + 1;
-        days = nowww.date();
-        hour = (bookHour - jam) * 3600;
-        min = (60 - __WEBPACK_IMPORTED_MODULE_9_moment__().minutes()) * 60;
-        sec = 60 - __WEBPACK_IMPORTED_MODULE_9_moment__().seconds();
-        // console.log("hour banget", min, hour, jam, bookHour, month);
-        // console.log("melesekon", moment().seconds(), moment().minutes(), moment().hours());
-        // booking date
-        later = __WEBPACK_IMPORTED_MODULE_9_moment__([bookYear, bookMonth, bookDay]);
-        now = __WEBPACK_IMPORTED_MODULE_9_moment__([year, month, days]);
-        spareDay = later.diff(now, "days");
-        console.log("booking day later", bookDay, bookMonth, bookYear);
-        console.log("booking day now", days, month, year);
-        console.log("spare day", spareDay);
-        // waktunya countdownnya masih sama tiap list
-        day = spareDay * 86400;
-        console.log("times", day, hour, min, sec);
-        this.inputSeconds[this.iterate] = day + hour + min + sec;
-        console.log("inputseconds", this.inputSeconds[this.iterate]);
-        localStorage.setItem("inputSec", JSON.stringify(this.inputSeconds));
-        this.iterate++;
-    };
-    /* Initialize and setup the time for question */
-    MessagesPage.prototype.initTimer = function () {
-        // Pomodoro is usually for 25 minutes
-        this.timeInSeconds = JSON.parse(localStorage.getItem("inputSec"));
-        console.log("init timer", this.timeInSeconds);
-        for (var i = 0; i < this.timeInSeconds.length; i++) {
-            // console.log("increment", i);
-            this.time = this.timeInSeconds[i];
-            this.runTimer = false;
-            this.hasStarted = false;
-            this.hasFinished = false;
-            this.remainingTime[i] = this.timeInSeconds[i];
-            console.log("remain", this.remainingTime[i]);
-            this.displayTime[i] = this.getSecondsAsDigitalClock(this.remainingTime[i]);
-            // console.log("display", this.displayTime[i]);
-        }
-        if (this.timeInSeconds == null) {
-            return null;
-        }
-    };
-    // timer countdown
-    MessagesPage.prototype.startTimer = function () {
-        this.runTimer = true;
-        this.hasStarted = true;
-        this.timerTick();
-    };
-    MessagesPage.prototype.pauseTimer = function () {
-        this.runTimer = false;
-    };
-    MessagesPage.prototype.resumeTimer = function () {
-        this.startTimer();
-    };
-    MessagesPage.prototype.timerTick = function () {
-        var _this = this;
-        setTimeout(function () {
-            var length = JSON.parse(localStorage.getItem("inputSec")).length;
-            for (var i = 0; i < length; i++) {
-                if (!_this.runTimer) {
-                    return;
-                }
-                _this.remainingTime[i]--;
-                _this.displayTime[i] = _this.getSecondsAsDigitalClock(_this.remainingTime[i]);
-            }
-            // masi statis di array 0 doang
-            if (_this.remainingTime[i] > 0) {
-                _this.timerTick();
-            }
-            else {
-                _this.hasFinished = true;
-            }
-        }, 1000);
-    };
-    MessagesPage.prototype.getSecondsAsDigitalClock = function (inputSeconds) {
-        if (this.inputSeconds != null) {
-            var sec_num = parseInt(inputSeconds.toString(), 10); // don't forget the second param
-            console.log("sec sum", sec_num); //just uncoment to show countdown in console
-        }
-        if (sec_num < 0) {
-            this.timeover = "timeover";
-            return this.timeover;
-        }
-        else {
-            var days = Math.floor(sec_num / 86400); // 3600 * 24
-            var hours = Math.floor(sec_num / 3600) - days * 24;
-            var temphours = Math.floor(sec_num / 3600);
-            var minutes = Math.floor((sec_num - temphours * 3600) / 60);
-            // console.log("minutes", minutes);
-            var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);
-            var hoursString = "";
-            var minutesString = "";
-            var secondsString = "";
-            var daysString = "";
-            hoursString = hours < 10 ? "0" + hours : hours.toString();
-            minutesString = minutes < 10 ? "0" + minutes : minutes.toString();
-            secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
-            daysString = days.toString();
-            // return daysString + "days ";
-            if (daysString == "0") {
-                return hoursString + ":" + minutesString + ":" + secondsString;
-            }
-            else {
-                return (daysString +
-                    "days " +
-                    hoursString +
-                    ":" +
-                    minutesString +
-                    ":" +
-                    secondsString);
-            }
-        }
-    };
-    MessagesPage.prototype.devicesTokenUpdate = function () {
-        this.dataProvider.updateDevicesToken(localStorage.getItem("devices_token"))
-            .update({
-            userId: __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid
-        });
-        this.dataProvider.updateCurrentUser()
-            .update({
-            devices_token: localStorage.getItem("devices_token")
-        });
     };
     // close timer countdown
     MessagesPage.prototype.ionViewDidLoad = function () {
@@ -439,27 +278,23 @@ var MessagesPage = /** @class */ (function () {
         this.loadingProvider.show();
         // Get info of conversations of current logged in user.
         this.dataProvider.getConversations().subscribe(function (conversations) {
-            console.log("CONVRSSS", conversations);
             if (conversations.length > 0) {
                 conversations.forEach(function (conversation) {
                     // console.log("psgId", conversation.key);
                     _this.dataProvider.getPsgAvailable(conversation.key).subscribe(function (psgProfile) {
-                        _this.profilePsg = psgProfile;
-                        // console.log("psgProfile", psgProfile);
+                        _this.profilePsg.push(psgProfile);
                     });
                     if (conversation.key) {
                         // Get conversation partner info.
                         _this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(function (listConv) {
                             // Get conversation info.
                             listConv.forEach(function (listConversations) {
+                                listConversations.key = conversation.key;
                                 _this.mainIdConversation = listConversations;
-                                // console.log("list conversation", listConversations);
                                 _this.dataProvider.getConversation(listConversations.conversationId).subscribe(function (obj) {
                                     // Get last message of conversation.
-                                    // console.log("scheduleeyid", obj.scheduleId);
-                                    _this.bookingDay = JSON.stringify(obj.scheduleId);
+                                    _this.bookingDay = obj.scheduleId;
                                     _this.bookSession = obj.sessionke;
-                                    _this.countdown();
                                     // console.log("bookingday", this.bookingDay);
                                     // console.log("bookSession", this.bookSession);
                                     var lastMessage = obj.messages[obj.messages.length - 1];
@@ -470,7 +305,7 @@ var MessagesPage = /** @class */ (function () {
                                         obj.messages.length - listConversations.messagesRead;
                                     // Process last message depending on messageType.
                                     if (lastMessage.type == "text") {
-                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid) {
+                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser.uid) {
                                             listConversations.message =
                                                 "You: " + lastMessage.message;
                                         }
@@ -479,7 +314,7 @@ var MessagesPage = /** @class */ (function () {
                                         }
                                     }
                                     else {
-                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid) {
+                                        if (lastMessage.sender == __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser.uid) {
                                             listConversations.message =
                                                 "You sent a photo message.";
                                         }
@@ -490,31 +325,11 @@ var MessagesPage = /** @class */ (function () {
                                     }
                                     // Add or update listConversations.
                                     _this.addOrUpdateConversation(listConversations);
-                                    // this.conversations.push(listConversations);
-                                    // this.conversations.sort((a: any, b: any) => {
-                                    //   let date1 = new Date(a.date);
-                                    //   let date2 = new Date(b.date);
-                                    //   if (date1 > date2) {
-                                    //     return -1;
-                                    //   } else if (date1 < date2) {
-                                    //     return 1;
-                                    //   } else {
-                                    //     return 0;
-                                    //   }
-                                    // });
                                 });
                             });
                         });
                     }
                 });
-                // let now = new Date(Date.now()).getTime()/1000;
-                // let x = Date.parse("Wed Aug 01 2018 16:30:00 GMT+0700 (Western Indonesia Time)");
-                // // let dueDate = Date.parse(dueDate);
-                // this.z = ((x/1000) -now) / 3600 / 24;
-                // console.log("nowz : ", now );
-                // console.log("countdown : ", this.z );
-                // this.initTimer();
-                // this.startTimer();
                 _this.loadingProvider.hide();
             }
             else {
@@ -530,12 +345,20 @@ var MessagesPage = /** @class */ (function () {
                     that.conversations.forEach(function (conversation) {
                         var date = conversation.date;
                         conversation.date = new Date(date);
-                        //console.log(conversation.date);
                     });
                 }
             }, 60000);
         }
-        console.log("wadoooooooo second", this.inputSeconds);
+    };
+    MessagesPage.prototype.devicesTokenUpdate = function () {
+        this.dataProvider.updateDevicesToken(localStorage.getItem("devices_token"))
+            .update({
+            userId: __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser.uid
+        });
+        this.dataProvider.updateCurrentUser()
+            .update({
+            devices_token: localStorage.getItem("devices_token")
+        });
     };
     // delete personal message
     MessagesPage.prototype.deleteConversation = function (conversation) {
@@ -580,16 +403,14 @@ var MessagesPage = /** @class */ (function () {
     // Create userData on the database if it doesn't exist yet.
     MessagesPage.prototype.createUserData = function () {
         var _this = this;
-        __WEBPACK_IMPORTED_MODULE_8_firebase_app__["database"]()
-            .ref("/users/" + __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser.uid)
+        __WEBPACK_IMPORTED_MODULE_7_firebase_app__["database"]()
+            .ref("/users/" + __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser.uid)
             .once("value")
             .then(function (account) {
-            //console.log(account.val());
             // No database data yet, create user data on database
             if (!account.val()) {
                 // this.loadingProvider.show();
-                var user = __WEBPACK_IMPORTED_MODULE_8_firebase_app__["auth"]().currentUser;
-                console.log("user data", user, "haha");
+                var user = __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser;
                 // declare
                 var userId, name, provider, img, email;
                 var providerData = user.providerData[0];
@@ -662,18 +483,16 @@ var MessagesPage = /** @class */ (function () {
             }
         });
     };
-    // New conversation.
-    MessagesPage.prototype.newMessage = function () {
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_6__new_message_new_message__["a" /* NewMessagePage */]);
-    };
     // Open chat with friend.
-    MessagesPage.prototype.message = function (userId, idConversation) {
-        console.log("idConvv", this.mainIdConversation.conversationId);
-        console.log("finise?", this.hasFinished);
-        console.log("idConversation", idConversation);
-        this.app.getRootNav().push(__WEBPACK_IMPORTED_MODULE_7__message_message__["a" /* MessagePage */], {
-            psgId: this.profilePsg.userId,
-            userId: userId,
+    MessagesPage.prototype.message = function (psgId, idConversation) {
+        var tabs = document.querySelectorAll('.show-tabbar');
+        if (tabs !== null) {
+            Object.keys(tabs).map(function (key) {
+                tabs[key].style.display = 'none';
+            });
+        }
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__message_message__["a" /* MessagePage */], {
+            psgId: psgId,
             idConversation: idConversation,
             stopConversation: this.hasFinished
         });
@@ -747,7 +566,7 @@ var MessagesPage = /** @class */ (function () {
     };
     MessagesPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-            selector: "page-messages",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="newMessage()">\n\n        <ion-icon name="ios-create"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- Fablist -->\n\n  <ion-fab right bottom>\n\n    <button color="theblues" ion-fab mini (click)="newMessage()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <!-- No conversations to show -->\n\n  <div class="empty-list" *ngIf="conversations && conversations.length <= 0">\n\n    <h1>\n\n      <ion-icon name="md-text"></ion-icon>\n\n    </h1>\n\n    <p>Uh-oh! You are not part of any conversation yet.</p>\n\n    <button ion-button icon-left tappable (click)="newMessage()">\n\n      <ion-icon name="md-add"></ion-icon>New Conversation</button>\n\n  </div>\n\n  <!-- Show conversations -->\n\n  <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">\n\n    <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->\n\n    <!-- press button di comment -->\n\n    <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"\n\n      no-lines tappable (click)="message(conversation.sender,conversation.conversationId)">\n\n      <ion-avatar item-left *ngIf="profilePsg">\n\n          <img src="{{profilePsg.img}}">\n\n        </ion-avatar>\n\n        <div [ngClass]=hasUnreadMessages(conversation)>\n\n          <h2 *ngIf="profilePsg">{{profilePsg.name}}</h2>\n\n          <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>\n\n          <p>{{conversation.message}}</p>\n\n          <span class="date">\n\n            <!-- <b class="countdown">{{displayTime[i]}}</b> -->\n\n            <br>{{conversation.date | DateFormat}}</span>\n\n        </div>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/
+            selector: "page-messages",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="newMessage()">\n\n        <ion-icon name="ios-create"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- Fablist -->\n\n  <ion-fab right bottom>\n\n    <button color="theblues" ion-fab mini (click)="newMessage()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <!-- No conversations to show -->\n\n  <div class="empty-list" *ngIf="conversations && conversations.length <= 0">\n\n    <h1>\n\n      <ion-icon name="md-text"></ion-icon>\n\n    </h1>\n\n    <p>Booking psikologmu segera.</p>\n\n  </div>\n\n  <!-- Show conversations -->\n\n  <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">\n\n    <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->\n\n    <!-- press button di comment -->\n\n    <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"\n\n      no-lines tappable (click)="message(conversation.key,conversation.conversationId)">\n\n      <ion-avatar item-left *ngIf="profilePsg">\n\n          <img src="{{profilePsg[i].img}}">\n\n        </ion-avatar>\n\n        <div [ngClass]=hasUnreadMessages(conversation)>\n\n          <h2 *ngIf="profilePsg">{{profilePsg[i].name}}</h2>\n\n          <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>\n\n          <p>{{conversation.message}}</p>\n\n          <span class="date">\n\n            <br>{{conversation.date | DateFormat}}</span>\n\n        </div>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* ActionSheetController */],
             __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */],
@@ -830,9 +649,9 @@ var LoadingProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__(359);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__(360);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_switchMap__ = __webpack_require__(182);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_switchMap__ = __webpack_require__(175);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_switchMap__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -927,9 +746,11 @@ var DataProvider = /** @class */ (function () {
     };
     // Get conversation given the conversationId.
     DataProvider.prototype.getConversation = function (convId) {
-        this.items = this.angularfireDatabase
-            .object("/conversations/" + convId)
-            .valueChanges();
+        this.items = this.angularfireDatabase.object("/conversations/" + convId).valueChanges();
+        return this.items;
+    };
+    DataProvider.prototype.getKeyConversation = function (convId) {
+        this.items = this.angularfireDatabase.list("/conversations/" + convId).snapshotChanges();
         return this.items;
     };
     // Update conversation given the conversationId.
@@ -950,6 +771,10 @@ var DataProvider = /** @class */ (function () {
     // Get conversations of the current logged in user.
     DataProvider.prototype.getConversations = function () {
         this.items = this.angularfireDatabase.list("/users/" + __WEBPACK_IMPORTED_MODULE_2_firebase__["auth"]().currentUser.uid + "/conversations/").snapshotChanges();
+        return this.items;
+    };
+    DataProvider.prototype.getValueConversations = function () {
+        this.items = this.angularfireDatabase.list("/users/" + __WEBPACK_IMPORTED_MODULE_2_firebase__["auth"]().currentUser.uid + "/conversations/").valueChanges();
         return this.items;
     };
     DataProvider.prototype.deleteConversations = function () {
@@ -1037,7 +862,7 @@ var DataProvider = /** @class */ (function () {
     };
     // get schedule by date
     DataProvider.prototype.getSchedulingByDay = function (date) {
-        this.items = this.angularfireDatabase.object("/scheduling/" + date).valueChanges();
+        this.items = this.angularfireDatabase.list("/scheduling/" + date).snapshotChanges();
         return this.items;
     };
     // get key schedule by date
@@ -1087,16 +912,16 @@ var DataProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 197:
+/***/ 194:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home_home__ = __webpack_require__(365);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__messages_messages__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__consultation_consultation__ = __webpack_require__(491);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__consultation_consultation__ = __webpack_require__(368);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_data__ = __webpack_require__(16);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1125,51 +950,31 @@ var TabsPage = /** @class */ (function () {
         this.profile = __WEBPACK_IMPORTED_MODULE_2__home_home__["a" /* HomePage */];
         // timeLine: any = TimeLinePage;
         this.consultation = __WEBPACK_IMPORTED_MODULE_4__consultation_consultation__["a" /* ConsultationPage */];
-        this.dataProvider.getUsers().subscribe(function (user) {
-            console.log("after login", user);
-        });
     }
     TabsPage.prototype.ionViewDidLoad = function () {
         var _this = this;
-        this.conversationsInfo = 0;
         this.getUnreadMessagesCount();
-        // Get friend requests count.
-        // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
-        //   console.log("friend request",requests);
-        //   if (requests) {
-        //     this.friendRequestCount = requests.length;
-        //   } else {
-        //     this.friendRequestCount = null;
-        //   }
-        // });
         // Get conversations and add/update if the conversation exists, otherwise delete from list.
-        this.dataProvider.getConversations().subscribe(function (conversationsInfo) {
-            console.log("conversationsInfo : ", conversationsInfo);
-            _this.unreadMessagesCount = null;
-            _this.conversationsInfo = null;
-            _this.conversationList = null;
+        this.dataProvider.getValueConversations().subscribe(function (conversationsInfo) {
+            // console.log("conversationsInfo : ",conversationsInfo);
             if (conversationsInfo.length > 0) {
                 _this.conversationsInfo = conversationsInfo;
-                //console.log(this.conversationsInfo);
                 conversationsInfo.forEach(function (conversationInfo) {
-                    _this.dataProvider.getConversation(conversationInfo.conversationId).subscribe(function (conversation) {
-                        if (conversation) {
-                            console.log("in tabs", conversation);
-                            _this.addOrUpdateConversation(conversation);
-                        }
-                    });
+                    // console.log("in tabsthis.conversationsInfo",conversationInfo);
+                    // this.dataProvider.getKeyConversation(conversationInfo.conversationId).subscribe(conversation => {
+                    //   console.log("in tabs",conversation);
+                    //   if (conversation) {
+                    //     this.addOrUpdateConversation(conversation);
+                    //   }
+                    // });
                 });
             }
         });
     };
     // Add or update conversaion for real-time sync of unreadMessagesCount.
     TabsPage.prototype.addOrUpdateConversation = function (conversation) {
-        //console.log(conversation);
-        //console.log("key : "+conversation.key);
-        //console.log("conversationList Flag 1 : "+JSON.stringify(this.conversationList));
         if (!this.conversationList) {
             this.conversationList = [conversation];
-            //console.log("conversationList Flag 2 : "+JSON.stringify(this.conversationList));
         }
         else {
             var index = -1;
@@ -1221,7 +1026,7 @@ var TabsPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 198:
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1500,7 +1305,49 @@ var DocverPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 199:
+/***/ 196:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageModalPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ImageModalPage = /** @class */ (function () {
+    function ImageModalPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    ImageModalPage.prototype.ionViewDidLoad = function () {
+        this.image = this.navParams.get('img');
+    };
+    ImageModalPage.prototype.close = function () {
+        this.navCtrl.pop();
+    };
+    ImageModalPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-image-modal',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\image-modal\image-modal.html"*/'<ion-content>\n\n  <div class="content" (click)="close()" tappable>\n\n    <img src={{image}}/>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\image-modal\image-modal.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], ImageModalPage);
+    return ImageModalPage;
+}());
+
+//# sourceMappingURL=image-modal.js.map
+
+/***/ }),
+
+/***/ 197:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1511,7 +1358,7 @@ var DocverPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_firebase__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(88);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1693,49 +1540,7 @@ var SearchPeoplePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 200:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ImageModalPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var ImageModalPage = /** @class */ (function () {
-    function ImageModalPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    ImageModalPage.prototype.ionViewDidLoad = function () {
-        this.image = this.navParams.get('img');
-    };
-    ImageModalPage.prototype.close = function () {
-        this.navCtrl.pop();
-    };
-    ImageModalPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-image-modal',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\image-modal\image-modal.html"*/'<ion-content>\n\n  <div class="content" (click)="close()" tappable>\n\n    <img src={{image}}/>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\image-modal\image-modal.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], ImageModalPage);
-    return ImageModalPage;
-}());
-
-//# sourceMappingURL=image-modal.js.map
-
-/***/ }),
-
-/***/ 213:
+/***/ 211:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -1748,11 +1553,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 213;
+webpackEmptyAsyncContext.id = 211;
 
 /***/ }),
 
-/***/ 214:
+/***/ 212:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1763,7 +1568,7 @@ webpackEmptyAsyncContext.id = 213;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1930,7 +1735,7 @@ var CommentPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 259:
+/***/ 257:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -1943,11 +1748,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 259;
+webpackEmptyAsyncContext.id = 257;
 
 /***/ }),
 
-/***/ 361:
+/***/ 362:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1961,7 +1766,7 @@ webpackEmptyAsyncContext.id = 259;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_data__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_take__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2146,7 +1951,7 @@ var DocverRegPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 363:
+/***/ 364:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2212,27 +2017,27 @@ var BoardingPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 364:
+/***/ 365:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__docver_reg_docver_reg__ = __webpack_require__(361);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__docver_docver__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__docver_reg_docver_reg__ = __webpack_require__(362);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__docver_docver__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_alert__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_image__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__providers_image__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__validator__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__login__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__login__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__profile_profile__ = __webpack_require__(365);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__profile_profile__ = __webpack_require__(366);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2757,7 +2562,7 @@ var HomePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 365:
+/***/ 366:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2767,11 +2572,11 @@ var HomePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ionic_native_camera__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_editprofile_editprofile__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_editprofile_editprofile__ = __webpack_require__(367);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2874,7 +2679,7 @@ var ProfilePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 366:
+/***/ 367:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2884,11 +2689,11 @@ var ProfilePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__validator__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__login__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__login__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_firebase__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -3457,17 +3262,69 @@ var EditprofilePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 367:
+/***/ 368:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewMessagePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConsultationPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_people_search_people__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__message_message__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_data__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_loading__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__calendar_calendar__ = __webpack_require__(369);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ConsultationPage = /** @class */ (function () {
+    function ConsultationPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    ConsultationPage.prototype.checkCalendar = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__calendar_calendar__["a" /* CalendarPage */]);
+        var tabs = document.querySelectorAll('.show-tabbar');
+        console.log('ionViewDidLoad', tabs);
+        if (tabs !== null) {
+            Object.keys(tabs).map(function (key) {
+                tabs[key].style.display = 'none';
+            });
+        }
+    };
+    ConsultationPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad ConsultationPage');
+    };
+    ConsultationPage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-consultation',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\consultation\consultation.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <div class="center">\n\n    <h2>Selesaikan masalahmu dengan psikolog</h2>\n\n    <img class="boardimg" src="assets/images/consult.png">\n\n    <p>Atur waktu yang kamu inginkan untuk curhat dengan psikolog</p>\n\n    <button color="theblues" ion-button (click)="checkCalendar()">ATUR JADWAL</button>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\consultation\consultation.html"*/,
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    ], ConsultationPage);
+    return ConsultationPage;
+}());
+
+//# sourceMappingURL=consultation.js.map
+
+/***/ }),
+
+/***/ 369:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_data__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__choose_psg_choose_psg__ = __webpack_require__(493);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3483,79 +3340,114 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var NewMessagePage = /** @class */ (function () {
-    // NewMessagePage
-    // This is the page where the user are asked to select a friend whom they want to start a conversation with.
-    function NewMessagePage(navCtrl, navParams, app, dataProvider, loadingProvider) {
+var CalendarPage = /** @class */ (function () {
+    function CalendarPage(navCtrl, alertCtrl, dataProvider, loadingProvider) {
         this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.app = app;
+        this.alertCtrl = alertCtrl;
         this.dataProvider = dataProvider;
         this.loadingProvider = loadingProvider;
+        this.eventz = { startTime: new Date(), endTime: new Date(), allDay: false };
+        this.temp = [];
+        this.date = [];
+        this.temp2 = [];
+        this.eventSource = [];
+        this.selectedDay = new Date();
+        this.calendar = {
+            mode: "month",
+            currentDate: new Date()
+        };
     }
-    NewMessagePage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        // Initialize
-        this.searchFriend = '';
+    CalendarPage.prototype.ionViewWillLeave = function () {
+        var tabs = document.querySelectorAll('.show-tabbar');
+        if (tabs !== null) {
+            Object.keys(tabs).map(function (key) {
+                tabs[key].style.display = 'flex';
+            });
+        }
+    };
+    CalendarPage.prototype.ionViewDidLoad = function () {
         this.loadingProvider.show();
-        // Get user's friends.
-        this.dataProvider.getCurrentUser().subscribe(function (account) {
-            if (account.friends) {
-                for (var i = 0; i < account.friends.length; i++) {
-                    _this.dataProvider.getUser(account.friends[i]).subscribe(function (friend) {
-                        _this.addOrUpdateFriend(friend);
+        this.getSchedule();
+    };
+    // go to session consultation by date choosen
+    CalendarPage.prototype.sessionByDate = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__choose_psg_choose_psg__["a" /* ChoosePsgPage */], {
+            selectedDay: this.selectedDay
+        });
+    };
+    CalendarPage.prototype.getSchedule = function () {
+        var _this = this;
+        this.dataProvider.getScheduling().subscribe(function (schedules) {
+            _this.index = 0;
+            var temp = 1;
+            schedules.forEach(function (schedule) {
+                var date = __WEBPACK_IMPORTED_MODULE_2_moment__(schedule.key);
+                var today = __WEBPACK_IMPORTED_MODULE_2_moment__().format("YYYY-MM-DD");
+                // calendar must be before expired date
+                if (date.isAfter(today)) {
+                    _this.sessionStart = schedule.key + "T08:00:00";
+                    _this.sessionEnd = schedule.key + "T24:00:00";
+                    _this.eventSource.push({
+                        title: schedule.key,
+                        startTime: new Date(_this.sessionStart),
+                        endTime: new Date(_this.sessionEnd),
+                        allDay: true,
                     });
+                    _this.index++;
+                    temp += 1;
                 }
-            }
-            else {
-                _this.friends = [];
+                else {
+                    console.log("past");
+                }
+            });
+            if (_this.index < temp) {
+                _this.refreshData();
             }
             _this.loadingProvider.hide();
         });
     };
-    // Back
-    NewMessagePage.prototype.back = function () {
-        this.navCtrl.pop();
+    CalendarPage.prototype.refreshData = function () {
+        var _this = this;
+        var eventData = this.eventz;
+        eventData.startTime = new Date(12 - 2 - 1997);
+        eventData.endTime = new Date(12 - 2 - 1997);
+        var events = this.eventSource;
+        events.push(eventData);
+        this.eventSource = [];
+        setTimeout(function () {
+            _this.eventSource = events;
+            console.log("EVa: ", _this.eventSource);
+        });
     };
-    // Add or update friend for real-time sync.
-    NewMessagePage.prototype.addOrUpdateFriend = function (friend) {
-        if (!this.friends) {
-            this.friends = [friend];
-        }
-        else {
-            var index = -1;
-            for (var i = 0; i < this.friends.length; i++) {
-                if (this.friends[i].key == friend.key) {
-                    index = i;
-                }
-            }
-            if (index > -1) {
-                this.friends[index] = friend;
-            }
-            else {
-                this.friends.push(friend);
-            }
-        }
+    CalendarPage.prototype.onViewTitleChanged = function (title) {
+        this.viewTitle = title;
     };
-    // Search people.
-    NewMessagePage.prototype.searchPeople = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__search_people_search_people__["a" /* SearchPeoplePage */]);
+    CalendarPage.prototype.onEventSelected = function (event) {
+        var start = __WEBPACK_IMPORTED_MODULE_2_moment__(event.startTime).format("LLLL");
+        var end = __WEBPACK_IMPORTED_MODULE_2_moment__(event.endTime).format("LLLL");
+        var alert = this.alertCtrl.create({
+            title: "" + "Detail",
+            subTitle: "From: " + start + "<br>To: " + end,
+            buttons: ["OK"]
+        });
+        alert.present();
     };
-    // Open chat with this user.
-    NewMessagePage.prototype.message = function (userId) {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__message_message__["a" /* MessagePage */], { userId: userId });
+    CalendarPage.prototype.onTimeSelected = function (ev) {
+        this.selectedDay = ev.selectedTime;
     };
-    NewMessagePage = __decorate([
+    CalendarPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-new-message',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\new-message\new-message.html"*/'<ion-header>\n\n  <ion-navbar hideBackButton="true">\n\n    <ion-buttons>\n\n      <button ion-button tappable (click)="back()">Back</button>\n\n    </ion-buttons>\n\n    <ion-title>New Message</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- No friends yet to start a conversation with -->\n\n  <div class="empty-list" *ngIf="friends && friends.length == 0">\n\n    <h1><ion-icon name="md-contacts"></ion-icon></h1>\n\n    <p>Uh-oh! You have not added any friends yet.</p>\n\n    <button ion-button icon-left tappable (click)="searchPeople()"><ion-icon name="md-search"></ion-icon>Search People</button>\n\n  </div>\n\n  <!-- Show friends to start a conversation with -->\n\n  <ion-list class="avatar-list" *ngIf="friends && friends.length > 0">\n\n    <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar>\n\n    <ion-item *ngFor="let friend of friends | friendFilter:searchFriend" no-lines tappable (click)="message(friend.userId)">\n\n      <ion-avatar item-left>\n\n        <img src="{{friend.img}}">\n\n      </ion-avatar>\n\n      <h2>{{friend.name}}</h2>\n\n      <p>@{{friend.username}}</p>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\new-message\new-message.html"*/
+            selector: "page-calendar",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\calendar\calendar.html"*/'<ion-header>\n\n  <!-- <ion-navbar hideBackButton color="primary"> -->\n\n  <ion-navbar>\n\n    <ion-title>\n\n      Pilih Tanggal\n\n    </ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n  <!-- <div class="footer">\n\n  </div> -->\n\n  <h4 text-center>{{viewTitle}}</h4>\n\n  <calendar \n\n  [eventSource]="eventSource" \n\n  [calendarMode]="calendar.mode" \n\n  [currentDate]="calendar.currentDate" \n\n  (onEventSelected)="onEventSelected($event)"\n\n  (onRangeChanged)="reloadSource(startTime, endTime)"\n\n  (onTitleChanged)="onViewTitleChanged($event)" \n\n  (onTimeSelected)="onTimeSelected($event)" \n\n  step="30" class="calendar">\n\n</calendar>\n\n</ion-content>\n\n<ion-footer>\n\n    <button class="btn-pilih" ion-button (click)="sessionByDate()">Pilih</button>\n\n</ion-footer>\n\n<!-- KETERANGAN DI ATAS\n\neventSource: The data we feed to the calendar view\n\ncurrentDate: Needed to mark “today”\n\nonEventSelected: Handle a tap on a single event\n\nonTitleChanged: Happens when we swipe to a new month\n\nonTimeSelected: Happens when we select a day or time\n\nstep: Used for accuracy of a day or week view\n\n -->'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\calendar\calendar.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* App */], __WEBPACK_IMPORTED_MODULE_4__providers_data__["a" /* DataProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_loading__["a" /* LoadingProvider */]])
-    ], NewMessagePage);
-    return NewMessagePage;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */],
+            __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* DataProvider */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */]])
+    ], CalendarPage);
+    return CalendarPage;
 }());
 
-//# sourceMappingURL=new-message.js.map
+//# sourceMappingURL=calendar.js.map
 
 /***/ }),
 
@@ -3567,7 +3459,7 @@ var NewMessagePage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__validator__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__logout__ = __webpack_require__(70);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4042,197 +3934,6 @@ var AlertProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 491:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConsultationPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__calendar_calendar__ = __webpack_require__(492);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var ConsultationPage = /** @class */ (function () {
-    function ConsultationPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    ConsultationPage.prototype.checkCalendar = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__calendar_calendar__["a" /* CalendarPage */]);
-        var tabs = document.querySelectorAll('.show-tabbar');
-        console.log('ionViewDidLoad', tabs);
-        if (tabs !== null) {
-            Object.keys(tabs).map(function (key) {
-                tabs[key].style.display = 'none';
-            });
-        }
-    };
-    ConsultationPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ConsultationPage');
-    };
-    ConsultationPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-consultation',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\consultation\consultation.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <div class="center">\n\n    <h2>Selesaikan masalahmu dengan psikolog</h2>\n\n    <img class="boardimg" src="assets/images/consult.png">\n\n    <p>Atur waktu yang kamu inginkan untuk curhat dengan psikolog</p>\n\n    <button color="theblues" ion-button (click)="checkCalendar()">ATUR JADWAL</button>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\consultation\consultation.html"*/,
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-    ], ConsultationPage);
-    return ConsultationPage;
-}());
-
-//# sourceMappingURL=consultation.js.map
-
-/***/ }),
-
-/***/ 492:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_data__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__choose_psg_choose_psg__ = __webpack_require__(493);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-var CalendarPage = /** @class */ (function () {
-    function CalendarPage(navCtrl, alertCtrl, dataProvider, loadingProvider) {
-        this.navCtrl = navCtrl;
-        this.alertCtrl = alertCtrl;
-        this.dataProvider = dataProvider;
-        this.loadingProvider = loadingProvider;
-        this.eventz = { startTime: new Date(), endTime: new Date(), allDay: false };
-        this.temp = [];
-        this.date = [];
-        this.temp2 = [];
-        this.eventSource = [];
-        this.selectedDay = new Date();
-        this.calendar = {
-            mode: "month",
-            currentDate: new Date()
-        };
-    }
-    CalendarPage.prototype.ionViewWillLeave = function () {
-        var tabs = document.querySelectorAll('.show-tabbar');
-        if (tabs !== null) {
-            Object.keys(tabs).map(function (key) {
-                tabs[key].style.display = 'flex';
-            });
-        }
-    };
-    CalendarPage.prototype.ionViewDidLoad = function () {
-        this.loadingProvider.show();
-        this.getSchedule();
-    };
-    // go to session consultation by date choosen
-    CalendarPage.prototype.sessionByDate = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_5__choose_psg_choose_psg__["a" /* ChoosePsgPage */], {
-            selectedDay: this.selectedDay
-        });
-    };
-    CalendarPage.prototype.getSchedule = function () {
-        var _this = this;
-        this.dataProvider.getScheduling().subscribe(function (schedules) {
-            _this.index = 0;
-            var temp = 1;
-            schedules.forEach(function (schedule) {
-                var date = __WEBPACK_IMPORTED_MODULE_2_moment__(schedule.key);
-                var today = __WEBPACK_IMPORTED_MODULE_2_moment__().format("YYYY-MM-DD");
-                console.log("this.schedule", schedule);
-                // calendar must be before expired date
-                if (date.isAfter(today)) {
-                    _this.sessionStart = schedule.key + "T08:00:00";
-                    _this.sessionEnd = schedule.key + "T24:00:00";
-                    _this.eventSource.push({
-                        title: schedule.key,
-                        startTime: new Date(_this.sessionStart),
-                        endTime: new Date(_this.sessionEnd),
-                        allDay: false,
-                    });
-                    _this.index++;
-                    temp += 1;
-                }
-                else {
-                    console.log("past");
-                }
-            });
-            if (_this.index < temp) {
-                _this.refreshData();
-            }
-            _this.loadingProvider.hide();
-        });
-    };
-    CalendarPage.prototype.refreshData = function () {
-        var _this = this;
-        var eventData = this.eventz;
-        eventData.startTime = new Date(12 - 2 - 1997);
-        eventData.endTime = new Date(12 - 2 - 1997);
-        var events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(function () {
-            _this.eventSource = events;
-            console.log("EVa: ", _this.eventSource);
-        });
-    };
-    CalendarPage.prototype.onViewTitleChanged = function (title) {
-        this.viewTitle = title;
-    };
-    CalendarPage.prototype.onEventSelected = function (event) {
-        console.log("this.selectedDay", event);
-        var start = __WEBPACK_IMPORTED_MODULE_2_moment__(event.startTime).format("LLLL");
-        var end = __WEBPACK_IMPORTED_MODULE_2_moment__(event.endTime).format("LLLL");
-        var alert = this.alertCtrl.create({
-            title: "" + "Detail",
-            subTitle: "From: " + start + "<br>To: " + end,
-            buttons: ["OK"]
-        });
-        alert.present();
-    };
-    CalendarPage.prototype.onTimeSelected = function (ev) {
-        this.selectedDay = ev.selectedTime;
-    };
-    CalendarPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: "page-calendar",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\calendar\calendar.html"*/'<ion-header>\n\n  <!-- <ion-navbar hideBackButton color="primary"> -->\n\n  <ion-navbar>\n\n    <ion-title>\n\n      Pilih Tanggal\n\n    </ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n  <!-- <div class="footer">\n\n  </div> -->\n\n  <h4 text-center>{{viewTitle}}</h4>\n\n  <calendar \n\n  [eventSource]="eventSource" \n\n  [calendarMode]="calendar.mode" \n\n  [currentDate]="calendar.currentDate" \n\n  (onEventSelected)="onEventSelected($event)"\n\n  (onRangeChanged)="reloadSource(startTime, endTime)"\n\n  (onTitleChanged)="onViewTitleChanged($event)" \n\n  (onTimeSelected)="onTimeSelected($event)" \n\n  step="30" class="calendar">\n\n</calendar>\n\n</ion-content>\n\n<ion-footer>\n\n    <button class="btn-pilih" ion-button (click)="sessionByDate()">Pilih</button>\n\n</ion-footer>\n\n<!-- KETERANGAN DI ATAS\n\neventSource: The data we feed to the calendar view\n\ncurrentDate: Needed to mark “today”\n\nonEventSelected: Handle a tap on a single event\n\nonTitleChanged: Happens when we swipe to a new month\n\nonTimeSelected: Happens when we select a day or time\n\nstep: Used for accuracy of a day or week view\n\n -->'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\calendar\calendar.html"*/
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* DataProvider */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */]])
-    ], CalendarPage);
-    return CalendarPage;
-}());
-
-//# sourceMappingURL=calendar.js.map
-
-/***/ }),
-
 /***/ 493:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4303,6 +4004,7 @@ var ChoosePsgPage = /** @class */ (function () {
                 _this.dataProvider.getPsgAvailable(_this.psgAvailable[i]).subscribe(function (list) {
                     console.log("list", list);
                     _this.psgAva[i] = list;
+                    _this.psgAva[i].old = __WEBPACK_IMPORTED_MODULE_5_moment__(list.born).toNow(true);
                     _this.loadingProvider.hide();
                 });
             };
@@ -4321,9 +4023,10 @@ var ChoosePsgPage = /** @class */ (function () {
         });
     };
     // view detail psg
-    ChoosePsgPage.prototype.viewPsg = function (psgId) {
+    ChoosePsgPage.prototype.viewPsg = function (psgId, old) {
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__profile_psg_profile_psg__["a" /* ProfilePsgPage */], {
-            psgId: psgId
+            psgId: psgId,
+            old: old
         });
         console.log("psg by id", psgId);
     };
@@ -4352,7 +4055,7 @@ var ChoosePsgPage = /** @class */ (function () {
     };
     ChoosePsgPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-choose-psg',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\choose-psg\choose-psg.html"*/'\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Pilih Psikolog</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-row>\n\n    <ion-col col-6>\n\n      <span>{{ sessionByDay }}</span>\n\n    </ion-col>\n\n    <ion-col class="right" col-6>\n\n      <ion-icon name="md-people"></ion-icon>\n\n    </ion-col>\n\n  </ion-row>\n\n  <ion-row>\n\n    <ion-col class="btn-session" col-6>\n\n      <span (click)="showSession()" *ngIf="session == \'noSession\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;{{warning}} <ion-icon name="arrow-down"></ion-icon></span>    \n\n      <span (click)="showSession()" *ngIf="session == \'session1\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;08:00-09:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session2\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;09:00-10:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session3\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;10:00-11:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session4\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;11:00-12:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session5\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;12:00-13:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session7\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;13:00-14:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session8\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;14:00-15:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session9\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;15:00-16:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session10\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;16:00-17:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session11\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;17:00-18:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session12\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;18:00-19:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session13\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;19:00-20:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session14\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;20:00-21:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session15\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;21:00-22:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session16\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;22:00-23:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session17\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;23:00-24:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n                    \n\n      </ion-col>\n\n    <ion-col *ngIf="session == \'noSession\'" class="right" col-6>\n\n      <span>-</span>\n\n    </ion-col>\n\n    \n\n    <ion-col *ngIf="session !== \'noSession\'"class="right" col-6>\n\n        <span>{{jumlahpsg}}</span>\n\n    </ion-col>\n\n  \n\n  </ion-row>\n\n\n\n  <ion-list class="border-btm" *ngFor="let psg of psgAva">\n\n    <ion-item detail-push (click)="viewPsg(psg.userId)">\n\n      <ion-avatar item-left><img src="{{ psg.img }}"></ion-avatar>\n\n      <h2>{{psg.name}}</h2>\n\n      <p>{{psg.gender}}, 22 tahun</p>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\choose-psg\choose-psg.html"*/,
+            selector: 'page-choose-psg',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\choose-psg\choose-psg.html"*/'\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Pilih Psikolog</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n  <ion-row>\n\n    <ion-col col-6>\n\n      <span>{{ sessionByDay }}</span>\n\n    </ion-col>\n\n    <ion-col class="right" col-6>\n\n      <ion-icon name="md-people"></ion-icon>\n\n    </ion-col>\n\n  </ion-row>\n\n  <ion-row>\n\n    <ion-col class="btn-session" col-6>\n\n      <span (click)="showSession()" *ngIf="session == \'noSession\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;{{warning}} <ion-icon name="arrow-down"></ion-icon></span>    \n\n      <span (click)="showSession()" *ngIf="session == \'session1\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;08:00-09:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session2\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;09:00-10:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session3\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;10:00-11:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session4\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;11:00-12:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session5\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;12:00-13:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session7\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;13:00-14:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session8\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;14:00-15:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session9\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;15:00-16:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session10\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;16:00-17:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session11\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;17:00-18:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session12\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;18:00-19:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session13\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;19:00-20:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session14\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;20:00-21:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session15\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;21:00-22:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session16\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;22:00-23:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n      <span (click)="showSession()" *ngIf="session == \'session17\'">\n\n        <ion-icon name="ios-time-outline"></ion-icon>&nbsp;23:00-24:00 <ion-icon name="arrow-down"></ion-icon></span>\n\n                    \n\n      </ion-col>\n\n    <ion-col *ngIf="session == \'noSession\'" class="right" col-6>\n\n      <span>-</span>\n\n    </ion-col>\n\n    \n\n    <ion-col *ngIf="session !== \'noSession\'"class="right" col-6>\n\n        <span>{{jumlahpsg}}</span>\n\n    </ion-col>\n\n  \n\n  </ion-row>\n\n  <ion-list class="avatar-list">\n\n    <ion-item detail-push  *ngFor="let psg of psgAva" (click)="viewPsg(psg.userId,psg.old)">\n\n      <ion-avatar item-left><img src="{{ psg.img }}"></ion-avatar>\n\n      <h2>{{psg.name}}</h2>\n\n      <h6 *ngIf="psg.gender === \'Male\' "> <ion-icon name="male"  class="gender"></ion-icon> {{psg.old}}</h6>\n\n      <h6 *ngIf="psg.gender === \'Female\' "> <ion-icon name="female" class="gender"></ion-icon> {{psg.old}}</h6>    \n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\choose-psg\choose-psg.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_data__["a" /* DataProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], ChoosePsgPage);
@@ -4395,6 +4098,7 @@ var ProfilePsgPage = /** @class */ (function () {
         this.navParams = navParams;
         this.psychologist = [];
         this.psgId = this.navParams.get("psgId");
+        this.old = this.navParams.get("old");
     }
     ProfilePsgPage.prototype.ionViewDidLoad = function () {
         var _this = this;
@@ -4413,7 +4117,7 @@ var ProfilePsgPage = /** @class */ (function () {
     };
     ProfilePsgPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-            selector: 'page-profile-psg',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\profile-psg\profile-psg.html"*/'\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Profil Psikolog</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button icon-only (click)="bookingPage()">\n\n        <ion-icon name="checkmark"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <div class="background" *ngIf="psychologist">\n\n    <div class="profile">\n\n      <img src="{{psychologist.img}}" />\n\n    </div>\n\n    <!-- Show icon of logged in provider -->\n\n    <h4>\n\n      <span class="name">{{psychologist.name}} </span>\n\n    </h4>\n\n    <h6 *ngIf="psychologist.gender === \'Male\' "> <ion-icon name="male"  class="gender"></ion-icon> 22 tahun</h6>\n\n    <h6 *ngIf="psychologist.gender === \'Female\' "> <ion-icon name="female" class="gender"></ion-icon> 22 tahun</h6>\n\n    <!-- Profile Menu -->\n\n    <ion-list *ngIf="psychologist">\n\n      <ion-item>\n\n        <ion-label>Informasi</ion-label>\n\n      </ion-item>\n\n      <ion-item>\n\n        <h3>Pengalaman</h3>\n\n        <p>{{psychologist.description}}</p>\n\n        <br>\n\n        <h3>Email</h3>\n\n        <p>{{psychologist.email}}</p>\n\n        <br>\n\n        <h3>Kota</h3>\n\n        <p>{{psychologist.city}}</p>\n\n        <br>\n\n      </ion-item>\n\n\n\n    </ion-list>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\profile-psg\profile-psg.html"*/,
+            selector: 'page-profile-psg',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\profile-psg\profile-psg.html"*/'\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Profil Psikolog</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button icon-only (click)="bookingPage()">\n\n        <ion-icon name="checkmark"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <div class="background" *ngIf="psychologist">\n\n    <div class="profile">\n\n      <img src="{{psychologist.img}}" />\n\n    </div>\n\n    <!-- Show icon of logged in provider -->\n\n    <h4>\n\n      <span class="name">{{psychologist.name}} </span>\n\n    </h4>\n\n    <h6 *ngIf="psychologist.gender === \'Male\' "> <ion-icon name="male"  class="gender"></ion-icon>{{old}}</h6>\n\n    <h6 *ngIf="psychologist.gender === \'Female\' "> <ion-icon name="female" class="gender"></ion-icon>{{old}}</h6>\n\n    <!-- Profile Menu -->\n\n    <ion-list *ngIf="psychologist">\n\n      <ion-item>\n\n        <ion-label>Informasi</ion-label>\n\n      </ion-item>\n\n      <ion-item>\n\n        <h3>Pengalaman</h3>\n\n        <p>{{psychologist.description}}</p>\n\n        <br>\n\n        <h3>Email</h3>\n\n        <p>{{psychologist.email}}</p>\n\n        <br>\n\n        <h3>Kota</h3>\n\n        <p>{{psychologist.city}}</p>\n\n        <br>\n\n      </ion-item>\n\n\n\n    </ion-list>\n\n  </div>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\profile-psg\profile-psg.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */], __WEBPACK_IMPORTED_MODULE_2__providers_data__["a" /* DataProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
     ], ProfilePsgPage);
@@ -4431,13 +4135,13 @@ var ProfilePsgPage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BookingPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_firebase_app__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tabs_tabs__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__tabs_tabs__ = __webpack_require__(194);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4466,7 +4170,7 @@ var BookingPage = /** @class */ (function () {
         this.bookingDate = new Date();
         this.createdAt = __WEBPACK_IMPORTED_MODULE_5_moment__(this.bookingDate).format();
         this.sessionke = localStorage.getItem("sessionke");
-        this.scheduleId = localStorage.getItem("scheduleId");
+        this.scheduleId = __WEBPACK_IMPORTED_MODULE_5_moment__(this.navParams.get("selectedDay")).format('YYYY-MM-DD');
     }
     BookingPage.prototype.ionViewDidLoad = function () {
         console.log("IonViewDidLoad BookingPage", this.psgProfile);
@@ -4588,7 +4292,7 @@ var BookingPage = /** @class */ (function () {
         var alert = this.alertCtrl.create({
             title: 'Berhasil booking psikolog',
             subTitle: 'Harap tunggu booking anda diterima oleh psikolog.',
-            buttons: ['Dismiss']
+            buttons: ['Ok']
         });
         alert.present();
     };
@@ -4991,6 +4695,7 @@ var AchievDetailPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_fcm__ = __webpack_require__(502);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(5);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5038,10 +4743,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 
 
 
+
 var FcmProvider = /** @class */ (function () {
-    function FcmProvider(afd, fcmNative) {
+    function FcmProvider(afd, fcmNative, toastCtrl) {
         this.afd = afd;
         this.fcmNative = fcmNative;
+        this.toastCtrl = toastCtrl;
     }
     // Get permission from the user
     FcmProvider.prototype.getToken = function () {
@@ -5072,6 +4779,7 @@ var FcmProvider = /** @class */ (function () {
     // Listen to incoming FCM messages
     FcmProvider.prototype.listenToNotifications = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fcmNative.onNotification().subscribe(function (data) {
                         if (data.wasTapped) {
@@ -5079,18 +4787,25 @@ var FcmProvider = /** @class */ (function () {
                             console.log(data);
                         }
                         else {
-                            console.log("Received in foreground");
-                            console.log(data);
+                            _this.presentToast(data.body);
                         }
                         ;
                     })];
             });
         });
     };
+    FcmProvider.prototype.presentToast = function (body) {
+        var toast = this.toastCtrl.create({
+            message: 'New Message ' + body,
+            duration: 3000
+        });
+        toast.present();
+    };
     FcmProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_angularfire2_database__["a" /* AngularFireDatabase */],
-            __WEBPACK_IMPORTED_MODULE_2__ionic_native_fcm__["a" /* FCM */]])
+            __WEBPACK_IMPORTED_MODULE_2__ionic_native_fcm__["a" /* FCM */],
+            __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["n" /* ToastController */]])
     ], FcmProvider);
     return FcmProvider;
 }());
@@ -5110,7 +4825,7 @@ var FcmProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_firebase__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_alert__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__user_info_user_info__ = __webpack_require__(88);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5399,7 +5114,7 @@ var PaymentStatusPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 525:
+/***/ 524:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5438,7 +5153,7 @@ var TransactionPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 526:
+/***/ 525:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5482,13 +5197,13 @@ var TopupPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 527:
+/***/ 526:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(528);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(534);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(527);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(533);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -5496,44 +5211,44 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 534:
+/***/ 533:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_comment_comment__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_mood_tracker_mood_tracker__ = __webpack_require__(677);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_docver_reg_docver_reg__ = __webpack_require__(361);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_boarding_boarding__ = __webpack_require__(363);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_achievement_achievement__ = __webpack_require__(687);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_duplicate_message_duplicate_message__ = __webpack_require__(688);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_time_line_time_line__ = __webpack_require__(689);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_comment_comment__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_mood_tracker_mood_tracker__ = __webpack_require__(676);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pages_docver_reg_docver_reg__ = __webpack_require__(362);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_boarding_boarding__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_achievement_achievement__ = __webpack_require__(686);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_duplicate_message_duplicate_message__ = __webpack_require__(687);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_time_line_time_line__ = __webpack_require__(688);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_platform_browser__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_splash_screen__ = __webpack_require__(499);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_status_bar__ = __webpack_require__(500);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_calendar__ = __webpack_require__(690);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_calendar__ = __webpack_require__(689);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_google_plus__ = __webpack_require__(691);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_google_plus__ = __webpack_require__(690);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ionic_native_keyboard__ = __webpack_require__(118);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_firebase__ = __webpack_require__(692);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_firebase__ = __webpack_require__(691);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_achiev_detail_achiev_detail__ = __webpack_require__(498);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_angular2_text_mask__ = __webpack_require__(693);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_angular2_text_mask__ = __webpack_require__(692);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_angular2_text_mask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18_angular2_text_mask__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_signup_signup__ = __webpack_require__(497);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__ionic_native_fcm__ = __webpack_require__(502);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__app_component__ = __webpack_require__(694);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__app_component__ = __webpack_require__(693);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_login_login__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_home_home__ = __webpack_require__(364);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_home_home__ = __webpack_require__(365);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_verification_verification__ = __webpack_require__(496);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_tabs_tabs__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_tabs_tabs__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_messages_messages__ = __webpack_require__(117);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_friends_friends__ = __webpack_require__(695);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_search_people_search_people__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_friends_friends__ = __webpack_require__(694);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_search_people_search_people__ = __webpack_require__(197);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_requests_requests__ = __webpack_require__(504);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_user_info_user_info__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_new_message_new_message__ = __webpack_require__(367);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_user_info_user_info__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_new_message_new_message__ = __webpack_require__(695);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_message_message__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__pages_payment_payment__ = __webpack_require__(505);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__pages_pay_detail_pay_detail__ = __webpack_require__(696);
@@ -5542,14 +5257,14 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__pages_payment1_payment1__ = __webpack_require__(699);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__pages_payment2_payment2__ = __webpack_require__(700);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__pages_payment3_payment3__ = __webpack_require__(701);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__pages_profile_profile__ = __webpack_require__(365);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__pages_editprofile_editprofile__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__pages_profile_profile__ = __webpack_require__(366);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__pages_editprofile_editprofile__ = __webpack_require__(367);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__pages_dynamiclink_dynamiclink__ = __webpack_require__(702);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__providers_login__ = __webpack_require__(116);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__providers_logout__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__providers_alert__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_image__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__providers_image__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__providers_firebase__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__providers_fcm_fcm__ = __webpack_require__(503);
@@ -5559,26 +5274,26 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_53_angularfire2_auth__ = __webpack_require__(703);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_54_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_55_angularfire2_storage__ = __webpack_require__(707);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__login__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__login__ = __webpack_require__(86);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_57_ionic2_calendar__ = __webpack_require__(797);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__pipes_friend__ = __webpack_require__(808);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__pipes_search__ = __webpack_require__(809);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__pipes_conversation__ = __webpack_require__(810);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__pipes_date__ = __webpack_require__(811);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__pages_docver_docver__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__pages_docver_docver__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__pages_docver_plus_docver_plus__ = __webpack_require__(812);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__pages_testaja_testaja__ = __webpack_require__(813);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__pages_consultation_consultation__ = __webpack_require__(491);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__pages_calendar_calendar__ = __webpack_require__(492);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__pages_consultation_consultation__ = __webpack_require__(368);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__pages_calendar_calendar__ = __webpack_require__(369);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__pages_add_schedule_add_schedule__ = __webpack_require__(814);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__pages_choose_psg_choose_psg__ = __webpack_require__(493);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__pages_profile_psg_profile_psg__ = __webpack_require__(494);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__pages_booking_booking__ = __webpack_require__(495);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__pages_lovepoint_store_lovepoint_store__ = __webpack_require__(815);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__pages_topup_topup__ = __webpack_require__(526);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__pages_transaction_transaction__ = __webpack_require__(525);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__pages_topup_topup__ = __webpack_require__(525);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__pages_transaction_transaction__ = __webpack_require__(524);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_74__pages_payment_status_payment_status__ = __webpack_require__(506);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_75__pages_image_modal_image_modal__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_75__pages_image_modal_image_modal__ = __webpack_require__(196);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5798,7 +5513,7 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 677:
+/***/ 676:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5843,256 +5558,256 @@ var MoodTrackerPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 686:
+/***/ 685:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 368,
-	"./af.js": 368,
-	"./ar": 369,
-	"./ar-dz": 370,
-	"./ar-dz.js": 370,
-	"./ar-kw": 371,
-	"./ar-kw.js": 371,
-	"./ar-ly": 372,
-	"./ar-ly.js": 372,
-	"./ar-ma": 373,
-	"./ar-ma.js": 373,
-	"./ar-sa": 374,
-	"./ar-sa.js": 374,
-	"./ar-tn": 375,
-	"./ar-tn.js": 375,
-	"./ar.js": 369,
-	"./az": 376,
-	"./az.js": 376,
-	"./be": 377,
-	"./be.js": 377,
-	"./bg": 378,
-	"./bg.js": 378,
-	"./bm": 379,
-	"./bm.js": 379,
-	"./bn": 380,
-	"./bn.js": 380,
-	"./bo": 381,
-	"./bo.js": 381,
-	"./br": 382,
-	"./br.js": 382,
-	"./bs": 383,
-	"./bs.js": 383,
-	"./ca": 384,
-	"./ca.js": 384,
-	"./cs": 385,
-	"./cs.js": 385,
-	"./cv": 386,
-	"./cv.js": 386,
-	"./cy": 387,
-	"./cy.js": 387,
-	"./da": 388,
-	"./da.js": 388,
-	"./de": 389,
-	"./de-at": 390,
-	"./de-at.js": 390,
-	"./de-ch": 391,
-	"./de-ch.js": 391,
-	"./de.js": 389,
-	"./dv": 392,
-	"./dv.js": 392,
-	"./el": 393,
-	"./el.js": 393,
-	"./en-au": 394,
-	"./en-au.js": 394,
-	"./en-ca": 395,
-	"./en-ca.js": 395,
-	"./en-gb": 396,
-	"./en-gb.js": 396,
-	"./en-ie": 397,
-	"./en-ie.js": 397,
-	"./en-il": 398,
-	"./en-il.js": 398,
-	"./en-nz": 399,
-	"./en-nz.js": 399,
-	"./eo": 400,
-	"./eo.js": 400,
-	"./es": 401,
-	"./es-do": 402,
-	"./es-do.js": 402,
-	"./es-us": 403,
-	"./es-us.js": 403,
-	"./es.js": 401,
-	"./et": 404,
-	"./et.js": 404,
-	"./eu": 405,
-	"./eu.js": 405,
-	"./fa": 406,
-	"./fa.js": 406,
-	"./fi": 407,
-	"./fi.js": 407,
-	"./fo": 408,
-	"./fo.js": 408,
-	"./fr": 409,
-	"./fr-ca": 410,
-	"./fr-ca.js": 410,
-	"./fr-ch": 411,
-	"./fr-ch.js": 411,
-	"./fr.js": 409,
-	"./fy": 412,
-	"./fy.js": 412,
-	"./gd": 413,
-	"./gd.js": 413,
-	"./gl": 414,
-	"./gl.js": 414,
-	"./gom-latn": 415,
-	"./gom-latn.js": 415,
-	"./gu": 416,
-	"./gu.js": 416,
-	"./he": 417,
-	"./he.js": 417,
-	"./hi": 418,
-	"./hi.js": 418,
-	"./hr": 419,
-	"./hr.js": 419,
-	"./hu": 420,
-	"./hu.js": 420,
-	"./hy-am": 421,
-	"./hy-am.js": 421,
-	"./id": 422,
-	"./id.js": 422,
-	"./is": 423,
-	"./is.js": 423,
-	"./it": 424,
-	"./it.js": 424,
-	"./ja": 425,
-	"./ja.js": 425,
-	"./jv": 426,
-	"./jv.js": 426,
-	"./ka": 427,
-	"./ka.js": 427,
-	"./kk": 428,
-	"./kk.js": 428,
-	"./km": 429,
-	"./km.js": 429,
-	"./kn": 430,
-	"./kn.js": 430,
-	"./ko": 431,
-	"./ko.js": 431,
-	"./ky": 432,
-	"./ky.js": 432,
-	"./lb": 433,
-	"./lb.js": 433,
-	"./lo": 434,
-	"./lo.js": 434,
-	"./lt": 435,
-	"./lt.js": 435,
-	"./lv": 436,
-	"./lv.js": 436,
-	"./me": 437,
-	"./me.js": 437,
-	"./mi": 438,
-	"./mi.js": 438,
-	"./mk": 439,
-	"./mk.js": 439,
-	"./ml": 440,
-	"./ml.js": 440,
-	"./mn": 441,
-	"./mn.js": 441,
-	"./mr": 442,
-	"./mr.js": 442,
-	"./ms": 443,
-	"./ms-my": 444,
-	"./ms-my.js": 444,
-	"./ms.js": 443,
-	"./mt": 445,
-	"./mt.js": 445,
-	"./my": 446,
-	"./my.js": 446,
-	"./nb": 447,
-	"./nb.js": 447,
-	"./ne": 448,
-	"./ne.js": 448,
-	"./nl": 449,
-	"./nl-be": 450,
-	"./nl-be.js": 450,
-	"./nl.js": 449,
-	"./nn": 451,
-	"./nn.js": 451,
-	"./pa-in": 452,
-	"./pa-in.js": 452,
-	"./pl": 453,
-	"./pl.js": 453,
-	"./pt": 454,
-	"./pt-br": 455,
-	"./pt-br.js": 455,
-	"./pt.js": 454,
-	"./ro": 456,
-	"./ro.js": 456,
-	"./ru": 457,
-	"./ru.js": 457,
-	"./sd": 458,
-	"./sd.js": 458,
-	"./se": 459,
-	"./se.js": 459,
-	"./si": 460,
-	"./si.js": 460,
-	"./sk": 461,
-	"./sk.js": 461,
-	"./sl": 462,
-	"./sl.js": 462,
-	"./sq": 463,
-	"./sq.js": 463,
-	"./sr": 464,
-	"./sr-cyrl": 465,
-	"./sr-cyrl.js": 465,
-	"./sr.js": 464,
-	"./ss": 466,
-	"./ss.js": 466,
-	"./sv": 467,
-	"./sv.js": 467,
-	"./sw": 468,
-	"./sw.js": 468,
-	"./ta": 469,
-	"./ta.js": 469,
-	"./te": 470,
-	"./te.js": 470,
-	"./tet": 471,
-	"./tet.js": 471,
-	"./tg": 472,
-	"./tg.js": 472,
-	"./th": 473,
-	"./th.js": 473,
-	"./tl-ph": 474,
-	"./tl-ph.js": 474,
-	"./tlh": 475,
-	"./tlh.js": 475,
-	"./tr": 476,
-	"./tr.js": 476,
-	"./tzl": 477,
-	"./tzl.js": 477,
-	"./tzm": 478,
-	"./tzm-latn": 479,
-	"./tzm-latn.js": 479,
-	"./tzm.js": 478,
-	"./ug-cn": 480,
-	"./ug-cn.js": 480,
-	"./uk": 481,
-	"./uk.js": 481,
-	"./ur": 482,
-	"./ur.js": 482,
-	"./uz": 483,
-	"./uz-latn": 484,
-	"./uz-latn.js": 484,
-	"./uz.js": 483,
-	"./vi": 485,
-	"./vi.js": 485,
-	"./x-pseudo": 486,
-	"./x-pseudo.js": 486,
-	"./yo": 487,
-	"./yo.js": 487,
-	"./zh-cn": 488,
-	"./zh-cn.js": 488,
-	"./zh-hk": 489,
-	"./zh-hk.js": 489,
-	"./zh-tw": 490,
-	"./zh-tw.js": 490
+	"./af": 370,
+	"./af.js": 370,
+	"./ar": 371,
+	"./ar-dz": 372,
+	"./ar-dz.js": 372,
+	"./ar-kw": 373,
+	"./ar-kw.js": 373,
+	"./ar-ly": 374,
+	"./ar-ly.js": 374,
+	"./ar-ma": 375,
+	"./ar-ma.js": 375,
+	"./ar-sa": 376,
+	"./ar-sa.js": 376,
+	"./ar-tn": 377,
+	"./ar-tn.js": 377,
+	"./ar.js": 371,
+	"./az": 378,
+	"./az.js": 378,
+	"./be": 379,
+	"./be.js": 379,
+	"./bg": 380,
+	"./bg.js": 380,
+	"./bm": 381,
+	"./bm.js": 381,
+	"./bn": 382,
+	"./bn.js": 382,
+	"./bo": 383,
+	"./bo.js": 383,
+	"./br": 384,
+	"./br.js": 384,
+	"./bs": 385,
+	"./bs.js": 385,
+	"./ca": 386,
+	"./ca.js": 386,
+	"./cs": 387,
+	"./cs.js": 387,
+	"./cv": 388,
+	"./cv.js": 388,
+	"./cy": 389,
+	"./cy.js": 389,
+	"./da": 390,
+	"./da.js": 390,
+	"./de": 391,
+	"./de-at": 392,
+	"./de-at.js": 392,
+	"./de-ch": 393,
+	"./de-ch.js": 393,
+	"./de.js": 391,
+	"./dv": 394,
+	"./dv.js": 394,
+	"./el": 395,
+	"./el.js": 395,
+	"./en-au": 396,
+	"./en-au.js": 396,
+	"./en-ca": 397,
+	"./en-ca.js": 397,
+	"./en-gb": 398,
+	"./en-gb.js": 398,
+	"./en-ie": 399,
+	"./en-ie.js": 399,
+	"./en-il": 400,
+	"./en-il.js": 400,
+	"./en-nz": 401,
+	"./en-nz.js": 401,
+	"./eo": 402,
+	"./eo.js": 402,
+	"./es": 403,
+	"./es-do": 404,
+	"./es-do.js": 404,
+	"./es-us": 405,
+	"./es-us.js": 405,
+	"./es.js": 403,
+	"./et": 406,
+	"./et.js": 406,
+	"./eu": 407,
+	"./eu.js": 407,
+	"./fa": 408,
+	"./fa.js": 408,
+	"./fi": 409,
+	"./fi.js": 409,
+	"./fo": 410,
+	"./fo.js": 410,
+	"./fr": 411,
+	"./fr-ca": 412,
+	"./fr-ca.js": 412,
+	"./fr-ch": 413,
+	"./fr-ch.js": 413,
+	"./fr.js": 411,
+	"./fy": 414,
+	"./fy.js": 414,
+	"./gd": 415,
+	"./gd.js": 415,
+	"./gl": 416,
+	"./gl.js": 416,
+	"./gom-latn": 417,
+	"./gom-latn.js": 417,
+	"./gu": 418,
+	"./gu.js": 418,
+	"./he": 419,
+	"./he.js": 419,
+	"./hi": 420,
+	"./hi.js": 420,
+	"./hr": 421,
+	"./hr.js": 421,
+	"./hu": 422,
+	"./hu.js": 422,
+	"./hy-am": 423,
+	"./hy-am.js": 423,
+	"./id": 424,
+	"./id.js": 424,
+	"./is": 425,
+	"./is.js": 425,
+	"./it": 426,
+	"./it.js": 426,
+	"./ja": 427,
+	"./ja.js": 427,
+	"./jv": 428,
+	"./jv.js": 428,
+	"./ka": 429,
+	"./ka.js": 429,
+	"./kk": 430,
+	"./kk.js": 430,
+	"./km": 431,
+	"./km.js": 431,
+	"./kn": 432,
+	"./kn.js": 432,
+	"./ko": 433,
+	"./ko.js": 433,
+	"./ky": 434,
+	"./ky.js": 434,
+	"./lb": 435,
+	"./lb.js": 435,
+	"./lo": 436,
+	"./lo.js": 436,
+	"./lt": 437,
+	"./lt.js": 437,
+	"./lv": 438,
+	"./lv.js": 438,
+	"./me": 439,
+	"./me.js": 439,
+	"./mi": 440,
+	"./mi.js": 440,
+	"./mk": 441,
+	"./mk.js": 441,
+	"./ml": 442,
+	"./ml.js": 442,
+	"./mn": 443,
+	"./mn.js": 443,
+	"./mr": 444,
+	"./mr.js": 444,
+	"./ms": 445,
+	"./ms-my": 446,
+	"./ms-my.js": 446,
+	"./ms.js": 445,
+	"./mt": 447,
+	"./mt.js": 447,
+	"./my": 448,
+	"./my.js": 448,
+	"./nb": 449,
+	"./nb.js": 449,
+	"./ne": 450,
+	"./ne.js": 450,
+	"./nl": 451,
+	"./nl-be": 452,
+	"./nl-be.js": 452,
+	"./nl.js": 451,
+	"./nn": 453,
+	"./nn.js": 453,
+	"./pa-in": 454,
+	"./pa-in.js": 454,
+	"./pl": 455,
+	"./pl.js": 455,
+	"./pt": 456,
+	"./pt-br": 457,
+	"./pt-br.js": 457,
+	"./pt.js": 456,
+	"./ro": 458,
+	"./ro.js": 458,
+	"./ru": 459,
+	"./ru.js": 459,
+	"./sd": 460,
+	"./sd.js": 460,
+	"./se": 461,
+	"./se.js": 461,
+	"./si": 462,
+	"./si.js": 462,
+	"./sk": 463,
+	"./sk.js": 463,
+	"./sl": 464,
+	"./sl.js": 464,
+	"./sq": 465,
+	"./sq.js": 465,
+	"./sr": 466,
+	"./sr-cyrl": 467,
+	"./sr-cyrl.js": 467,
+	"./sr.js": 466,
+	"./ss": 468,
+	"./ss.js": 468,
+	"./sv": 469,
+	"./sv.js": 469,
+	"./sw": 470,
+	"./sw.js": 470,
+	"./ta": 471,
+	"./ta.js": 471,
+	"./te": 472,
+	"./te.js": 472,
+	"./tet": 473,
+	"./tet.js": 473,
+	"./tg": 474,
+	"./tg.js": 474,
+	"./th": 475,
+	"./th.js": 475,
+	"./tl-ph": 476,
+	"./tl-ph.js": 476,
+	"./tlh": 477,
+	"./tlh.js": 477,
+	"./tr": 478,
+	"./tr.js": 478,
+	"./tzl": 479,
+	"./tzl.js": 479,
+	"./tzm": 480,
+	"./tzm-latn": 481,
+	"./tzm-latn.js": 481,
+	"./tzm.js": 480,
+	"./ug-cn": 482,
+	"./ug-cn.js": 482,
+	"./uk": 483,
+	"./uk.js": 483,
+	"./ur": 484,
+	"./ur.js": 484,
+	"./uz": 485,
+	"./uz-latn": 486,
+	"./uz-latn.js": 486,
+	"./uz.js": 485,
+	"./vi": 487,
+	"./vi.js": 487,
+	"./x-pseudo": 488,
+	"./x-pseudo.js": 488,
+	"./yo": 489,
+	"./yo.js": 489,
+	"./zh-cn": 490,
+	"./zh-cn.js": 490,
+	"./zh-hk": 491,
+	"./zh-hk.js": 491,
+	"./zh-tw": 492,
+	"./zh-tw.js": 492
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -6108,11 +5823,11 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 686;
+webpackContext.id = 685;
 
 /***/ }),
 
-/***/ 687:
+/***/ 686:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6183,7 +5898,7 @@ var AchievementPage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 688:
+/***/ 687:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6486,13 +6201,13 @@ var DuplicateMessagePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 689:
+/***/ 688:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TimeLinePage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__comment_comment__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__docver_docver__ = __webpack_require__(198);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__comment_comment__ = __webpack_require__(212);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__docver_docver__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_angularfire2_database__ = __webpack_require__(23);
@@ -6951,12 +6666,12 @@ var TimeLinePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 694:
+/***/ 693:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_boarding_boarding__ = __webpack_require__(363);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_boarding_boarding__ = __webpack_require__(364);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_status_bar__ = __webpack_require__(500);
@@ -7029,15 +6744,15 @@ var MyApp = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 695:
+/***/ 694:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FriendsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_people_search_people__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_info_user_info__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_people_search_people__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_info_user_info__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__message_message__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__requests_requests__ = __webpack_require__(504);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_data__ = __webpack_require__(16);
@@ -7176,6 +6891,108 @@ var FriendsPage = /** @class */ (function () {
 }());
 
 //# sourceMappingURL=friends.js.map
+
+/***/ }),
+
+/***/ 695:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewMessagePage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_people_search_people__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__message_message__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_data__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_loading__ = __webpack_require__(14);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var NewMessagePage = /** @class */ (function () {
+    // NewMessagePage
+    // This is the page where the user are asked to select a friend whom they want to start a conversation with.
+    function NewMessagePage(navCtrl, navParams, app, dataProvider, loadingProvider) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.app = app;
+        this.dataProvider = dataProvider;
+        this.loadingProvider = loadingProvider;
+    }
+    NewMessagePage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        // Initialize
+        this.searchFriend = '';
+        this.loadingProvider.show();
+        // Get user's friends.
+        this.dataProvider.getCurrentUser().subscribe(function (account) {
+            if (account.friends) {
+                for (var i = 0; i < account.friends.length; i++) {
+                    _this.dataProvider.getUser(account.friends[i]).subscribe(function (friend) {
+                        _this.addOrUpdateFriend(friend);
+                    });
+                }
+            }
+            else {
+                _this.friends = [];
+            }
+            _this.loadingProvider.hide();
+        });
+    };
+    // Back
+    NewMessagePage.prototype.back = function () {
+        this.navCtrl.pop();
+    };
+    // Add or update friend for real-time sync.
+    NewMessagePage.prototype.addOrUpdateFriend = function (friend) {
+        if (!this.friends) {
+            this.friends = [friend];
+        }
+        else {
+            var index = -1;
+            for (var i = 0; i < this.friends.length; i++) {
+                if (this.friends[i].key == friend.key) {
+                    index = i;
+                }
+            }
+            if (index > -1) {
+                this.friends[index] = friend;
+            }
+            else {
+                this.friends.push(friend);
+            }
+        }
+    };
+    // Search people.
+    NewMessagePage.prototype.searchPeople = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__search_people_search_people__["a" /* SearchPeoplePage */]);
+    };
+    // Open chat with this user.
+    NewMessagePage.prototype.message = function (userId) {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__message_message__["a" /* MessagePage */], { userId: userId });
+    };
+    NewMessagePage = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'page-new-message',template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\new-message\new-message.html"*/'<ion-header>\n\n  <ion-navbar hideBackButton="true">\n\n    <ion-buttons>\n\n      <button ion-button tappable (click)="back()">Back</button>\n\n    </ion-buttons>\n\n    <ion-title>New Message</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- No friends yet to start a conversation with -->\n\n  <div class="empty-list" *ngIf="friends && friends.length == 0">\n\n    <h1><ion-icon name="md-contacts"></ion-icon></h1>\n\n    <p>Uh-oh! You have not added any friends yet.</p>\n\n    <button ion-button icon-left tappable (click)="searchPeople()"><ion-icon name="md-search"></ion-icon>Search People</button>\n\n  </div>\n\n  <!-- Show friends to start a conversation with -->\n\n  <ion-list class="avatar-list" *ngIf="friends && friends.length > 0">\n\n    <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar>\n\n    <ion-item *ngFor="let friend of friends | friendFilter:searchFriend" no-lines tappable (click)="message(friend.userId)">\n\n      <ion-avatar item-left>\n\n        <img src="{{friend.img}}">\n\n      </ion-avatar>\n\n      <h2>{{friend.name}}</h2>\n\n      <p>@{{friend.username}}</p>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\new-message\new-message.html"*/
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* App */], __WEBPACK_IMPORTED_MODULE_4__providers_data__["a" /* DataProvider */],
+            __WEBPACK_IMPORTED_MODULE_5__providers_loading__["a" /* LoadingProvider */]])
+    ], NewMessagePage);
+    return NewMessagePage;
+}());
+
+//# sourceMappingURL=new-message.js.map
 
 /***/ }),
 
@@ -7387,6 +7204,7 @@ var LogoutProvider = /** @class */ (function () {
         this.loadingProvider.show();
         // Sign the user out on Firebase
         __WEBPACK_IMPORTED_MODULE_4_firebase__["auth"]().signOut().then(function (success) {
+            localStorage.removeItem('uid_client');
             // Clear navigation stacks
             _this.app.getRootNav().popToRoot().then(function () {
                 _this.loadingProvider.hide();
@@ -7644,7 +7462,7 @@ var Validator;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_take__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -7843,12 +7661,12 @@ var FirebaseProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_image__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_angularfire2_database__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_firebase__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_info_user_info__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__image_modal_image_modal__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_info_user_info__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__image_modal_image_modal__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ionic_native_camera__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ionic_native_keyboard__ = __webpack_require__(118);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -7893,120 +7711,19 @@ var MessagePage = /** @class */ (function () {
         this.numberOfMessages = 10;
     }
     MessagePage_1 = MessagePage;
-    MessagePage.prototype.giveRating = function () {
-        // this.alert = this.alertCtrl.create({
-        //   title: 'Specify the reason',
-        //   // inputs: [
-        //   //   {
-        //   //     type: 'radio',
-        //   //     label: 'label 1',
-        //   //     value: '0'
-        //   //   },
-        //   //   {
-        //   //     type: 'radio',
-        //   //     label: 'label 2',
-        //   //     value: '1'
-        //   //   }
-        //   // ],
-        //   inputs: [
-        //       {
-        //       name: 'comment',
-        //       placeholder: 'give comment psychologist'
-        //       }
-        //     ],
-        //   buttons: [
-        //     {
-        //       text: 'OK',
-        //       handler: () => {
-        //         console.log('OK clicked: ' );
-        //         // I NEED TO GET THE VALUE OF THE SELECTED RADIO BUTTON HERE
-        //       }
-        //     }
-        //   ]
-        // }).present();
-        // alert
-        // this.alert = this.alertCtrl.create();
-        // this.alert.setTitle("Select Site");
-        // this.alert.addInput({ type: "radio", label: "1", value: "1",checked: true});
-        // this.alert.addInput({ type: "radio", label: "2", value: "2" });
-        // this.alert.addInput({ type: "radio", label: "3", value: "3" });
-        // this.alert.addInput({ type: "radio", label: "4", value: "4" });
-        // this.alert.addInput({ type: "radio", label: "5", value: "5" });
-        // this.alert.addInput({ name: "comment", placeholder: "comment psg" });
-        // this.alert
-        //   .addButton({
-        //     text: "OK",
-        //     handler: data => {
-        //       console.log("Site:", data);
-        //     }
-        //   })
-        //   .present();
-        // close alert
-        // this.alert = this.alertCtrl
-        //   .create({
-        //     title: "Rate your speech:",
-        //     subTitle: "HAHA",
-        //     cssClass: "alertstar",
-        //     enableBackdropDismiss:false,
-        //     buttons: [
-        //       {
-        //         text: "1",
-        //         handler: data => {
-        //           console.log("1");
-        //         }
-        //       },
-        //       {
-        //         text: "2",
-        //         handler: data => {
-        //           console.log("2");
-        //         }
-        //       },
-        //       {
-        //         text: "3",
-        //         handler: data => {
-        //           console.log("3");
-        //         }
-        //       },
-        //       {
-        //         text: "4",
-        //         handler: data => {
-        //           console.log("4");
-        //         }
-        //       },
-        //       {
-        //         text: "5",
-        //         handler: data => {
-        //           console.log("5");
-        //         }
-        //       },
-        //     ],
-        //     inputs: [
-        //       {
-        //         name: 'comment',
-        //         placeholder: 'Write a comment...'
-        //       }
-        //     ],
-        //   })
-        //   .present();
-    };
     MessagePage.prototype.ionViewDidLoad = function () {
         var _this = this;
-        this.giveRating();
+        this.userId = localStorage.getItem("uid_client");
         this.psgId = this.navParams.get("psgId");
         this.idConversation = this.navParams.get("idConversation");
         this.stopConversation = this.navParams.get("stopConversation");
-        // Get friend details.
-        console.log("psggId", this.psgId);
-        console.log("idconvers", this.idConversation);
+        // Get psychology details.
+        console.log("psgId", this.psgId);
         this.dataProvider.getPsgAvailable(this.psgId).subscribe(function (user) {
             _this.title = user.name;
         });
-        // Get conversationInfo with friend.
-        // User already have conversation with this friend, get conversation
         // Get conversation
-        this.dataProvider
-            .getConversationMessages(this.idConversation)
-            .subscribe(function (messages) {
+        this.dataProvider.getConversationMessages(this.idConversation).subscribe(function (messages) {
             // console.log("msg messages", messages);
             _this.allMessage = messages;
             if (_this.messages) {
@@ -8113,28 +7830,20 @@ var MessagePage = /** @class */ (function () {
     };
     // Update messagesRead when user lefts this page.
     MessagePage.prototype.ionViewWillLeave = function () {
+        var tabs = document.querySelectorAll('.show-tabbar');
+        if (tabs !== null) {
+            Object.keys(tabs).map(function (key) {
+                tabs[key].style.display = 'flex';
+            });
+        }
         if (this.allMessage)
             console.log("leave msg", this.allMessage);
-        this.setMessagesRead(this.allMessage);
+        this.setMessagesRead(this.allMessage.length);
     };
     // Check if currentPage is active, then update user's messagesRead.
-    MessagePage.prototype.setMessagesRead = function (messages) {
+    MessagePage.prototype.setMessagesRead = function (totalMessagesCount) {
         if (this.navCtrl.getActive().instance instanceof MessagePage_1) {
-            // Update user's messagesRead on database.
-            var totalMessagesCount;
-            this.dataProvider.getConversationMessages(this.idConversation).subscribe(function (messages) {
-                totalMessagesCount = messages.length;
-            });
-            this.angularfireDatabase
-                .object("/users/" +
-                __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid +
-                "/conversations/" +
-                this.psgId +
-                "/" +
-                this.idConversation)
-                .update({
-                messagesRead: messages
-            });
+            this.angularfireDatabase.object("/users/" + __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid + "/conversations/" + this.psgId + "/" + this.idConversation).update({ messagesRead: totalMessagesCount });
         }
     };
     // Check if 'return' button is pressed and send the message.
@@ -8178,7 +7887,6 @@ var MessagePage = /** @class */ (function () {
     };
     // finish session
     MessagePage.prototype.finishSession = function () {
-        var _this = this;
         this.alert = this.alertCtrl
             .create({
             title: "Akhiri konsultasi sekarang juga?",
@@ -8191,7 +7899,6 @@ var MessagePage = /** @class */ (function () {
                 {
                     text: "OK",
                     handler: function () {
-                        _this.giveRating();
                         console.log("finish session");
                     }
                 }
@@ -8203,7 +7910,6 @@ var MessagePage = /** @class */ (function () {
     MessagePage.prototype.send = function () {
         var _this = this;
         if (this.message) {
-            console.log("typing", this.message);
             // User entered a text on messagebox
             // get from param
             console.log("msg idc", this.idConversation);
@@ -8215,6 +7921,7 @@ var MessagePage = /** @class */ (function () {
                 messages_1.push({
                     date: new Date().toString(),
                     sender: __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid,
+                    receiver: this.psgId,
                     type: "text",
                     message: this.message
                 });
@@ -8232,39 +7939,26 @@ var MessagePage = /** @class */ (function () {
                 messages.push({
                     date: new Date().toString(),
                     sender: __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid,
+                    receiver: this.psgId,
                     type: "text",
                     message: this.message
                 });
-                var users = [];
-                users.push(__WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid);
-                users.push(this.userId);
                 // Add conversation.
                 this.angularfireDatabase
                     .list("conversations" + this.idConversation)
                     .push({
                     dateCreated: new Date().toString(),
                     messages: messages,
-                    users: users
                 })
                     .then(function (success) {
                     var conversationId = success;
                     _this.message = "";
                     // Add conversation reference to the users.
-                    _this.angularfireDatabase
-                        .object("/users/" +
-                        __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid +
-                        "/conversations/" +
-                        _this.userId)
-                        .update({
+                    _this.angularfireDatabase.object("/users/" + __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid + "/conversations/" + _this.userId).update({
                         conversationId: conversationId,
                         messagesRead: 1
                     });
-                    _this.angularfireDatabase
-                        .object("/psg/" +
-                        _this.userId +
-                        "/conversations/" +
-                        __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid)
-                        .update({
+                    _this.angularfireDatabase.object("/psg/" + _this.userId + "/conversations/" + __WEBPACK_IMPORTED_MODULE_7_firebase__["auth"]().currentUser.uid).update({
                         conversationId: conversationId,
                         messagesRead: 0
                     });
@@ -8683,7 +8377,7 @@ var TestajaPage = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_data__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_loading__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase_app__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase_app__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_firebase_app__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -8790,8 +8484,8 @@ var AddSchedulePage = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LovepointStorePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__transaction_transaction__ = __webpack_require__(525);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__topup_topup__ = __webpack_require__(526);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__transaction_transaction__ = __webpack_require__(524);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__topup_topup__ = __webpack_require__(525);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8848,12 +8542,12 @@ var LovepointStorePage = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 87:
+/***/ 86:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Login; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_tabs_tabs__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pages_tabs_tabs__ = __webpack_require__(194);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__pages_verification_verification__ = __webpack_require__(496);
 
 
@@ -8877,7 +8571,7 @@ var Login;
 
 /***/ }),
 
-/***/ 88:
+/***/ 87:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9274,7 +8968,7 @@ var ImageProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 89:
+/***/ 88:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9285,7 +8979,7 @@ var ImageProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_loading__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_firebase__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__message_message__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__image_modal_image_modal__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__image_modal_image_modal__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_firebase__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -9462,5 +9156,5 @@ var UserInfoPage = /** @class */ (function () {
 
 /***/ })
 
-},[527]);
+},[526]);
 //# sourceMappingURL=main.js.map

@@ -12,6 +12,7 @@ import { LoadingProvider } from "../../providers/loading";
 export class ProfilePsgPage {
   psychologist=[];
   psgId = this.navParams.get("psgId");
+  old = this.navParams.get("old");
   constructor(public loadingProvider: LoadingProvider,public dataProvider:DataProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
 

@@ -19,48 +19,27 @@ export class TabsPage {
   // timeLine: any = TimeLinePage;
   consultation: any = ConsultationPage;
   private unreadMessagesCount: any;
-  private friendRequestCount: any;
   private conversationList: any;
   private conversationsInfo: any;
   // TabsPage
   // This is the page where we set our tabs.
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {
-    this.dataProvider.getUsers().subscribe(user =>{
-      console.log("after login",user);
-    }
-    );
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {}
 
   ionViewDidLoad() {
-    this.conversationsInfo = 0;
     this.getUnreadMessagesCount();
-
-    // Get friend requests count.
-    // this.dataProvider.getRequests(firebase.auth().currentUser.uid).subscribe((requests) => {
-    //   console.log("friend request",requests);
-    //   if (requests) {
-    //     this.friendRequestCount = requests.length;
-    //   } else {
-    //     this.friendRequestCount = null;
-    //   }
-    // });
-
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
-    this.dataProvider.getConversations().subscribe((conversationsInfo) => {
-      console.log("conversationsInfo : ",conversationsInfo);
-      this.unreadMessagesCount = null;
-      this.conversationsInfo = null;
-      this.conversationList = null;
+    this.dataProvider.getValueConversations().subscribe((conversationsInfo) => {
+      // console.log("conversationsInfo : ",conversationsInfo);
       if (conversationsInfo.length > 0) {
         this.conversationsInfo = conversationsInfo;
-        //console.log(this.conversationsInfo);
-        conversationsInfo.forEach((conversationInfo) => {
-          this.dataProvider.getConversation(conversationInfo.conversationId).subscribe((conversation) => {
-            if (conversation) {
-              console.log("in tabs",conversation);
-              this.addOrUpdateConversation(conversation);
-            }
-          });
+        conversationsInfo.forEach(conversationInfo => {
+          // console.log("in tabsthis.conversationsInfo",conversationInfo);
+          // this.dataProvider.getKeyConversation(conversationInfo.conversationId).subscribe(conversation => {
+          //   console.log("in tabs",conversation);
+          //   if (conversation) {
+          //     this.addOrUpdateConversation(conversation);
+          //   }
+          // });
         });
       }
     });
@@ -69,12 +48,8 @@ export class TabsPage {
 
   // Add or update conversaion for real-time sync of unreadMessagesCount.
   addOrUpdateConversation(conversation) {
-    //console.log(conversation);
-    //console.log("key : "+conversation.key);
-    //console.log("conversationList Flag 1 : "+JSON.stringify(this.conversationList));
     if (!this.conversationList) {
       this.conversationList = [conversation];
-      //console.log("conversationList Flag 2 : "+JSON.stringify(this.conversationList));
     } else {
       var index = -1;
       for (var i = 0; i < this.conversationList.length; i++) {

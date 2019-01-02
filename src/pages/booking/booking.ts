@@ -18,7 +18,7 @@ export class BookingPage {
   bookingDate = new Date();
   createdAt = moment(this.bookingDate).format();
   sessionke = localStorage.getItem("sessionke");
-  scheduleId = localStorage.getItem("scheduleId");  
+  scheduleId =  moment(this.navParams.get("selectedDay")).format('YYYY-MM-DD');  
   consultation_time:string;
   constructor(public alertCtrl: AlertController, public loadingProvider: LoadingProvider, public angularfireDatabase: AngularFireDatabase,public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -141,7 +141,7 @@ export class BookingPage {
     let alert = this.alertCtrl.create({
       title: 'Berhasil booking psikolog',
       subTitle: 'Harap tunggu booking anda diterima oleh psikolog.',
-      buttons: ['Dismiss']
+      buttons: ['Ok']
     });
     alert.present();
   }

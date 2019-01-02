@@ -42,6 +42,7 @@
     "app-scripts": "0.0.0",
     "chart.js": "^2.7.2",
     "cordova": "^8.0.0",
+    "cordova-android": "~7.1.4",
     "cordova-lib": "^8.0.0",
     "cordova-plugin-app-event": "^1.2.1",
     "cordova-plugin-calendar": "^5.1.2",
@@ -75,8 +76,7 @@
     "sw-toolbox": "3.6.0",
     "tslib": "^1.9.0",
     "tslint": "^5.9.1",
-    "zone.js": "0.8.26",
-    "cordova-android": "~7.1.4"
+    "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.0",

@@ -28,6 +28,7 @@ export class LogoutProvider {
     this.loadingProvider.show();
     // Sign the user out on Firebase
     firebase.auth().signOut().then((success) => {
+      localStorage.removeItem('uid_client');
       // Clear navigation stacks
       this.app.getRootNav().popToRoot().then(() => {
         this.loadingProvider.hide();

@@ -46,8 +46,9 @@ export class ChoosePsgPage {
       for(let i = 0; i < listpsg.length; i++) {
         this.psgAvailable[i] = listpsg[i].key;
         this.dataProvider.getPsgAvailable(this.psgAvailable[i]).subscribe(list => {
-        console.log("list", list);
+        console.log("list", list );
         this.psgAva[i] = list;
+        this.psgAva[i].old = moment(list.born).toNow(true)
         this.loadingProvider.hide();
       });
     }
@@ -62,9 +63,10 @@ export class ChoosePsgPage {
     })
   }
   // view detail psg
-  viewPsg(psgId){
+  viewPsg(psgId,old){
     this.navCtrl.push(ProfilePsgPage, {
-      psgId: psgId
+      psgId: psgId,
+      old:old
     });
 
     console.log("psg by id", psgId);

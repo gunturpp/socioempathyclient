@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FCM } from '@ionic-native/fcm';
-
+import { ToastController } from 'ionic-angular';
 
 
 @Injectable()
@@ -10,6 +10,7 @@ export class FcmProvider {
   constructor(
     public afd: AngularFireDatabase,
     public fcmNative: FCM,
+    public toastCtrl: ToastController
   ) {}
   // Get permission from the user
   async getToken() {
@@ -42,9 +43,15 @@ export class FcmProvider {
         console.log("Received in background");
         console.log(data);
       } else {
-       console.log("Received in foreground");
-       console.log(data);
+       this.presentToast(data.body)
       };
     });
+  }
+  presentToast(body) {
+    const toast = this.toastCtrl.create({
+      message: 'New Message '+body,
+      duration: 3000
+    });
+    toast.present();
   }
 }

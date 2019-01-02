@@ -64,12 +64,12 @@
     </ion-col>
   
   </ion-row>
-
-  <ion-list class="border-btm" *ngFor="let psg of psgAva">
-    <ion-item detail-push (click)="viewPsg(psg.userId)">
+  <ion-list class="avatar-list">
+    <ion-item detail-push  *ngFor="let psg of psgAva" (click)="viewPsg(psg.userId,psg.old)">
       <ion-avatar item-left><img src="{{ psg.img }}"></ion-avatar>
       <h2>{{psg.name}}</h2>
-      <p>{{psg.gender}}, 22 tahun</p>
+      <h6 *ngIf="psg.gender === 'Male' "> <ion-icon name="male"  class="gender"></ion-icon> {{psg.old}}</h6>
+      <h6 *ngIf="psg.gender === 'Female' "> <ion-icon name="female" class="gender"></ion-icon> {{psg.old}}</h6>    
     </ion-item>
   </ion-list>
 </ion-content>

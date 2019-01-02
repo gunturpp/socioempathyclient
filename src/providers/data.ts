@@ -106,9 +106,11 @@ export class DataProvider {
 
   // Get conversation given the conversationId.
   getConversation(convId) {
-    this.items = this.angularfireDatabase
-      .object("/conversations/" + convId)
-      .valueChanges();
+    this.items = this.angularfireDatabase.object("/conversations/" + convId).valueChanges();
+    return this.items;
+  }
+  getKeyConversation(convId) {
+    this.items = this.angularfireDatabase.list("/conversations/" + convId).snapshotChanges();
     return this.items;
   }
   // Update conversation given the conversationId.
@@ -131,6 +133,10 @@ export class DataProvider {
   // Get conversations of the current logged in user.
   getConversations() {
     this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/").snapshotChanges();
+    return this.items;
+  }
+  getValueConversations() {
+    this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/").valueChanges();
     return this.items;
   }
   deleteConversations() {
@@ -230,7 +236,7 @@ export class DataProvider {
   }
   // get schedule by date
   getSchedulingByDay(date) {
-    this.items = this.angularfireDatabase.object("/scheduling/" + date).valueChanges();
+    this.items = this.angularfireDatabase.list("/scheduling/" + date).snapshotChanges();
     return this.items;
   }
   // get key schedule by date

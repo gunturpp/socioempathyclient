@@ -13,7 +13,6 @@ export class LoginProvider {
     // Detect changes on the Firebase user and redirects the view depending on the user's status.
     firebase.auth().onAuthStateChanged((user) => {
       //console.log("firebase auth : ");
-      console.log(JSON.stringify(user));
       if (user) {
           if (Login.emailVerification) {
             if (1) { //user["emailVerified"]
@@ -52,9 +51,7 @@ export class LoginProvider {
       .then((success) => {
         localStorage.setItem('uid_client', firebase.auth().currentUser.uid);
         localStorage.setItem('email_client', firebase.auth().currentUser.email);
-        console.log('return login', success);
         this.loadingProvider.hide();
-
       })
       .catch((error) => {
         this.loadingProvider.hide();

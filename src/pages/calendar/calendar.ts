@@ -62,7 +62,6 @@ export class CalendarPage {
       schedules.forEach(schedule => { 
         const date = moment(schedule.key);
         const today = moment().format("YYYY-MM-DD");
-        console.log("this.schedule",schedule);
         // calendar must be before expired date
         if(date.isAfter(today)) {
           this.sessionStart =  schedule.key+ "T08:00:00";
@@ -71,7 +70,7 @@ export class CalendarPage {
             title: schedule.key,
             startTime: new Date(this.sessionStart),
             endTime: new Date(this.sessionEnd),
-            allDay: false,
+            allDay: true,
           });
           this.index++;
           temp +=1;
@@ -105,11 +104,8 @@ export class CalendarPage {
   }
 
   onEventSelected(event) {
-    console.log("this.selectedDay",event);
-
     let start = moment(event.startTime).format("LLLL");
     let end = moment(event.endTime).format("LLLL");
-
     let alert = this.alertCtrl.create({
       title: "" + "Detail",
       subTitle: "From: " + start + "<br>To: " + end,
@@ -117,7 +113,6 @@ export class CalendarPage {
     });
     alert.present();
   }
-
   onTimeSelected(ev) {
     this.selectedDay = ev.selectedTime;
   }

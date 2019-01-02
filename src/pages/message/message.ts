@@ -55,124 +55,18 @@ export class MessagePage {
     public camera: Camera,
     public keyboard: Keyboard
   ) {}
-  giveRating() {
-    
-    // this.alert = this.alertCtrl.create({
-    //   title: 'Specify the reason',
-    //   // inputs: [
-    //   //   {
-    //   //     type: 'radio',
-    //   //     label: 'label 1',
-    //   //     value: '0'
-    //   //   },
-    //   //   {
-    //   //     type: 'radio',
-    //   //     label: 'label 2',
-    //   //     value: '1'
-    //   //   }
-    //   // ],
-    //   inputs: [
-    //       {
-    //       name: 'comment',
-    //       placeholder: 'give comment psychologist'
-    //       }
-    //     ],
-    //   buttons: [
-    //     {
-    //       text: 'OK',
-    //       handler: () => {
-    //         console.log('OK clicked: ' );
-    //         // I NEED TO GET THE VALUE OF THE SELECTED RADIO BUTTON HERE
-    //       }
-    //     }
-    //   ]
-    // }).present();
-    // alert
-    // this.alert = this.alertCtrl.create();
-    // this.alert.setTitle("Select Site");
-    // this.alert.addInput({ type: "radio", label: "1", value: "1",checked: true});
-    // this.alert.addInput({ type: "radio", label: "2", value: "2" });
-    // this.alert.addInput({ type: "radio", label: "3", value: "3" });
-    // this.alert.addInput({ type: "radio", label: "4", value: "4" });
-    // this.alert.addInput({ type: "radio", label: "5", value: "5" });
-    // this.alert.addInput({ name: "comment", placeholder: "comment psg" });
-    // this.alert
-    //   .addButton({
-    //     text: "OK",
-    //     handler: data => {
-    //       console.log("Site:", data);
-    //     }
-    //   })
-    //   .present();
-    // close alert
-    // this.alert = this.alertCtrl
-    //   .create({
-    //     title: "Rate your speech:",
-    //     subTitle: "HAHA",
-    //     cssClass: "alertstar",
-    //     enableBackdropDismiss:false,
-    //     buttons: [
-    //       {
-    //         text: "1",
-    //         handler: data => {
-    //           console.log("1");
-    //         }
-    //       },
-    //       {
-    //         text: "2",
-    //         handler: data => {
-    //           console.log("2");
-    //         }
-    //       },
-    //       {
-    //         text: "3",
-    //         handler: data => {
-    //           console.log("3");
-    //         }
-    //       },
-    //       {
-    //         text: "4",
-    //         handler: data => {
-    //           console.log("4");
-    //         }
-    //       },
-    //       {
-    //         text: "5",
-    //         handler: data => {
-    //           console.log("5");
-    //         }
-    //       },
-    //     ],
-    //     inputs: [
-    //       {
-    //         name: 'comment',
-    //         placeholder: 'Write a comment...'
-    //       }
-    //     ],
-
-    //   })
-    //   .present();
-  }
   ionViewDidLoad() {
-    this.giveRating();
+    this.userId = localStorage.getItem("uid_client")
     this.psgId = this.navParams.get("psgId");
     this.idConversation = this.navParams.get("idConversation");
     this.stopConversation = this.navParams.get("stopConversation");
-    // Get friend details.
-    console.log("psggId", this.psgId);
-    console.log("idconvers", this.idConversation);
+    // Get psychology details.
+    console.log("psgId", this.psgId);
     this.dataProvider.getPsgAvailable(this.psgId).subscribe(user => {
       this.title = user.name;
     });
-
-    // Get conversationInfo with friend.
-
-    // User already have conversation with this friend, get conversation
-
     // Get conversation
-    this.dataProvider
-      .getConversationMessages(this.idConversation)
-      .subscribe(messages => {
+    this.dataProvider.getConversationMessages(this.idConversation).subscribe(messages => {
         // console.log("msg messages", messages);
         this.allMessage = messages;
         if (this.messages) {
@@ -276,30 +170,20 @@ export class MessagePage {
   }
   // Update messagesRead when user lefts this page.
   ionViewWillLeave() {
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'flex';
+        });
+    }
     if (this.allMessage) console.log("leave msg", this.allMessage);
-    this.setMessagesRead(this.allMessage);
+    this.setMessagesRead(this.allMessage.length);
   }
 
   // Check if currentPage is active, then update user's messagesRead.
-  setMessagesRead(messages) {
+  setMessagesRead(totalMessagesCount) {
     if (this.navCtrl.getActive().instance instanceof MessagePage) {
-      // Update user's messagesRead on database.
-      var totalMessagesCount;
-      this.dataProvider.getConversationMessages(this.idConversation).subscribe(messages => {
-          totalMessagesCount = messages.length;
-        });
-      this.angularfireDatabase
-        .object(
-          "/users/" +
-            firebase.auth().currentUser.uid +
-            "/conversations/" +
-            this.psgId +
-            "/" +
-            this.idConversation
-        )
-        .update({
-          messagesRead: messages
-        });
+      this.angularfireDatabase.object("/users/" + firebase.auth().currentUser.uid +"/conversations/" + this.psgId + "/" + this.idConversation).update({messagesRead: totalMessagesCount});
     }
   }
 
@@ -360,7 +244,6 @@ export class MessagePage {
           {
             text: "OK",
             handler: () => {
-              this.giveRating();
               console.log("finish session");
             }
           }
@@ -372,7 +255,6 @@ export class MessagePage {
   // Send message, if there's no conversation yet, create a new conversation.
   send() {
     if (this.message) {
-      console.log("typing", this.message);
       // User entered a text on messagebox
       // get from param
       console.log("msg idc", this.idConversation);
@@ -384,6 +266,7 @@ export class MessagePage {
         messages.push({
           date: new Date().toString(),
           sender: firebase.auth().currentUser.uid,
+          receiver: this.psgId,
           type: "text",
           message: this.message
         });
@@ -400,43 +283,26 @@ export class MessagePage {
         messages.push({
           date: new Date().toString(),
           sender: firebase.auth().currentUser.uid,
+          receiver: this.psgId,
           type: "text",
           message: this.message
         });
-        var users = [];
-        users.push(firebase.auth().currentUser.uid);
-        users.push(this.userId);
         // Add conversation.
         this.angularfireDatabase
           .list("conversations" + this.idConversation)
           .push({
             dateCreated: new Date().toString(),
             messages: messages,
-            users: users
           })
           .then(success => {
             let conversationId = success;
             this.message = "";
             // Add conversation reference to the users.
-            this.angularfireDatabase
-              .object(
-                "/users/" +
-                  firebase.auth().currentUser.uid +
-                  "/conversations/" +
-                  this.userId
-              )
-              .update({
+            this.angularfireDatabase.object("/users/" + firebase.auth().currentUser.uid + "/conversations/" +this.userId).update({
                 conversationId: conversationId,
                 messagesRead: 1
               });
-            this.angularfireDatabase
-              .object(
-                "/psg/" +
-                  this.userId +
-                  "/conversations/" +
-                  firebase.auth().currentUser.uid
-              )
-              .update({
+            this.angularfireDatabase.object("/psg/" + this.userId + "/conversations/" + firebase.auth().currentUser.uid).update({
                 conversationId: conversationId,
                 messagesRead: 0
               });
