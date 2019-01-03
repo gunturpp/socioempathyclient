@@ -24,7 +24,6 @@ import { timestamp } from "rxjs/operators";
   templateUrl: "messages.html"
 })
 export class MessagesPage {
-  timeover: string;
   mainIdConversation;
   profilePsg =[];
   bookSession: any;
@@ -35,7 +34,6 @@ export class MessagesPage {
   remainingTime = [];
   displayTime = [];
   runTimer: boolean;
-  time: any;
   timeInSeconds: any;
   conversationId: any;
   currentUser = firebase.auth().currentUser.uid;
@@ -45,6 +43,8 @@ export class MessagesPage {
   roles: any;
   iterate = 0;
   z: any;
+  time: any;
+  increment=0;
   i(arg0: any): any {
     throw new Error("Method not implemented.");
   }
@@ -77,7 +77,8 @@ export class MessagesPage {
   ionViewDidLoad() {
     // Create userData on the database if it doesn't exist yet.
     this.createUserData();
-    this.devicesTokenUpdate();
+    this.devicesTokenUpdate(); 
+
     this.searchFriend = "";
     this.loadingProvider.show();
 
@@ -85,7 +86,7 @@ export class MessagesPage {
     this.dataProvider.getConversations().subscribe(conversations => {
       if (conversations.length > 0) {
         conversations.forEach(conversation => {
-          // console.log("psgId", conversation.key);
+          console.log("conversation", conversation.key);
           this.dataProvider.getPsgAvailable(conversation.key).subscribe(psgProfile => {
               this.profilePsg.push(psgProfile);
             });
@@ -97,10 +98,13 @@ export class MessagesPage {
                   listConversations.key = conversation.key;
                   this.mainIdConversation = listConversations;
                   this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
+                      // console.log("obj", obj);
+
                       // Get last message of conversation.
                       this.bookingDay = obj.scheduleId;
                       this.bookSession = obj.sessionke;
-
+                      this.countdown(obj.scheduleId, obj.sessionke,this.increment);
+                      this.increment++;
                       // console.log("bookingday", this.bookingDay);
                       // console.log("bookSession", this.bookSession);
                       let lastMessage = obj.messages[obj.messages.length - 1];
@@ -156,6 +160,43 @@ export class MessagesPage {
         }
       }, 60000);
     }
+  }
+  countdown(date,time,index){
+    var b = moment(date+' '+time);
+    setInterval(() => { 
+      var a = moment();
+      this.timeInSeconds = Math.round(b.diff(a)/1000);
+      this.displayTime[index] = this.getSecondsAsDigitalClock(this.timeInSeconds)
+      console.log("this.displayTime[index]", index); //just uncoment to show countdown in console	
+   }, 1000);
+  }
+  getSecondsAsDigitalClock(inputSeconds: number) {	
+      var sec_num = inputSeconds; // don't forget the second param	
+      if (sec_num < 0) {	
+        return 'timeover';	
+      } else {	
+      console.log("milisecond", sec_num); //just uncoment to show countdown in console	
+      var days = Math.floor(sec_num / 86400); // 3600 * 24	
+      var hours = Math.floor(sec_num / 3600) - days * 24;	
+      var temphours = Math.floor(sec_num / 3600);	
+      var minutes = Math.floor((sec_num - temphours * 3600) / 60);	
+      // console.log("minutes", minutes);	
+      var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);	
+      var hoursString = "";	
+      var minutesString = "";	
+      var secondsString = "";	
+      var daysString = "";	
+      hoursString = hours < 10 ? "0" + hours : hours.toString();	
+      minutesString = minutes < 10 ? "0" + minutes : minutes.toString();	
+      secondsString = seconds < 10 ? "0" + seconds : seconds.toString();	
+      daysString = days.toString();	
+      // return daysString + "days ";	
+      if (daysString == "0") {	
+        return hoursString + ":" + minutesString + ":" + secondsString;	
+      } else {	
+        return (daysString +"days " +hoursString +":" +minutesString +":" + secondsString);	
+      }	
+    }	
   }
 
   devicesTokenUpdate() {
@@ -287,15 +328,17 @@ export class MessagesPage {
   }
 
   // Open chat with friend.
-  message(psgId, idConversation) {
+  message(psgId, idConversation,i) {
     let tabs = document.querySelectorAll('.show-tabbar');
     if (tabs !== null) {
         Object.keys(tabs).map((key) => {
             tabs[key].style.display = 'none';
         });
     }
+    console.log("this.displayTime",this.displayTime[i])
     this.navCtrl.push(MessagePage, {
       psgId: psgId,
+      isTimeover:this.displayTime[i],
       idConversation: idConversation,
       stopConversation: this.hasFinished
     });

@@ -152,6 +152,12 @@ export class DataProvider {
       .valueChanges();
     return this.items;
   }
+  getListConversation(conversationId) {
+    this.items = this.angularfireDatabase
+      .list("/conversations/" + conversationId)
+      .valueChanges();
+    return this.items;
+  }
 
   // Get messages of the group given the Id.
   getGroupMessages(groupId) {

@@ -39,6 +39,7 @@ export class MessagePage {
   private scrollDirection: any = "bottom";
   // Set number of messages to show.
   private numberOfMessages = 10;
+  isTimeover: any;
 
   // MessagePage
   // This is the page where the user can chat with a friend.
@@ -58,6 +59,7 @@ export class MessagePage {
   ionViewDidLoad() {
     this.userId = localStorage.getItem("uid_client")
     this.psgId = this.navParams.get("psgId");
+    this.isTimeover = this.navParams.get("isTimeover");
     this.idConversation = this.navParams.get("idConversation");
     this.stopConversation = this.navParams.get("stopConversation");
     // Get psychology details.
@@ -67,7 +69,7 @@ export class MessagePage {
     });
     // Get conversation
     this.dataProvider.getConversationMessages(this.idConversation).subscribe(messages => {
-        // console.log("msg messages", messages);
+        console.log("msg messages", messages);
         this.allMessage = messages;
         if (this.messages) {
           // Just append newly added messages to the bottom of the view.

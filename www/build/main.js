@@ -223,6 +223,8 @@ var LoginProvider = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__message_message__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase_app__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_firebase_app___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_firebase_app__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_moment__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -232,6 +234,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -260,6 +263,7 @@ var MessagesPage = /** @class */ (function () {
         this.displayTime = [];
         this.currentUser = __WEBPACK_IMPORTED_MODULE_7_firebase_app__["auth"]().currentUser.uid;
         this.iterate = 0;
+        this.increment = 0;
         // conversation: any;
         this.conversations = [];
         this.roles = localStorage.getItem("registerRole");
@@ -280,7 +284,7 @@ var MessagesPage = /** @class */ (function () {
         this.dataProvider.getConversations().subscribe(function (conversations) {
             if (conversations.length > 0) {
                 conversations.forEach(function (conversation) {
-                    // console.log("psgId", conversation.key);
+                    console.log("conversation", conversation.key);
                     _this.dataProvider.getPsgAvailable(conversation.key).subscribe(function (psgProfile) {
                         _this.profilePsg.push(psgProfile);
                     });
@@ -292,9 +296,12 @@ var MessagesPage = /** @class */ (function () {
                                 listConversations.key = conversation.key;
                                 _this.mainIdConversation = listConversations;
                                 _this.dataProvider.getConversation(listConversations.conversationId).subscribe(function (obj) {
+                                    // console.log("obj", obj);
                                     // Get last message of conversation.
                                     _this.bookingDay = obj.scheduleId;
                                     _this.bookSession = obj.sessionke;
+                                    _this.countdown(obj.scheduleId, obj.sessionke, _this.increment);
+                                    _this.increment++;
                                     // console.log("bookingday", this.bookingDay);
                                     // console.log("bookSession", this.bookSession);
                                     var lastMessage = obj.messages[obj.messages.length - 1];
@@ -348,6 +355,46 @@ var MessagesPage = /** @class */ (function () {
                     });
                 }
             }, 60000);
+        }
+    };
+    MessagesPage.prototype.countdown = function (date, time, index) {
+        var _this = this;
+        var b = __WEBPACK_IMPORTED_MODULE_8_moment__(date + ' ' + time);
+        setInterval(function () {
+            var a = __WEBPACK_IMPORTED_MODULE_8_moment__();
+            _this.timeInSeconds = Math.round(b.diff(a) / 1000);
+            _this.displayTime[index] = _this.getSecondsAsDigitalClock(_this.timeInSeconds);
+            console.log("this.displayTime[index]", index); //just uncoment to show countdown in console	
+        }, 1000);
+    };
+    MessagesPage.prototype.getSecondsAsDigitalClock = function (inputSeconds) {
+        var sec_num = inputSeconds; // don't forget the second param	
+        if (sec_num < 0) {
+            return 'timeover';
+        }
+        else {
+            console.log("milisecond", sec_num); //just uncoment to show countdown in console	
+            var days = Math.floor(sec_num / 86400); // 3600 * 24	
+            var hours = Math.floor(sec_num / 3600) - days * 24;
+            var temphours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - temphours * 3600) / 60);
+            // console.log("minutes", minutes);	
+            var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);
+            var hoursString = "";
+            var minutesString = "";
+            var secondsString = "";
+            var daysString = "";
+            hoursString = hours < 10 ? "0" + hours : hours.toString();
+            minutesString = minutes < 10 ? "0" + minutes : minutes.toString();
+            secondsString = seconds < 10 ? "0" + seconds : seconds.toString();
+            daysString = days.toString();
+            // return daysString + "days ";	
+            if (daysString == "0") {
+                return hoursString + ":" + minutesString + ":" + secondsString;
+            }
+            else {
+                return (daysString + "days " + hoursString + ":" + minutesString + ":" + secondsString);
+            }
         }
     };
     MessagesPage.prototype.devicesTokenUpdate = function () {
@@ -484,15 +531,17 @@ var MessagesPage = /** @class */ (function () {
         });
     };
     // Open chat with friend.
-    MessagesPage.prototype.message = function (psgId, idConversation) {
+    MessagesPage.prototype.message = function (psgId, idConversation, i) {
         var tabs = document.querySelectorAll('.show-tabbar');
         if (tabs !== null) {
             Object.keys(tabs).map(function (key) {
                 tabs[key].style.display = 'none';
             });
         }
+        console.log("this.displayTime", this.displayTime[i]);
         this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__message_message__["a" /* MessagePage */], {
             psgId: psgId,
+            isTimeover: this.displayTime[i],
             idConversation: idConversation,
             stopConversation: this.hasFinished
         });
@@ -566,19 +615,12 @@ var MessagesPage = /** @class */ (function () {
     };
     MessagesPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-            selector: "page-messages",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="newMessage()">\n\n        <ion-icon name="ios-create"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- Fablist -->\n\n  <ion-fab right bottom>\n\n    <button color="theblues" ion-fab mini (click)="newMessage()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <!-- No conversations to show -->\n\n  <div class="empty-list" *ngIf="conversations && conversations.length <= 0">\n\n    <h1>\n\n      <ion-icon name="md-text"></ion-icon>\n\n    </h1>\n\n    <p>Booking psikologmu segera.</p>\n\n  </div>\n\n  <!-- Show conversations -->\n\n  <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">\n\n    <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->\n\n    <!-- press button di comment -->\n\n    <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"\n\n      no-lines tappable (click)="message(conversation.key,conversation.conversationId)">\n\n      <ion-avatar item-left *ngIf="profilePsg">\n\n          <img src="{{profilePsg[i].img}}">\n\n        </ion-avatar>\n\n        <div [ngClass]=hasUnreadMessages(conversation)>\n\n          <h2 *ngIf="profilePsg">{{profilePsg[i].name}}</h2>\n\n          <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>\n\n          <p>{{conversation.message}}</p>\n\n          <span class="date">\n\n            <br>{{conversation.date | DateFormat}}</span>\n\n        </div>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/
+            selector: "page-messages",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/'<ion-header>\n\n  <ion-navbar color="theblues">\n\n    <img class="socioCss" src="assets/images/headerSocio.png" />\n\n    <ion-buttons end>\n\n      <button ion-button icon-only tappable (click)="newMessage()">\n\n        <ion-icon name="ios-create"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n  <!-- Fablist -->\n\n  <ion-fab right bottom>\n\n    <button color="theblues" ion-fab mini (click)="newMessage()">\n\n      <ion-icon name="add"></ion-icon>\n\n    </button>\n\n  </ion-fab>\n\n  <!-- No conversations to show -->\n\n  <div class="empty-list" *ngIf="conversations && conversations.length <= 0">\n\n    <h1>\n\n      <ion-icon name="md-text"></ion-icon>\n\n    </h1>\n\n    <p>Booking psikologmu segera.</p>\n\n  </div>\n\n  <!-- Show conversations -->\n\n  <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">\n\n    <!-- <ion-searchbar [(ngModel)]="searchFriend" placeholder="Search for friend or username" showCancelButton="true" cancelButtonText="Done"></ion-searchbar> -->\n\n    <!-- press button di comment -->\n\n    <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"\n\n      no-lines tappable (click)="message(conversation.key,conversation.conversationId,i)">\n\n      <ion-avatar item-left *ngIf="profilePsg">\n\n          <img src="{{profilePsg[i].img}}">\n\n        </ion-avatar>\n\n        <div [ngClass]=hasUnreadMessages(conversation)>\n\n          <h2 *ngIf="profilePsg">{{profilePsg[i].name}}</h2>\n\n          <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>\n\n          <p>{{conversation.message}}</p>\n\n          <span class="date">\n\n            <br>{{conversation.date | DateFormat}} {{displayTime[i]}}</span>\n\n        </div>\n\n    </ion-item>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\messages\messages.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* ActionSheetController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* App */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* DataProvider */],
-            __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */]])
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* ActionSheetController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["a" /* ActionSheetController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* App */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* App */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* DataProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_data__["a" /* DataProvider */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */]) === "function" && _j || Object])
     ], MessagesPage);
     return MessagesPage;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 }());
 
 //# sourceMappingURL=messages.js.map
@@ -7715,6 +7757,7 @@ var MessagePage = /** @class */ (function () {
         var _this = this;
         this.userId = localStorage.getItem("uid_client");
         this.psgId = this.navParams.get("psgId");
+        this.isTimeover = this.navParams.get("isTimeover");
         this.idConversation = this.navParams.get("idConversation");
         this.stopConversation = this.navParams.get("stopConversation");
         // Get psychology details.
@@ -7724,7 +7767,7 @@ var MessagePage = /** @class */ (function () {
         });
         // Get conversation
         this.dataProvider.getConversationMessages(this.idConversation).subscribe(function (messages) {
-            // console.log("msg messages", messages);
+            console.log("msg messages", messages);
             _this.allMessage = messages;
             if (_this.messages) {
                 // Just append newly added messages to the bottom of the view.
@@ -8078,26 +8121,16 @@ var MessagePage = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewChild"])(__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* Content */]),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* Content */])
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* Content */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* Content */]) === "function" && _a || Object)
     ], MessagePage.prototype, "content", void 0);
     MessagePage = MessagePage_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-            selector: "page-message",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\message\message.html"*/'<ion-header>\n\n  <!-- <ion-navbar hideBackButton="true"> -->\n\n  <ion-navbar>\n\n    <ion-title>{{title}}</ion-title>\n\n    <ion-buttons right>\n\n      <button ion-button tappable (click)="finishSession()">\n\n        <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content has-footer>\n\n  <!-- Problem -->\n\n  <div class="problems">\n\n    <span class="field-problem">Keluhan :</span><br>\n\n    <span>Masalah mental ketika orangtua bercerai ingin bunuh diri</span>\n\n  </div>\n\n  <!-- rating -->\n\n  <!-- <div class="rating">\n\n    <div class="banner">\n\n      <h2>Thank You</h2>\n\n      <img src="" (load)="doScroll()"/>\n\n      <span>Rate this psychologist</span>\n\n    </div>\n\n    <button ion-button>SUBMIT</button>\n\n  </div> -->\n\n\n\n  <!-- Messages -->\n\n  <div class="messages">\n\n    <p class="center" *ngIf="startIndex > 0">\n\n      <span tappable (click)="loadPreviousMessages()">Load previous messages</span>\n\n    </p>\n\n    <ion-row *ngFor="let message of messagesToShow">\n\n      <!--  Message -->\n\n      <ion-col col-2 class="center" *ngIf="isSender(message)">\n\n        <img src="{{message.avatar}}" (load)="doScroll()" />\n\n      </ion-col>\n\n      <ion-col col-1 *ngIf="!isSender(message)">\n\n      </ion-col>\n\n      <ion-col col-9 class="sender" *ngIf="isSender(message)">\n\n        <div class="left" *ngIf="message.type == \'text\'">\n\n          <p>{{message.message}}</p>\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n        <div class="left" *ngIf="message.type == \'image\'">\n\n          <img tappable (click)="enlargeImage(message.url)" src="{{message.url}}" (load)="doScroll()" />\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n      </ion-col>\n\n      <ion-col col-9 *ngIf="!isSender(message)">\n\n        <div class="right" *ngIf="message.type == \'text\'">\n\n          <p>{{message.message}}</p>\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n        <div class="left" *ngIf="message.type == \'image\'">\n\n          <img tappable (click)="enlargeImage(message.url)" src="{{message.url}}" (load)="doScroll()" />\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n      </ion-col>\n\n      <ion-col col-1 *ngIf="isSender(message)">\n\n      </ion-col>\n\n      <ion-col col-2 class="center" *ngIf="!isSender(message)">\n\n        <img src="{{message.avatar}}" tappable (click)="viewUser(message.sender)" (load)="doScroll()" />\n\n      </ion-col>\n\n    </ion-row>\n\n  </div>\n\n</ion-content>\n\n<!-- Message Box -->\n\n<ion-footer>\n\n<!-- <ion-footer *ngIf="!stopConversation"> -->\n\n        <div class="bottom_bar">\n\n    <!-- <ion-fab middle left>\n\n      <button ion-fab mini tappable (click)="sendPhoto()"><ion-icon name="md-camera"></ion-icon></button>\n\n    </ion-fab> -->\n\n    <ion-textarea type="text" placeholder="Type your message" [(ngModel)]="message" (focus)="scrollBottom()" (keypress)="onType($event.keyCode)"></ion-textarea>\n\n    <ion-fab middle right>\n\n      <button ion-fab mini tappable (click)="send()" [disabled]="!message">\n\n        <ion-icon name="md-send"></ion-icon>\n\n      </button>\n\n    </ion-fab>\n\n  </div>\n\n</ion-footer>\n\n<!-- <ion-footer *ngIf="stopConversation">\n\n  <div class="session_end">Your session is ended, go booking your psychologist again.</div>\n\n</ion-footer> -->'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\message\message.html"*/
+            selector: "page-message",template:/*ion-inline-start:"E:\Github\socioempathyclient\src\pages\message\message.html"*/'<ion-header>\n\n  <!-- <ion-navbar hideBackButton="true"> -->\n\n  <ion-navbar>\n\n    <ion-title>{{title}}</ion-title>\n\n    <ion-buttons right>\n\n      <button ion-button tappable (click)="finishSession()">\n\n        <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content has-footer>\n\n  <!-- Problem -->\n\n  <div class="problems">\n\n    <span class="field-problem">Keluhan :</span><br>\n\n    <span>Masalah mental ketika orangtua bercerai ingin bunuh diri</span>\n\n  </div>\n\n  <!-- rating -->\n\n  <!-- <div class="rating">\n\n    <div class="banner">\n\n      <h2>Thank You</h2>\n\n      <img src="" (load)="doScroll()"/>\n\n      <span>Rate this psychologist</span>\n\n    </div>\n\n    <button ion-button>SUBMIT</button>\n\n  </div> -->\n\n\n\n  <!-- Messages -->\n\n  <div class="messages">\n\n    <p class="center" *ngIf="startIndex > 0">\n\n      <span tappable (click)="loadPreviousMessages()">Load previous messages</span>\n\n    </p>\n\n    <ion-row *ngFor="let message of messagesToShow">\n\n      <!--  Message -->\n\n      <ion-col col-2 class="center" *ngIf="isSender(message)">\n\n        <img src="{{message.avatar}}" (load)="doScroll()" />\n\n      </ion-col>\n\n      <ion-col col-1 *ngIf="!isSender(message)">\n\n      </ion-col>\n\n      <ion-col col-9 class="sender" *ngIf="isSender(message)">\n\n        <div class="left" *ngIf="message.type == \'text\'">\n\n          <p>{{message.message}}</p>\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n        <div class="left" *ngIf="message.type == \'image\'">\n\n          <img tappable (click)="enlargeImage(message.url)" src="{{message.url}}" (load)="doScroll()" />\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n      </ion-col>\n\n      <ion-col col-9 *ngIf="!isSender(message)">\n\n        <div class="right" *ngIf="message.type == \'text\'">\n\n          <p>{{message.message}}</p>\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n        <div class="left" *ngIf="message.type == \'image\'">\n\n          <img tappable (click)="enlargeImage(message.url)" src="{{message.url}}" (load)="doScroll()" />\n\n          <span>{{message.date | DateFormat}}</span>\n\n        </div>\n\n      </ion-col>\n\n      <ion-col col-1 *ngIf="isSender(message)">\n\n      </ion-col>\n\n      <ion-col col-2 class="center" *ngIf="!isSender(message)">\n\n        <img src="{{message.avatar}}" tappable (click)="viewUser(message.sender)" (load)="doScroll()" />\n\n      </ion-col>\n\n    </ion-row>\n\n  </div>\n\n</ion-content>\n\n<!-- Message Box -->\n\n<ion-footer *ngIf="isTimeover !== \'timeover\'">\n\n<!-- <ion-footer *ngIf="!stopConversation"> -->\n\n        <div class="bottom_bar">\n\n    <!-- <ion-fab middle left>\n\n      <button ion-fab mini tappable (click)="sendPhoto()"><ion-icon name="md-camera"></ion-icon></button>\n\n    </ion-fab> -->\n\n    <ion-textarea type="text" placeholder="Type your message" [(ngModel)]="message" (focus)="scrollBottom()" (keypress)="onType($event.keyCode)"></ion-textarea>\n\n    <ion-fab middle right>\n\n      <button ion-fab mini tappable (click)="send()" [disabled]="!message">\n\n        <ion-icon name="md-send"></ion-icon>\n\n      </button>\n\n    </ion-fab>\n\n  </div>\n\n</ion-footer>\n\n<ion-footer *ngIf="isTimeover == \'timeover\'">\n\n  <div class="session_end">Your session is ended, create next session with your psychologist.</div>\n\n</ion-footer>'/*ion-inline-end:"E:\Github\socioempathyclient\src\pages\message\message.html"*/
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */],
-            __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* DataProvider */],
-            __WEBPACK_IMPORTED_MODULE_6_angularfire2_database__["a" /* AngularFireDatabase */],
-            __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */],
-            __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */],
-            __WEBPACK_IMPORTED_MODULE_5__providers_image__["a" /* ImageProvider */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */],
-            __WEBPACK_IMPORTED_MODULE_10__ionic_native_camera__["a" /* Camera */],
-            __WEBPACK_IMPORTED_MODULE_11__ionic_native_keyboard__["a" /* Keyboard */]])
+        __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["j" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavParams */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* DataProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_data__["a" /* DataProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6_angularfire2_database__["a" /* AngularFireDatabase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_angularfire2_database__["a" /* AngularFireDatabase */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__providers_loading__["a" /* LoadingProvider */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__providers_firebase__["a" /* FirebaseProvider */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_5__providers_image__["a" /* ImageProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_image__["a" /* ImageProvider */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* AlertController */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */]) === "function" && _k || Object, typeof (_l = typeof __WEBPACK_IMPORTED_MODULE_10__ionic_native_camera__["a" /* Camera */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_10__ionic_native_camera__["a" /* Camera */]) === "function" && _l || Object, typeof (_m = typeof __WEBPACK_IMPORTED_MODULE_11__ionic_native_keyboard__["a" /* Keyboard */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_11__ionic_native_keyboard__["a" /* Keyboard */]) === "function" && _m || Object])
     ], MessagePage);
     return MessagePage;
-    var MessagePage_1;
+    var MessagePage_1, _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
 }());
 
 //# sourceMappingURL=message.js.map

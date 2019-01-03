@@ -34358,7 +34358,8 @@ page-lovepoint-store .right-icon {
 
 page-message .session_end {
   color: white;
-  font-size: 20px;
+  font-size: 16px;
+  background-color: black;
   text-align: center;
   padding: 20px;
 }
