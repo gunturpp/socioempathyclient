@@ -220,9 +220,43 @@ export class ImageProvider {
       this.alertProvider.showErrorMessage('image/error-image-upload');
     });
   }
-  
+  setNotaPhoto(newInvoice, sourceType) {
+    this.profilePhotoOptions.sourceType = sourceType;
+    this.loadingProvider.show();
+    // Get picture from camera or gallery.
+    this.camera.getPicture(this.profilePhotoOptions).then((imageData) => {
+      // Process the returned imageURI.
+      let imgBlob = this.imgURItoBlob("data:image/jpeg;base64," + imageData);
+      let metadata = {
+        'contentType': imgBlob.type
+      };
+      // Generate filename and upload to Firebase Storage.
+      firebase.storage().ref().child('invoice/' + newInvoice.userId + '/' + this.generateFilename()).put(imgBlob, metadata).then((snapshot) => {
+        // URL of the uploaded image!
+        let url = snapshot.metadata.downloadURLs[0];
 
-
+            // Update User Data on Database.
+            this.angularfireDatabase.object('/invoice/'+ firebase.auth().currentUser.uid +'/'+ newInvoice.invoice).set({
+              userId: newInvoice.userId,
+              code:newInvoice.code,
+              dateCreated:newInvoice.dateCreated,
+              invoice:newInvoice.invoice,
+              nota_url:url
+            }).then((success) => {
+              this.loadingProvider.hide();
+              this.alertProvider.showInvoiceUpdatedMessage();
+            }).catch((error) => {
+              this.loadingProvider.hide();
+              this.alertProvider.showErrorMessage('invoice/error-change-photo');
+            });
+      }).catch((error) => {
+        this.loadingProvider.hide();
+        this.alertProvider.showErrorMessage('image/error-image-upload');
+      });
+    }).catch((error) => {
+      this.loadingProvider.hide();
+    });
+  }
   // Set ProfilePhoto given the user and the cameraSourceType.
   // This function processes the imageURI returned and uploads the file on Firebase,
   // Finally the user data on the database is updated.

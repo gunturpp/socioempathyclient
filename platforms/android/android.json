@@ -143,44 +143,44 @@
   },
   "installed_plugins": {
     "cordova-plugin-calendar": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-fcm-with-dependecy-updated": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-firebase": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-googleplus": {
       "PLAY_SERVICES_VERSION": "11.8.0",
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-speechrecognition": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "cordova-support-google-services": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "ionic-plugin-keyboard": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "phonegap-plugin-multidex": {
-      "PACKAGE_NAME": "io.ionic.socioempathy"
+      "PACKAGE_NAME": "id.socio.socioempathy"
     }
   },
   "dependent_plugins": {},

@@ -1,0 +1,17 @@
+page-invoice-list {
+    .waiting {
+        color: orange;
+    }
+    .accept {
+        color: $sociocolor
+    }
+    .reject {
+        color: red;
+    }
+    .item-md ion-avatar img {
+        border-radius: 0% !important;
+        overflow: hidden;
+        width: 60px !important;
+        height: 60px !important;
+    }
+}

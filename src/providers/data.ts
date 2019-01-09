@@ -66,6 +66,21 @@ export class DataProvider {
   setUser(userId) {
     return this.angularfireDatabase.object("/users/" + userId);
   }
+  setVoucher(userId) {
+    return this.angularfireDatabase.object("/vouchers/" + userId);
+  }
+  getVoucherByCode(code) {
+    this.items =  this.angularfireDatabase.object("/vouchers/"+code).valueChanges();
+    return this.items;
+  }
+  getVoucherByUser(code) {
+    this.items =  this.angularfireDatabase.object("/users/"+ firebase.auth().currentUser.uid +"/vouchers/"+code).valueChanges();
+    return this.items;
+  }
+  getInvoiceByUser() {
+    this.items =  this.angularfireDatabase.list("/invoice/" + firebase.auth().currentUser.uid).valueChanges();
+    return this.items;
+  }
 
   UpdateUser(userId) {
     return this.angularfireDatabase.object("/users/" + userId);
@@ -129,7 +144,10 @@ export class DataProvider {
     this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/" + psgId).valueChanges();
     return this.items;
   }
-  
+  getTickets() {
+    this.items = this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid).valueChanges();
+    return this.items;
+  }
   // Get conversations of the current logged in user.
   getConversations() {
     this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/").snapshotChanges();

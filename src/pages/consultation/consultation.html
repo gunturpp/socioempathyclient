@@ -1,6 +1,11 @@
 <ion-header>
   <ion-navbar color="theblues">
     <img class="socioCss" src="assets/images/headerSocio.png" />
+    <ion-buttons end>
+      <button ion-button icon-only (click)="invoicePage()">
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -9,7 +14,29 @@
   <div class="center">
     <h2>Selesaikan masalahmu dengan psikolog</h2>
     <img class="boardimg" src="assets/images/consult.png">
+    <p *ngIf="ticket">Tiket anda : {{ticket.ticketTotal}}</p>
+    <p *ngIf="!ticket">Anda tidak memiliki tiket</p>
     <p>Atur waktu yang kamu inginkan untuk curhat dengan psikolog</p>
     <button color="theblues" ion-button (click)="checkCalendar()">ATUR JADWAL</button>
   </div>
+  <br>
+  <div *ngIf="ticket && ticket.ticketTotal < 1" class="container-packets">
+    <div *ngFor="let packet of packets">
+      <div class="packets">
+        <h3>{{packet.packets_name}}</h3><br>
+        <span class="price">Rp{{packet.price}}</span><br>
+        <span class="discount">Diskon {{packet.discount}}</span><br>
+        <span class="price-discount"><b>Rp{{packet.priceAfterDiscount}}</b></span><br>
+        <span class="detail">{{packet.ticket}} Tiket
+          dengan durasi {{packet.session_time}}/Tiket<br>
+          (Masa berlaku paket {{packet.expired_date}} hari)</span>
+      </div>
+      <div class="choose-packet" (click)="buyPacket(packet)">Beli Paket</div>
+    </div>
+  </div>
+  <br>
+  <!-- <div class="voucher">
+      <ion-input type="text" placeholder="Masukkan Voucher" [(ngModel)]="voucher"></ion-input>
+      <button class="btn-voucher" ion-button (click)="enterVoucher()"><ion-icon name="send"></ion-icon></button>
+  </div> -->
 </ion-content>

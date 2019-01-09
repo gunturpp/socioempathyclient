@@ -11,10 +11,7 @@ import { LoginPage } from '../login/login';
   templateUrl: 'signup.html',
 })
 export class SignupPage {
-  private mode: string;
   private emailPasswordForm: FormGroup;
-  private emailForm: FormGroup;
-  private role: FormGroup;
   masks: any;
   phoneNumber: any = "";
 
@@ -23,17 +20,12 @@ export class SignupPage {
        this.loginProvider.setNavController(this.navCtrl);
        // Create our forms and their validators based on validators set on validator.ts.
        this.emailPasswordForm = formBuilder.group({
+         displayName: Validator.displayNameValidator,
          email: Validator.emailValidator,
          password: Validator.passwordValidator,
-         displayName: "New User",
-         role: "Client",
-         phoneNumber: Validators.required,
-         gender: Validators.required
+         phoneNumber: Validator.phoneValidator,
+         gender: Validator.genderValidator
        });
-       this.emailForm = formBuilder.group({
-         email: Validator.emailValidator
-       });
-   
        this.masks = {
            phoneNumber: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
        };
@@ -46,12 +38,11 @@ export class SignupPage {
     let unmaskedData = {
         phoneNumber: this.phoneNumber.replace(/\D+/g, '')
     };
-    // console.log("phoneNumber number",unmaskedData);
+    console.log("this.emailPasswordForm.valuegender",this.emailPasswordForm.value["phoneNumber"]);
     this.loginProvider.register(
       this.emailPasswordForm.value["displayName"], 
       this.emailPasswordForm.value["email"], 
       this.emailPasswordForm.value["password"], 
-      this.emailPasswordForm.value["role"], 
       this.emailPasswordForm.value["phoneNumber"], 
       this.emailPasswordForm.value["gender"]);
   }

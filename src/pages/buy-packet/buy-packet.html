@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-navbar> <ion-title>Cara Pembayaran</ion-title> </ion-navbar>
+</ion-header>
+<!-- content nota -->
+<ion-content padding *ngIf="isPopup == true">
+  <div class="nota">
+    <div class="cancel" (click)="btnCancel()">X</div>
+    <p class="nota-unggah" (click)="goUpload()" >Unggah nota</p>
+    <img class="nota-img" src="">
+    <div class="btn-upload">
+      Unggah nota
+    </div>
+  </div>
+  </ion-content>
+<!-- close content nota -->
+
+  <ion-content padding  *ngIf="isPopup == false">
+    <ion-list radio-group>
+    <ion-list-header> Detil Paket </ion-list-header>
+
+    <ion-item>
+      <ion-row>
+        <ion-col col-6>Nama Paket</ion-col>
+        <ion-col col-6 class="right-side">: {{ packet.packets_name }}</ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-item>
+      <ion-row>
+        <ion-col col-6>Jumlah tiket</ion-col>
+        <ion-col col-6 class="right-side"
+          >: {{ packet.ticket }} (berlaku
+          {{ packet.expired_date }} hari)</ion-col
+        >
+      </ion-row>
+    </ion-item>
+
+    <ion-item>
+      <ion-row>
+        <ion-col col-6>Invoice</ion-col>
+        <ion-col col-6 class="right-side">: {{ invoice }}</ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-item>
+      <ion-row>
+        <ion-col col-6>Tanggal</ion-col>
+        <ion-col col-6 class="right-side">: {{ today }}</ion-col>
+      </ion-row>
+    </ion-item>
+
+    <ion-item class="price">
+      <ion-row>
+        <ion-col col-6>Harga</ion-col>
+        <ion-col col-6 class="right-side"
+          >: Rp{{ packet.priceAfterDiscount }}</ion-col
+        >
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <!-- Petunjuk -->
+  <ion-list radio-group>
+    <ion-list-header> Petunjuk Pembayaran </ion-list-header>
+
+    <div class="petunjuk">
+      <ion-row>
+        <ion-col col-1>1.</ion-col>
+        <ion-col col-11>Lakukan pembayaran tepat sesuai dengan nominal yang ditagihkan.</ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-1>2.</ion-col>
+        <ion-col col-11>Lakukan transfer ke nomor rekening yang tertera di bawah ini.</ion-col>
+        <ion-row>
+          <ion-col class="imgBank" col-5>
+            <img src="assets/images/bni.png"/>
+          </ion-col>
+          <ion-col col-7>
+            <br>
+            <b>
+              <span>0324001359</span><br/>
+              <span>Guntur Putra Pratama</span><br/>
+            </b>
+          </ion-col>
+        </ion-row>
+      </ion-row>
+
+      <ion-row>
+        <ion-col col-1>3.</ion-col>
+        <ion-col col-11>Setelah transfer, segera lakukan konfirmasi pembayaran dengan cara
+          mengirimkan/mengunggah bukti transfer pada proses selanjutnya.</ion-col>
+      </ion-row>
+    </div>
+  </ion-list>
+</ion-content>
+<ion-footer *ngIf="isPopup == false">
+    <button class="btn-pilih" ion-button (click)="uploadNota()">Unggah bukti transfer</button>
+</ion-footer>

@@ -4,36 +4,36 @@ import { Login } from '../login';
 import { NavController } from 'ionic-angular';
 import { LoadingProvider } from './loading';
 import { AlertProvider } from './alert';
+import { DataProvider } from './data';
+import { LoginPage } from '../pages/login/login';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class LoginProvider {
   private navCtrl: NavController;
 
-  constructor(public loadingProvider: LoadingProvider, public alertProvider: AlertProvider, public zone: NgZone) {
-    // Detect changes on the Firebase user and redirects the view depending on the user's status.
+  constructor(public angularfireDatabase: AngularFireDatabase,public dataProvider: DataProvider, public loadingProvider: LoadingProvider, public alertProvider: AlertProvider, public zone: NgZone) {
     firebase.auth().onAuthStateChanged((user) => {
-      //console.log("firebase auth : ");
       if (user) {
-          if (Login.emailVerification) {
-            if (1) { //user["emailVerified"]
-              //Goto Home Page.
-              this.zone.run(() => {
-                this.navCtrl.setRoot(Login.homePage, { animate: false });
-              });
-              //Since we're using a TabsPage an NgZone is required.
-            } else {
-              //Goto Verification Page.
-              this.navCtrl.setRoot(Login.verificationPage, { animate: false });
-            }
-          } else {
+        if (Login.emailVerification) {
+          if (user["emailVerified"]) {
             //Goto Home Page.
             this.zone.run(() => {
               this.navCtrl.setRoot(Login.homePage, { animate: false });
             });
             //Since we're using a TabsPage an NgZone is required.
+          } else {
+            //Goto Verification Page.
+            this.navCtrl.setRoot(Login.verificationPage, { animate: false });
           }
+        } else {
+          //Goto Home Page.
+          this.zone.run(() => {
+            this.navCtrl.setRoot(Login.homePage, { animate: false });
+          });
+          //Since we're using a TabsPage an NgZone is required.
         }
-    //last block
+      }
     });
   }
 
@@ -43,15 +43,26 @@ export class LoginProvider {
   setNavController(navCtrl) {
     this.navCtrl = navCtrl;
   }
-
   // Login on Firebase given the email and password.
   emailLogin(email, password) {
     this.loadingProvider.show();
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((success) => {
-        localStorage.setItem('uid_client', firebase.auth().currentUser.uid);
-        localStorage.setItem('email_client', firebase.auth().currentUser.email);
-        this.loadingProvider.hide();
+        this.dataProvider.getUser(firebase.auth().currentUser.uid).subscribe(user =>{
+          console.log("user success2", success)
+          if(user.role == "client") {
+            localStorage.setItem('uid_client', firebase.auth().currentUser.uid);
+            localStorage.setItem('email_client', firebase.auth().currentUser.email);
+            
+            this.loadingProvider.hide();
+          } else {
+            this.navCtrl.setRoot(LoginPage)
+            localStorage.clear();
+            localStorage.setItem("toggle", "true")      
+            this.alertProvider.showErrorMessage("auth/not-client");
+            this.loadingProvider.hide();
+          }
+        })
       })
       .catch((error) => {
         this.loadingProvider.hide();
@@ -61,9 +72,8 @@ export class LoginProvider {
   }
 
   // Register user on Firebase given the email and password.
-  register(displayName,email, password, role, phoneNumber, gender) {
+  register(displayName,email, password, phoneNumber, gender) {
     this.loadingProvider.show();
-    localStorage.setItem('registerRole',role);
     localStorage.setItem('gender', gender);
     localStorage.setItem('phoneNumber', phoneNumber);
     localStorage.setItem("displayName", displayName);

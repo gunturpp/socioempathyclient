@@ -20,6 +20,7 @@
   background-position: initial initial;
   background-repeat: initial initial;
 }
+
 //Add class="no-scroll" on <ion-content> to disable scrolling
 .no-scroll .scroll-content {
   overflow: hidden;
@@ -318,6 +319,9 @@ ion-footer.footer {
     border: 1px #dcdcdc solid;
     height: 50px;
   }
+  .text-input-ios {
+    height: 80px;
+  }
   ion-textarea:hover  {
     border: 1px $sociocolor solid;
     height: 100px;
@@ -325,7 +329,10 @@ ion-footer.footer {
   ion-textarea:hover textarea.text-input.text-input-md {
     height: 100px;
   }
-
+  ion-fab[right] {
+    right: 0;
+    z-index: 10;
+  }
   ion-fab button,
   ion-fab button.activated {
     background: transparent !important;

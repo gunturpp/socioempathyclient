@@ -23,13 +23,14 @@ export class CalendarPage {
   listSchedule: any;
   eventSource = [];
   viewTitle: string;
-  selectedDay = new Date();
+  selectedDay:any;
   sessionStart:string;
   sessionEnd:string;
   calendar = {
     mode: "month",
     currentDate: new Date()
   };
+  isButtonActive: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -84,6 +85,13 @@ export class CalendarPage {
       this.loadingProvider.hide();
     });
   }
+  markDisabled(date: Date) {
+    var current = new Date();
+        current.setDate(current.getDate() + 0);
+    console.log('current',current);
+    console.log('datedatedate',date);
+    return date < current;
+  }
   refreshData() {
     let eventData = this.eventz;
 
@@ -114,6 +122,10 @@ export class CalendarPage {
     alert.present();
   }
   onTimeSelected(ev) {
+    var current = new Date();
+        current.setDate(current.getDate() + 0);
     this.selectedDay = ev.selectedTime;
+    this.isButtonActive =  this.selectedDay > current;
+    console.log("selectedDay: ", this.selectedDay);
   }
 }

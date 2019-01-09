@@ -48,7 +48,7 @@ export class ChoosePsgPage {
         this.dataProvider.getPsgAvailable(this.psgAvailable[i]).subscribe(list => {
         console.log("list", list );
         this.psgAva[i] = list;
-        this.psgAva[i].old = moment(list.born).toNow(true)
+        this.psgAva[i].old = moment(list.birth).toNow(true)
         this.loadingProvider.hide();
       });
     }
@@ -58,15 +58,22 @@ export class ChoosePsgPage {
   getKeySchedulingByDay() {
     this.dataProvider.getKeySchedulingByDay(this.sessionByDay).subscribe(sessions=>{
       console.log("key sesinya di session", sessions);
-      this.allSession = sessions;
-      this.loadingProvider.hide();
+      if(sessions.length > 0) {
+        this.allSession = sessions;
+        this.loadingProvider.hide();
+      } else {
+        this.allSession = null;
+        this.loadingProvider.hide();
+        
+      }
     })
   }
   // view detail psg
   viewPsg(psgId,old){
     this.navCtrl.push(ProfilePsgPage, {
       psgId: psgId,
-      old:old
+      old:old,
+      selectedDay:this.sessionByDay
     });
 
     console.log("psg by id", psgId);

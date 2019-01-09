@@ -10,14 +10,10 @@ import {
 import { AngularFireDatabase } from "angularfire2/database";
 import { LoadingProvider } from "../../providers/loading";
 import { DataProvider } from "../../providers/data";
-import { NewMessagePage } from "../new-message/new-message";
 import { MessagePage } from "../message/message";
 import * as firebase from "firebase/app";
-import { Message2Page } from "../message2/message2";
-import { concat } from "rxjs/observable/concat";
 import { Observable } from "rxjs/Observable";
 import * as moment from "moment";
-import { timestamp } from "rxjs/operators";
 
 @Component({
   selector: "page-messages",
@@ -26,9 +22,7 @@ import { timestamp } from "rxjs/operators";
 export class MessagesPage {
   mainIdConversation;
   profilePsg =[];
-  bookSession: any;
   inputSeconds = [];
-  bookingDay: any;
   hasStarted: boolean;
   hasFinished: boolean;
   remainingTime = [];
@@ -45,15 +39,17 @@ export class MessagesPage {
   z: any;
   time: any;
   increment=0;
-  i(arg0: any): any {
-    throw new Error("Method not implemented.");
-  }
+
   conversation: Observable<any[]>;
   // conversation: any;
   private conversations = [];
   private conversationsById: any;
   private updateDateTime: any;
   private searchFriend: any;
+  bookSession=[];
+  bookingDay=[];
+  bookConfirmation=[];
+  inSession=[];
 
   // MessagesPage
   // This is the page where the user can see their current conversations with their friends.
@@ -75,10 +71,21 @@ export class MessagesPage {
 
   // close timer countdown
   ionViewDidLoad() {
+    // var datt = new Date().toString()
+    // this.angularfireDatabase
+    //       .object("/vouchers/"+ "KAMIBEREMPATI")
+    //       .set(
+    //           {
+    //           code:'KAMIBEREMPATI',
+    //           created_at: datt,
+    //           isExpired: false,
+    //           countActivated:0,
+    //           ticket:2
+    //           }
+    //       )
     // Create userData on the database if it doesn't exist yet.
-    this.createUserData();
-    this.devicesTokenUpdate(); 
 
+    this.devicesTokenUpdate(); 
     this.searchFriend = "";
     this.loadingProvider.show();
 
@@ -99,14 +106,19 @@ export class MessagesPage {
                   this.mainIdConversation = listConversations;
                   this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
                       // console.log("obj", obj);
-
                       // Get last message of conversation.
-                      this.bookingDay = obj.scheduleId;
-                      this.bookSession = obj.sessionke;
+                      this.bookingDay[this.increment] = obj.scheduleId;
+                      this.bookSession[this.increment] = obj.sessionke;
+                      if(obj.confirmation) {
+                        this.bookConfirmation[this.increment] = obj.confirmation
+                      }
+                      if(obj.inSession) {
+                        this.inSession[this.increment] = obj.inSession
+                      }
+
                       this.countdown(obj.scheduleId, obj.sessionke,this.increment);
                       this.increment++;
-                      // console.log("bookingday", this.bookingDay);
-                      // console.log("bookSession", this.bookSession);
+
                       let lastMessage = obj.messages[obj.messages.length - 1];
                       listConversations.date = lastMessage.date;
                       listConversations.sender = lastMessage.sender;
@@ -167,7 +179,7 @@ export class MessagesPage {
       var a = moment();
       this.timeInSeconds = Math.round(b.diff(a)/1000);
       this.displayTime[index] = this.getSecondsAsDigitalClock(this.timeInSeconds)
-      console.log("this.displayTime[index]", index); //just uncoment to show countdown in console	
+      // console.log("this.displayTime[index]", index); //just uncoment to show countdown in console	
    }, 1000);
   }
   getSecondsAsDigitalClock(inputSeconds: number) {	
@@ -175,7 +187,7 @@ export class MessagesPage {
       if (sec_num < 0) {	
         return 'timeover';	
       } else {	
-      console.log("milisecond", sec_num); //just uncoment to show countdown in console	
+      // console.log("milisecond", sec_num); //just uncoment to show countdown in console	
       var days = Math.floor(sec_num / 86400); // 3600 * 24	
       var hours = Math.floor(sec_num / 3600) - days * 24;	
       var temphours = Math.floor(sec_num / 3600);	
@@ -194,7 +206,7 @@ export class MessagesPage {
       if (daysString == "0") {	
         return hoursString + ":" + minutesString + ":" + secondsString;	
       } else {	
-        return (daysString +"days " +hoursString +":" +minutesString +":" + secondsString);	
+        return (daysString +" days " +hoursString +":" +minutesString +":" + secondsString);	
       }	
     }	
   }
@@ -247,85 +259,9 @@ export class MessagesPage {
     }
   }
 
+
   // Create userData on the database if it doesn't exist yet.
-  createUserData() {
-    firebase
-      .database()
-      .ref("/users/" + firebase.auth().currentUser.uid)
-      .once("value")
-      .then(account => {
-        // No database data yet, create user data on database
-        if (!account.val()) {
-          // this.loadingProvider.show();
-          let user = firebase.auth().currentUser;
-          // declare
-          var userId, name, provider, img, email;
-          let providerData = user.providerData[0];
-          userId = user.uid;
-          // Get name from Firebase user.
-          if (user.displayName || providerData.displayName) {
-            name = user.displayName;
-            name = providerData.displayName;
-          } else {
-            name = "New User";
-          }
-          // Set default username based on name and userId.
-          let username = name.replace(/ /g, "") + userId.substring(0, 8);
-          // Get provider from Firebase user.
-          if (providerData.providerId == "password") {
-            provider = "Firebase";
-          } else if (providerData.providerId == "facebook.com") {
-            provider = "Facebook";
-          } else if (providerData.providerId == "google.com") {
-            provider = "Google";
-          }
-          // Get photoURL from Firebase user.
-          if (user.photoURL || providerData.photoURL) {
-            img = user.photoURL;
-            img = providerData.photoURL;
-          } else {
-            img = "assets/images/profile.png";
-          }
-          // Get email from Firebase user.
-          email = user.email;
-          // Set default description.
-          let description = "Hello! I am a new SocioEmpathy user.";
-          // set default displayName to Firebase
-          // Insert data on our database using AngularFire.
-          this.angularfireDatabase
-            .object("/users/" + userId)
-            .set({
-              userId: userId,
-              displayName: "Ganti Nama",
-              name: name,
-              username: username,
-              role: localStorage.getItem("registerRole"),
-              anonymouse: "false",
-              realName: name,
-              moodLevel: "Normal",
-              provider: provider,
-              img: img,
-              docStatus: "false",
-              KTM: "",
-              PsyCard: "",
-              KTP: "",
-              devices_token: localStorage.getItem("devices_token"),
-              gender: localStorage.getItem("gender"),
-              email: email,
-              phoneNumber: localStorage.getItem("phoneNumber"),
-              description: description,
-              dateCreated: new Date().toString(),
-              city: "None",
-              status: "None",
-              birth: "None",
-              profession: "None"
-            })
-            .then(() => {
-              this.loadingProvider.hide();
-            });
-        }
-      });
-  }
+
 
   // Open chat with friend.
   message(psgId, idConversation,i) {
@@ -335,12 +271,13 @@ export class MessagesPage {
             tabs[key].style.display = 'none';
         });
     }
-    console.log("this.displayTime",this.displayTime[i])
     this.navCtrl.push(MessagePage, {
       psgId: psgId,
-      isTimeover:this.displayTime[i],
       idConversation: idConversation,
-      stopConversation: this.hasFinished
+      session: this.bookSession[i],
+      day:this.bookingDay[i],
+      confirmation: this.bookConfirmation[i],
+      inSession:this.inSession[i]
     });
   }
 

@@ -16,6 +16,7 @@ import { UserInfoPage } from "../user-info/user-info";
 import { ImageModalPage } from "../image-modal/image-modal";
 import { Camera } from "@ionic-native/camera";
 import { Keyboard } from "@ionic-native/keyboard";
+import * as moment from "moment";
 
 @Component({
   selector: "page-message",
@@ -39,7 +40,23 @@ export class MessagePage {
   private scrollDirection: any = "bottom";
   // Set number of messages to show.
   private numberOfMessages = 10;
-  isTimeover: any;
+  timeInSeconds: number;
+  displayTime='';
+  session: any;
+  day: any;
+  restartSession:any;
+  isShow = false;
+  timeSession:any;
+  selectedDay: any;
+  isButtonActive: boolean;
+  viewTitle: any;
+  calendar = {
+    mode: "month",
+    currentDate: new Date()
+  };
+  confirmation: any;
+  inSession: any;
+  tickets: any;
 
   // MessagePage
   // This is the page where the user can chat with a friend.
@@ -57,13 +74,16 @@ export class MessagePage {
     public keyboard: Keyboard
   ) {}
   ionViewDidLoad() {
-    this.userId = localStorage.getItem("uid_client")
+    this.userId = firebase.auth().currentUser.uid
     this.psgId = this.navParams.get("psgId");
-    this.isTimeover = this.navParams.get("isTimeover");
     this.idConversation = this.navParams.get("idConversation");
-    this.stopConversation = this.navParams.get("stopConversation");
+    this.session = this.navParams.get("session");
+    this.day = this.navParams.get("day");
+    this.confirmation = this.navParams.get("confirmation");
+    this.inSession = this.navParams.get("inSession");
     // Get psychology details.
-    console.log("psgId", this.psgId);
+    // console.log("psgId", this.psgId);
+    this.ticket();
     this.dataProvider.getPsgAvailable(this.psgId).subscribe(user => {
       this.title = user.name;
     });
@@ -127,8 +147,7 @@ export class MessagePage {
           }
           this.loadingProvider.hide();
         }
-      });
-
+    });
     // Update messages' date time elapsed every minute based on Moment.js.
     var that = this;
     if (!that.updateDateTime) {
@@ -141,6 +160,97 @@ export class MessagePage {
         }
       }, 60000);
     }
+  }
+  ionViewDidEnter(){
+    this.setMessagesRead(this.messages.length);  
+    console.log('read',this.messages); 
+  }
+  ionViewWillEnter(){
+    this.countdown();  
+  }
+  ticket() {
+    this.dataProvider.getTickets().subscribe(tickets =>{
+      this.tickets = tickets
+    })
+  }
+  reSession() {
+    this.isShow = true;
+  }
+  reBooking() {
+    const day = JSON.stringify(this.timeSession).slice(1,11)
+    const time = JSON.stringify(this.timeSession).slice(12,14)
+    console.log('reBooking',day + time)
+    if(this.tickets.ticketTotal < 1) {
+        const alert = this.alertCtrl.create({
+          title: 'Tiket anda habis',
+          subTitle: 'Silahkan beli paket terlebih dahulu!',
+          buttons: ['OK']
+        });
+        alert.present();
+    } else {
+      this.bookingNow(day,time);
+    }
+  }
+  bookingNow(day,time) {
+    var newSession:number;
+    newSession = this.inSession + 1;
+    this.angularfireDatabase.object("/conversations/" +this.idConversation).update({
+      sessionke: time+":00:00",
+      scheduleId: day,
+      confirmation: "waiting",
+      inSession:newSession
+    })
+    .then(() => {
+      console.log("sukses buat booking");
+      var newTicket:number;
+      newTicket = this.tickets.ticketTotal - 1;
+      this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid).update({
+        ticketTotal:newTicket
+      }).then(succes => {
+        this.confirmation = 'waiting'
+      })
+
+    });
+
+  }
+  countdown(){
+    var b = moment(this.day+' '+this.session);
+    setInterval(() => { 
+      var a = moment();
+      this.timeInSeconds = Math.round(b.diff(a)/1000);
+      this.displayTime = this.getSecondsAsDigitalClock(this.timeInSeconds)
+      // console.log("this.displayTime", this.displayTime); //just uncoment to show countdown in console	
+   }, 1000);
+  }
+  getSecondsAsDigitalClock(inputSeconds: number) {	
+      var sec_num = inputSeconds; // don't forget the second param	
+      if(sec_num > 3600) {
+        return 'notyetready';	
+      } else if (sec_num < 0) {	
+        return 'timeover';	
+      } else {	
+      // console.log("milisecond", sec_num); //just uncoment to show countdown in console	
+      var days = Math.floor(sec_num / 86400); // 3600 * 24	
+      var hours = Math.floor(sec_num / 3600) - days * 24;	
+      var temphours = Math.floor(sec_num / 3600);	
+      var minutes = Math.floor((sec_num - temphours * 3600) / 60);	
+      // console.log("minutes", minutes);	
+      var seconds = Math.floor(sec_num - temphours * 3600 - minutes * 60);	
+      var hoursString = "";	
+      var minutesString = "";	
+      var secondsString = "";	
+      var daysString = "";	
+      hoursString = hours < 10 ? "0" + hours : hours.toString();	
+      minutesString = minutes < 10 ? "0" + minutes : minutes.toString();	
+      secondsString = seconds < 10 ? "0" + seconds : seconds.toString();	
+      daysString = days.toString();	
+      // return daysString + "days ";	
+      if (daysString == "0") {	
+        return hoursString + ":" + minutesString + ":" + secondsString;	
+      } else {	
+        return (daysString +"days " +hoursString +":" +minutesString +":" + secondsString);	
+      }	
+    }	
   }
 
   // Load previous messages in relation to numberOfMessages.
@@ -165,10 +275,6 @@ export class MessagePage {
       // Populate list again.
       that.ionViewDidLoad();
     }, 1000);
-  }
-  ionViewDidEnter(){
-    this.setMessagesRead(this.allMessage.length);  
-   console.log('read',this.allMessage);
   }
   // Update messagesRead when user lefts this page.
   ionViewWillLeave() {

@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from '../../providers/data';
 import { BookingPage } from "../booking/booking";
 import { LoadingProvider } from "../../providers/loading";
+import * as moment from "moment";
 
 
 @Component({
@@ -13,6 +14,8 @@ export class ProfilePsgPage {
   psychologist=[];
   psgId = this.navParams.get("psgId");
   old = this.navParams.get("old");
+  sessionByDay = moment(this.navParams.get("selectedDay")).format('YYYY-MM-DD');
+
   constructor(public loadingProvider: LoadingProvider,public dataProvider:DataProvider, public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -27,7 +30,8 @@ export class ProfilePsgPage {
   }
   bookingPage(){
     this.navCtrl.push(BookingPage, {
-      psgProfile: this.psychologist
+      psgProfile: this.psychologist,
+      selectedDay:this.sessionByDay
     })
   }
 

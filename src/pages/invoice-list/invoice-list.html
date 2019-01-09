@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Invoice</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+      <ion-item *ngFor="let invoice of invoices;let i = index ">
+        <ion-avatar item-end>
+          <img src="{{invoice.nota_url}}">
+        </ion-avatar>
+        <h2>No. Invoice: <b>{{invoice.invoice}}</b></h2>
+        <p *ngIf="invoice.confirmationAdmin == 'waiting'">Dibuat {{date[i]}} | <span class="waiting">{{invoice.confirmationAdmin}}</span></p>
+        <p *ngIf="invoice.confirmationAdmin == 'accept'">{{date[i]}} | <span class="accept" >{{invoice.confirmationAdmin}}</span></p>
+        <p *ngIf="invoice.confirmationAdmin == 'reject'">{{date[i]}} | <span class="reject" >{{invoice.confirmationAdmin}}</span></p>
+      </ion-item>
+    </ion-list>
+</ion-content>

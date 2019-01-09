@@ -4,9 +4,8 @@ import * as firebase from "firebase/app";
 import { AngularFireDatabase} from 'angularfire2/database';
 import { LoadingProvider } from "../../providers/loading";
 import * as moment from 'moment';
-import { MessagesPage } from '../messages/messages';
 import { TabsPage } from '../tabs/tabs';
-
+import { DataProvider } from '../../providers/data';
 
 @Component({
   selector: 'page-booking',
@@ -20,11 +19,19 @@ export class BookingPage {
   sessionke = localStorage.getItem("sessionke");
   scheduleId =  moment(this.navParams.get("selectedDay")).format('YYYY-MM-DD');  
   consultation_time:string;
-  constructor(public alertCtrl: AlertController, public loadingProvider: LoadingProvider, public angularfireDatabase: AngularFireDatabase,public navCtrl: NavController, public navParams: NavParams) {
+  user: any;
+  constructor(public dataProvider: DataProvider,public alertCtrl: AlertController, public loadingProvider: LoadingProvider, public angularfireDatabase: AngularFireDatabase,public navCtrl: NavController, public navParams: NavParams) {
   }
   ionViewDidLoad(){
-    console.log("IonViewDidLoad BookingPage", this.psgProfile);
+    console.log('this.scheduleId',this.scheduleId);
     this.consultationTime(); 
+    this.userProfile();
+  }
+  userProfile(){
+    this.dataProvider.getCurrentUser().subscribe(user =>{
+      this.user = user;
+      console.log("useruser", this.user);
+    })
   }
   consultationTime() {
     switch (this.sessionke) {
@@ -115,6 +122,11 @@ export class BookingPage {
     })
     .then(() => {
       console.log("sukses buat booking");
+      var newTicket:number;
+      newTicket = this.user.ticketTotal - 1;
+      this.angularfireDatabase.object("/users/" + firebase.auth().currentUser.uid).update({
+        ticketTotal:newTicket
+      })
     });
 
     // create data booking inside psg table as attribut "booking"
@@ -124,14 +136,7 @@ export class BookingPage {
       id: this.createdAt
     })
     .then(() => {
-     this.loadingProvider.hide();      
-    //  show tabs
-    // let tabs = document.querySelectorAll('.show-tabbar');
-    // if (tabs !== null) {
-    //   Object.keys(tabs).map((key) => {
-    //       tabs[key].style.display = 'flex';
-    //   });
-    // }
+    this.loadingProvider.hide();      
     this.successAlert();
     this.navCtrl.setRoot(TabsPage);
     console.log("sukses update attribut booking di psg");     

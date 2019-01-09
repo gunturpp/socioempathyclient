@@ -83,11 +83,15 @@ import { TopupPage } from '../pages/topup/topup';
 import { TransactionPage } from '../pages/transaction/transaction';
 import { PaymentStatusPage } from '../pages/payment-status/payment-status';
 import { ImageModalPage } from '../pages/image-modal/image-modal';
+import { BuyPacketPage } from '../pages/buy-packet/buy-packet';
+import { InvoiceListPage } from '../pages/invoice-list/invoice-list';
 
 firebase.initializeApp(Login.firebaseConfig);
 
 @NgModule({
   declarations: [
+    InvoiceListPage,
+    BuyPacketPage,
     PaymentStatusPage,
     TopupPage,
     TransactionPage,
@@ -154,6 +158,8 @@ firebase.initializeApp(Login.firebaseConfig);
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    InvoiceListPage,
+    BuyPacketPage,
     PaymentStatusPage,
     TopupPage,
     TransactionPage,

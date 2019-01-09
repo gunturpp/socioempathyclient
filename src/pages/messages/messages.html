@@ -1,20 +1,9 @@
 <ion-header>
   <ion-navbar color="theblues">
     <img class="socioCss" src="assets/images/headerSocio.png" />
-    <ion-buttons end>
-      <button ion-button icon-only tappable (click)="newMessage()">
-        <ion-icon name="ios-create"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <!-- Fablist -->
-  <ion-fab right bottom>
-    <button color="theblues" ion-fab mini (click)="newMessage()">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
   <!-- No conversations to show -->
   <div class="empty-list" *ngIf="conversations && conversations.length <= 0">
     <h1>
@@ -35,8 +24,8 @@
           <h2 *ngIf="profilePsg">{{profilePsg[i].name}}</h2>
           <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>
           <p>{{conversation.message}}</p>
-          <span class="date">
-            <br>{{conversation.date | DateFormat}} {{displayTime[i]}}</span>
+          <span class="date">{{displayTime[i]}}
+            <br>{{conversation.date | DateFormat}}</span>
         </div>
     </ion-item>
   </ion-list>

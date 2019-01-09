@@ -8,7 +8,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content  padding>
   <ion-row>
     <ion-col col-6>
       <span>{{ sessionByDay }}</span>
@@ -17,7 +17,7 @@
       <ion-icon name="md-people"></ion-icon>
     </ion-col>
   </ion-row>
-  <ion-row>
+  <ion-row *ngIf="allSession != null">
     <ion-col class="btn-session" col-6>
       <span (click)="showSession()" *ngIf="session == 'noSession'">
         <ion-icon name="ios-time-outline"></ion-icon>&nbsp;{{warning}} <ion-icon name="arrow-down"></ion-icon></span>    
@@ -68,8 +68,11 @@
     <ion-item detail-push  *ngFor="let psg of psgAva" (click)="viewPsg(psg.userId,psg.old)">
       <ion-avatar item-left><img src="{{ psg.img }}"></ion-avatar>
       <h2>{{psg.name}}</h2>
-      <h6 *ngIf="psg.gender === 'Male' "> <ion-icon name="male"  class="gender"></ion-icon> {{psg.old}}</h6>
+      <h6 *ngIf="psg.gender === 'Male' "> <ion-icon name="male"  class= "gender"></ion-icon> {{psg.old}}</h6>
       <h6 *ngIf="psg.gender === 'Female' "> <ion-icon name="female" class="gender"></ion-icon> {{psg.old}}</h6>    
     </ion-item>
   </ion-list>
+  <div *ngIf="allSession == null" class="empty-list">
+    Tidak ada sesi tersedia. Pilih tanggal lain untuk mendapatkan sesi.
+  </div>
 </ion-content>

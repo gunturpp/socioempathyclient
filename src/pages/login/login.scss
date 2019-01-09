@@ -155,6 +155,14 @@ page-login {
       }
     }
   }
-
+  .btn-signup {
+    background: rgba($color: #000000, $alpha: 0.8)
+  }
+  .forgotPassword {
+    text-align: right !important;
+    font-size: 12px;
+    display: block;
+    color:#000000;
+  }
 }
 
