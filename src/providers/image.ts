@@ -241,7 +241,8 @@ export class ImageProvider {
               code:newInvoice.code,
               dateCreated:newInvoice.dateCreated,
               invoice:newInvoice.invoice,
-              nota_url:url
+              nota_url:url,
+              confirmationAdmin: "waiting"
             }).then((success) => {
               this.loadingProvider.hide();
               this.alertProvider.showInvoiceUpdatedMessage();

@@ -2,11 +2,11 @@
   <!-- <ion-navbar hideBackButton="true"> -->
   <ion-navbar>
     <ion-title>{{title}}</ion-title>
-    <ion-buttons right>
+    <!-- <ion-buttons right>
       <button ion-button tappable (click)="finishSession()">
         <ion-icon ios="ios-checkmark-circle" md="md-checkmark-circle"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 </ion-header>
 <ion-content has-footer>
@@ -74,6 +74,7 @@
     </ion-fab>
   </div>
 </ion-footer>
+
 <ion-footer *ngIf="displayTime  == 'timeover' && confirmation!= 'waiting'">
   <div class="session_end">Your session is ended, create next session with your psychologist.
     <br>

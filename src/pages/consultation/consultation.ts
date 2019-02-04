@@ -6,6 +6,8 @@ import { LoadingProvider } from '../../providers/loading';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { BuyPacketPage } from '../buy-packet/buy-packet';
 import { InvoiceListPage } from '../invoice-list/invoice-list';
+import * as moment from "moment";
+
 @Component({
   selector: 'page-consultation',
   templateUrl: 'consultation.html',
@@ -17,6 +19,9 @@ export class ConsultationPage {
   isUsedVoucher: any;
   packets=[];
   priceAfterDiscount=[];
+  today = moment()
+  expiredDate:any;
+
   constructor(public angularfireDatabase: AngularFireDatabase, public loadingProvider: LoadingProvider,public navCtrl: NavController,public alertCtrl: AlertController, public dataProvider: DataProvider, public navParams: NavParams) {}
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConsultationPage');
@@ -68,9 +73,19 @@ export class ConsultationPage {
   getTicket() {
     this.dataProvider.getTickets().subscribe(tickets => {
       this.ticket = tickets;
-      console.log('ticket',this.ticket);    
-      this.loadingProvider.hide();
+      console.log('ticket',this.ticket);
+      if(this.ticket.isExpired == false) {
+        this.checkExpired(this.ticket.expiredDate)   
+      } else {
+        this.loadingProvider.hide();        
+      }
     });
+  }
+  checkExpired(date) {
+    var ticketDate = moment(date)
+    this.expiredDate = ticketDate.diff(this.today,'days')
+    console.log('expireddd', this.expiredDate)
+    this.loadingProvider.hide();
   }
 
   checkCalendar(){

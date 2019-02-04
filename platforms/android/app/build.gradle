@@ -269,7 +269,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    compile "com.android.support:support-v4:24.1.1+"
     compile "com.google.firebase:firebase-core:10.+"
     compile "com.google.firebase:firebase-messaging:10.+"
     compile "com.google.android.gms:play-services-tagmanager:+"
@@ -279,6 +278,7 @@ dependencies {
     compile "com.google.firebase:firebase-perf:+"
     compile "com.google.android.gms:play-services-auth:11.8.0"
     compile "com.google.android.gms:play-services-identity:11.8.0"
+    compile "com.android.support:support-v4:24.1.1+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

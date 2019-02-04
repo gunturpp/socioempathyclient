@@ -85,6 +85,9 @@ import { PaymentStatusPage } from '../pages/payment-status/payment-status';
 import { ImageModalPage } from '../pages/image-modal/image-modal';
 import { BuyPacketPage } from '../pages/buy-packet/buy-packet';
 import { InvoiceListPage } from '../pages/invoice-list/invoice-list';
+import { AppUpdate } from '../../node_modules/@ionic-native/app-update';
+import { AppVersion } from '../../node_modules/@ionic-native/app-version';
+import { InAppBrowser } from '../../node_modules/@ionic-native/in-app-browser/ngx';
 
 firebase.initializeApp(Login.firebaseConfig);
 
@@ -208,6 +211,9 @@ firebase.initializeApp(Login.firebaseConfig);
   ],
   providers: [
     FCM,
+    AppUpdate,
+    AppVersion,
+    InAppBrowser,
     Firebase,
     FcmProvider,
     GooglePlus,

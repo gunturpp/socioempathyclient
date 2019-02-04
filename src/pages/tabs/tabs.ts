@@ -1,12 +1,10 @@
-import { TimeLinePage } from './../time-line/time-line';
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
 import { MessagesPage } from '../messages/messages';
-import { FriendsPage } from '../friends/friends';
 import { ConsultationPage } from '../consultation/consultation';
 import { DataProvider } from '../../providers/data';
-import * as firebase from 'firebase';
+import * as moment from "moment";
 
 @Component({
   selector: 'page-tabs',
@@ -23,7 +21,9 @@ export class TabsPage {
   private conversationsInfo: any;
   // TabsPage
   // This is the page where we set our tabs.
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) {}
+  constructor(public toastCtrl: ToastController,public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) { 
+   
+  }
 
   ionViewDidLoad() {
     this.getUnreadMessagesCount();
@@ -45,7 +45,28 @@ export class TabsPage {
     });
 
   }
-
+  checkExpiredTicket() {
+    let ticket
+    const today = moment().format('YYYY-MM-DD')
+    this.dataProvider.getTickets().subscribe(value => {
+    ticket = value
+      if(today > moment(ticket.expiredDate).format('YYYY-MM-DD')) {
+        this.dataProvider.updateTicket().update({
+          isExpired: true,
+          ticketTotal:0
+        }).then((success) => {
+            this.alertExpired();
+        })
+      }
+    })
+  }
+  alertExpired() {
+      const toast = this.toastCtrl.create({
+        message: 'Tiket anda expired. Silahkan pilih paket kembali untuk dapat berkonsultasi',
+        duration: 2000
+      });
+      toast.present();
+  }
   // Add or update conversaion for real-time sync of unreadMessagesCount.
   addOrUpdateConversation(conversation) {
     if (!this.conversationList) {

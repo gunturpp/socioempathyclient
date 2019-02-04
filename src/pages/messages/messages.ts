@@ -105,17 +105,17 @@ export class MessagesPage {
                   listConversations.key = conversation.key;
                   this.mainIdConversation = listConversations;
                   this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
-                      // console.log("obj", obj);
+                      console.log("obj", obj);
                       // Get last message of conversation.
-                      this.bookingDay[this.increment] = obj.scheduleId;
-                      this.bookSession[this.increment] = obj.sessionke;
+                      this.bookingDay.push(obj.scheduleId);
+                      this.bookSession.push(obj.sessionke);
                       if(obj.confirmation) {
-                        this.bookConfirmation[this.increment] = obj.confirmation
+                        this.bookConfirmation.push(obj.confirmation)
+                        console.log("bookConfirmation",this.bookConfirmation)
                       }
                       if(obj.inSession) {
-                        this.inSession[this.increment] = obj.inSession
+                        this.inSession.push(obj.inSession)
                       }
-
                       this.countdown(obj.scheduleId, obj.sessionke,this.increment);
                       this.increment++;
 

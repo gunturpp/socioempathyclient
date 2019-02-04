@@ -31,11 +31,12 @@ export class ChoosePsgPage {
   }
   ionViewDidLoad() {
     this.loadingProvider.show();
-    this.getKeySchedulingByDay()
+    setTimeout(() => {
+      this.getKeySchedulingByDay()
+    }, 1500);
     // display psychologist by available session
     if(this.session == "noSession") {
       this.warning = "Pilih Sesi";
-      this.loadingProvider.hide();
     } else {
       this.refreshList()
     }
@@ -59,15 +60,86 @@ export class ChoosePsgPage {
     this.dataProvider.getKeySchedulingByDay(this.sessionByDay).subscribe(sessions=>{
       console.log("key sesinya di session", sessions);
       if(sessions.length > 0) {
-        this.allSession = sessions;
-        this.loadingProvider.hide();
-      } else {
-        this.allSession = null;
-        this.loadingProvider.hide();
-        
-      }
-    })
+        sessions.forEach(sesi => {
+            this.generateSessionToTime(sesi);
+            this.loadingProvider.hide();
+          });
+        } else {
+          this.allSession = null;
+          this.loadingProvider.hide();
+        }
+      })
   }
+  generateSessionToTime(sesi) {
+    switch (sesi.key) {
+      case "session8":
+        sesi.time = "08:00 - 09:00";
+        this.allSession.push(sesi)
+        break;
+      case "session9":
+        sesi.time = "09:00 - 10:00";
+        this.allSession.push(sesi)
+        break;
+      case "session10":
+        sesi.time = "10:00 - 11:00";
+        this.allSession.push(sesi)
+        break;
+      case "session11":
+        sesi.time = "11:00 - 12:00";
+        this.allSession.push(sesi)
+        break;
+      case "session12":
+        sesi.time = "12:00 - 13:00";
+        this.allSession.push(sesi)
+        break;
+      case "session13":
+        sesi.time = "13:00 - 14:00";
+        this.allSession.push(sesi)
+        break;
+      case "session14":
+        sesi.time = "14:00 - 15:00";
+        this.allSession.push(sesi)
+        break;
+      case "session15":
+        sesi.time = "15:00 - 16:00";
+        this.allSession.push(sesi)
+        break;
+      case "session16":
+        sesi.time = "16:00 - 17:00";
+        this.allSession.push(sesi)
+        break;
+      case "session17":
+        sesi.time = "17:00 - 18:00";
+        this.allSession.push(sesi)
+        break;
+      case "session18":
+        sesi.time = "18:00 - 19:00";
+        this.allSession.push(sesi)
+        break;
+      case "session19":
+        sesi.time = "19:00 - 20:00";
+        this.allSession.push(sesi)
+        break;
+      case "session20":
+        sesi.time = "20:00 - 21:00";
+        this.allSession.push(sesi)
+        break;
+      case "session21":
+        sesi.time = "21:00 - 22:00";
+        this.allSession.push(sesi)
+        break;
+      case "session22":
+        sesi.time = "22:00 - 23:00";
+        this.allSession.push(sesi)
+        break;
+      case "session23":
+        sesi.time = "23:00 - 24:00";
+        this.allSession.push(sesi)
+        break;
+      default:
+        return 0;
+    }
+  } 
   // view detail psg
   viewPsg(psgId,old){
     this.navCtrl.push(ProfilePsgPage, {
@@ -75,14 +147,14 @@ export class ChoosePsgPage {
       old:old,
       selectedDay:this.sessionByDay
     });
-
     console.log("psg by id", psgId);
   }
   showSession() {
+    console.log("sesssi alert", this.allSession)
     let alert = this.alertCtrl.create();
     alert.setTitle('Pilih Sesi');  
       this.allSession.forEach(session => {
-        alert.addInput({type: 'radio',label: session.key,value: session.key});
+        alert.addInput({type: 'radio',label: session.time,value: session.key});
       })
       alert.addButton('Kembali');
       alert.addButton({

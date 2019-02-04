@@ -19,18 +19,18 @@ export class BookingPage {
   sessionke = localStorage.getItem("sessionke");
   scheduleId =  moment(this.navParams.get("selectedDay")).format('YYYY-MM-DD');  
   consultation_time:string;
-  user: any;
+  tickets: any;
   constructor(public dataProvider: DataProvider,public alertCtrl: AlertController, public loadingProvider: LoadingProvider, public angularfireDatabase: AngularFireDatabase,public navCtrl: NavController, public navParams: NavParams) {
   }
   ionViewDidLoad(){
     console.log('this.scheduleId',this.scheduleId);
     this.consultationTime(); 
-    this.userProfile();
+    this.ticketUser();
   }
-  userProfile(){
-    this.dataProvider.getCurrentUser().subscribe(user =>{
-      this.user = user;
-      console.log("useruser", this.user);
+  ticketUser(){
+    this.dataProvider.getTickets().subscribe(tickets =>{
+      this.tickets = tickets;
+      console.log("ticketstickets", this.tickets);
     })
   }
   consultationTime() {
@@ -123,14 +123,14 @@ export class BookingPage {
     .then(() => {
       console.log("sukses buat booking");
       var newTicket:number;
-      newTicket = this.user.ticketTotal - 1;
-      this.angularfireDatabase.object("/users/" + firebase.auth().currentUser.uid).update({
+      newTicket = this.tickets.ticketTotal - 1;
+      this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid).update({
         ticketTotal:newTicket
       })
     });
 
     // create data booking inside psg table as attribut "booking"
-    this.angularfireDatabase.object('psg/' + this.psgProfile.userId + '/booking/' + this.createdAt)
+    this.angularfireDatabase.object('psg/' + this.psgProfile.userId + '/booking/' +  firebase.auth().currentUser.uid)
     .update({
       seesionke: localStorage.getItem("sessionke"),
       id: this.createdAt

@@ -25,6 +25,11 @@ export class DataProvider {
     this.getbyquery = new BehaviorSubject(null);
     console.log("Initializing Data Provider");
   }
+
+  appVersion() {
+    this.items =  this.angularfireDatabase.object("appVersion_client").valueChanges();
+    return this.items;
+  }
   // Get all users
   getUsers() {
     return this.angularfireDatabase
@@ -147,6 +152,9 @@ export class DataProvider {
   getTickets() {
     this.items = this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid).valueChanges();
     return this.items;
+  }
+  updateTicket() {
+    return this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid);    
   }
   // Get conversations of the current logged in user.
   getConversations() {

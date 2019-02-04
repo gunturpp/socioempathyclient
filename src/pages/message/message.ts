@@ -80,6 +80,7 @@ export class MessagePage {
     this.session = this.navParams.get("session");
     this.day = this.navParams.get("day");
     this.confirmation = this.navParams.get("confirmation");
+    console.log("confirmationnz", this.confirmation)
     this.inSession = this.navParams.get("inSession");
     // Get psychology details.
     // console.log("psgId", this.psgId);
@@ -171,6 +172,7 @@ export class MessagePage {
   ticket() {
     this.dataProvider.getTickets().subscribe(tickets =>{
       this.tickets = tickets
+      console.log('get ticket',this.tickets); 
     })
   }
   reSession() {
@@ -337,28 +339,6 @@ export class MessagePage {
     }
   }
 
-  // finish session
-  finishSession() {
-    this.alert = this.alertCtrl
-      .create({
-        title: "Akhiri konsultasi sekarang juga?",
-        message:
-          "Konsultasi masih berlangsung, jika anda sudah menemukan solusi dan merasa puas, silahkan tekan tombol OK. Sesi akan ditutup dan tidak dapat konsultasi kembali.",
-        buttons: [
-          {
-            text: "CANCEL",
-            handler: data => {}
-          },
-          {
-            text: "OK",
-            handler: () => {
-              console.log("finish session");
-            }
-          }
-        ]
-      })
-      .present();
-  }
 
   // Send message, if there's no conversation yet, create a new conversation.
   send() {

@@ -104,6 +104,39 @@ module.exports = [
       "cordova.plugins.Keyboard"
     ],
     "runs": true
+  },
+  {
+    "id": "cordova-plugin-appversion.RareloopAppVersion",
+    "file": "plugins/cordova-plugin-appversion/www/app-version.js",
+    "pluginId": "cordova-plugin-appversion",
+    "clobbers": [
+      "AppVersion"
+    ]
+  },
+  {
+    "id": "cordova-plugin-app-update.AppUpdate",
+    "file": "plugins/cordova-plugin-app-update/www/AppUpdate.js",
+    "pluginId": "cordova-plugin-app-update",
+    "clobbers": [
+      "AppUpdate"
+    ]
+  },
+  {
+    "id": "cordova-plugin-app-version.AppVersionPlugin",
+    "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+    "pluginId": "cordova-plugin-app-version",
+    "clobbers": [
+      "cordova.getAppVersion"
+    ]
+  },
+  {
+    "id": "cordova-plugin-inappbrowser.inappbrowser",
+    "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
+    "pluginId": "cordova-plugin-inappbrowser",
+    "clobbers": [
+      "cordova.InAppBrowser.open",
+      "window.open"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -121,7 +154,11 @@ module.exports.metadata =
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-support-google-services": "1.1.0",
   "ionic-plugin-keyboard": "2.2.1",
-  "phonegap-plugin-multidex": "1.0.0"
+  "phonegap-plugin-multidex": "1.0.0",
+  "cordova-plugin-appversion": "1.0.0",
+  "cordova-plugin-app-update": "2.0.2",
+  "cordova-plugin-app-version": "0.1.9",
+  "cordova-plugin-inappbrowser": "3.0.0"
 };
 // BOTTOM OF METADATA
 });

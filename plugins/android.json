@@ -40,6 +40,15 @@
     },
     "ionic-plugin-keyboard": {
       "PACKAGE_NAME": "id.socio.socioempathy"
+    },
+    "cordova-plugin-app-update": {
+      "PACKAGE_NAME": "id.socio.socioempathy"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "id.socio.socioempathy"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "id.socio.socioempathy"
     }
   },
   "dependent_plugins": {
@@ -47,6 +56,9 @@
       "PACKAGE_NAME": "id.socio.socioempathy"
     },
     "phonegap-plugin-multidex": {
+      "PACKAGE_NAME": "id.socio.socioempathy"
+    },
+    "cordova-plugin-appversion": {
       "PACKAGE_NAME": "id.socio.socioempathy"
     }
   }

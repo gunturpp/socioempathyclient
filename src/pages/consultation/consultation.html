@@ -14,7 +14,7 @@
   <div class="center">
     <h2>Selesaikan masalahmu dengan psikolog</h2>
     <img class="boardimg" src="assets/images/consult.png">
-    <p *ngIf="ticket">Tiket anda : {{ticket.ticketTotal}}</p>
+    <h4 *ngIf="ticket">Tiket anda : {{ticket.ticketTotal}}<br><span *ngIf="expiredDate">masa berlaku {{expiredDate}} hari lagi</span></h4>
     <p *ngIf="!ticket">Anda tidak memiliki tiket</p>
     <p>Atur waktu yang kamu inginkan untuk curhat dengan psikolog</p>
     <button color="theblues" ion-button (click)="checkCalendar()">ATUR JADWAL</button>

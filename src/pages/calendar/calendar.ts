@@ -71,7 +71,7 @@ export class CalendarPage {
             title: schedule.key,
             startTime: new Date(this.sessionStart),
             endTime: new Date(this.sessionEnd),
-            allDay: true,
+            allDay: false,
           });
           this.index++;
           temp +=1;
