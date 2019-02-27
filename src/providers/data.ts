@@ -7,10 +7,9 @@ import {
 } from "angularfire2/database";
 import * as firebase from "firebase";
 import { Observable } from "rxjs/Observable";
-import { retry } from "rxjs/operator/retry";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Subscription } from "rxjs/Subscription";
 import "rxjs/add/operator/switchMap";
+import * as moment from 'moment';
 @Injectable()
 export class DataProvider {
   // Data Provider
@@ -20,10 +19,10 @@ export class DataProvider {
   public listbyquery: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
   public Objects: AngularFireObject<any>;
   public items: Observable<any>;
-
+  public CLIENTUID = localStorage.getItem("uid_client")
   constructor(public angularfireDatabase: AngularFireDatabase) {
     this.getbyquery = new BehaviorSubject(null);
-    console.log("Initializing Data Provider");
+    console.log("Initializing Dataa Provider", this.CLIENTUID);
   }
 
   appVersion() {
@@ -44,14 +43,12 @@ export class DataProvider {
   }
   // Get logged in user data
   getCurrentUser() {
-    this.items = this.angularfireDatabase
-      .object("/users/" + firebase.auth().currentUser.uid)
-      .valueChanges();
+    this.items = this.angularfireDatabase.object("/users/" + this.CLIENTUID).valueChanges();
     return this.items;
   }
   updateCurrentUser() {
     return this.angularfireDatabase.object(
-      "/users/" + firebase.auth().currentUser.uid
+      "/users/" + this.CLIENTUID
     );
   }
   updateDevicesToken(token) {
@@ -62,14 +59,15 @@ export class DataProvider {
 
   // Get user by their userId
   getUser(userId) {
-    this.items = this.angularfireDatabase
-      .object("/users/" + userId)
-      .valueChanges();
+    this.items = this.angularfireDatabase.object("/users/" + userId).valueChanges();
     return this.items;
   }
   // Set user by their userId
   setUser(userId) {
     return this.angularfireDatabase.object("/users/" + userId);
+  }
+  setFeedback() {
+    return this.angularfireDatabase.object("/feedbacks/" + this.CLIENTUID +'/'+ moment().format('MMM-DD-YYYY-h:mm:ss-a'));
   }
   setVoucher(userId) {
     return this.angularfireDatabase.object("/vouchers/" + userId);
@@ -79,11 +77,11 @@ export class DataProvider {
     return this.items;
   }
   getVoucherByUser(code) {
-    this.items =  this.angularfireDatabase.object("/users/"+ firebase.auth().currentUser.uid +"/vouchers/"+code).valueChanges();
+    this.items =  this.angularfireDatabase.object("/users/"+ this.CLIENTUID +"/vouchers/"+code).valueChanges();
     return this.items;
   }
   getInvoiceByUser() {
-    this.items =  this.angularfireDatabase.list("/invoice/" + firebase.auth().currentUser.uid).valueChanges();
+    this.items =  this.angularfireDatabase.list("/invoice/" + this.CLIENTUID).valueChanges();
     return this.items;
   }
 
@@ -93,7 +91,7 @@ export class DataProvider {
   // Get requests given the userId.
   getRequestsbyCurrentUser() {
     this.items = this.angularfireDatabase
-      .object("/requests/" + firebase.auth().currentUser.uid)
+      .object("/requests/" + this.CLIENTUID)
       .valueChanges();
     return this.items;
   }
@@ -119,7 +117,7 @@ export class DataProvider {
   }
   getCurrentFriendTimeline() {
     this.items = this.angularfireDatabase
-      .list("/users/" + firebase.auth().currentUser.uid + "/friends")
+      .list("/users/" + this.CLIENTUID + "/friends")
       .snapshotChanges();
     return this.items;
   }
@@ -146,28 +144,28 @@ export class DataProvider {
     return this.items;
   }
   getConversationbyCurrentUser(psgId) {
-    this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/" + psgId).valueChanges();
+    this.items = this.angularfireDatabase.list("/users/" + this.CLIENTUID + "/conversations/" + psgId).valueChanges();
     return this.items;
   }
   getTickets() {
-    this.items = this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid).valueChanges();
+    this.items = this.angularfireDatabase.object("/tickets/" + this.CLIENTUID).valueChanges();
     return this.items;
   }
   updateTicket() {
-    return this.angularfireDatabase.object("/tickets/" + firebase.auth().currentUser.uid);    
+    return this.angularfireDatabase.object("/tickets/" + this.CLIENTUID);    
   }
   // Get conversations of the current logged in user.
   getConversations() {
-    this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/").snapshotChanges();
+    this.items = this.angularfireDatabase.list("/users/" + this.CLIENTUID + "/conversations/").snapshotChanges();
     return this.items;
   }
   getValueConversations() {
-    this.items = this.angularfireDatabase.list("/users/" + firebase.auth().currentUser.uid + "/conversations/").valueChanges();
+    this.items = this.angularfireDatabase.list("/users/" + this.CLIENTUID + "/conversations/").valueChanges();
     return this.items;
   }
   deleteConversations() {
     return this.angularfireDatabase.list(
-      "/users/" + firebase.auth().currentUser.uid + "/conversations/"
+      "/users/" + this.CLIENTUID + "/conversations/"
     );
   }
 
@@ -196,7 +194,7 @@ export class DataProvider {
   // Get groups of the logged in user.
   getGroups() {
     this.items = this.angularfireDatabase
-      .list("/users/" + firebase.auth().currentUser.uid + "/groups")
+      .list("/users/" + this.CLIENTUID + "/groups")
       .snapshotChanges();
     return this.items;
   }
@@ -211,14 +209,14 @@ export class DataProvider {
   //Get comment timeline
   getCommentTimeline() {
     this.items = this.angularfireDatabase
-      .list("/users/" + firebase.auth().currentUser.uid + "/timeLine")
+      .list("/users/" + this.CLIENTUID + "/timeLine")
       .snapshotChanges();
     return this.items;
   }
   //Get object on comment timeline
   getObjectCommentTimeline() {
     this.items = this.angularfireDatabase
-      .object("/users/" + firebase.auth().currentUser.uid + "/timeLine")
+      .object("/users/" + this.CLIENTUID + "/timeLine")
       .valueChanges();
     return this.items;
   }
@@ -231,7 +229,7 @@ export class DataProvider {
   //Get user timeline
   getUserTimeline() {
     this.items = this.angularfireDatabase
-      .object("/users/" + firebase.auth().currentUser.uid + "/timeLine")
+      .object("/users/" + this.CLIENTUID + "/timeLine")
       .valueChanges();
     return this.items;
   }
@@ -246,13 +244,13 @@ export class DataProvider {
   //Get user timeline baseon id for delete
   deleteUserTimelineByID() {
     return this.angularfireDatabase.list(
-      "/users/" + firebase.auth().currentUser.uid + "/timeLine"
+      "/users/" + this.CLIENTUID + "/timeLine"
     );
   }
 
   //get logged in user ID
   getMyID() {
-    return firebase.auth().currentUser.uid;
+    return this.CLIENTUID;
   }
   // Set schedule psg by their userId
   setScheduling(psychologstId) {

@@ -42,6 +42,7 @@ import { Payment2Page } from '../pages/payment2/payment2';
 import { Payment3Page } from '../pages/payment3/payment3';
 import { ProfilePage } from '../pages/profile/profile';
 import { EditprofilePage } from '../pages/editprofile/editprofile';
+import { TermofconditionPage } from '../pages/termofcondition/termofcondition';
 
 
 // Guntur
@@ -88,11 +89,16 @@ import { InvoiceListPage } from '../pages/invoice-list/invoice-list';
 import { AppUpdate } from '../../node_modules/@ionic-native/app-update';
 import { AppVersion } from '../../node_modules/@ionic-native/app-version';
 import { InAppBrowser } from '../../node_modules/@ionic-native/in-app-browser/ngx';
+import { FeedbackPage } from '../pages/feedback/feedback';
+import { AboutPage } from '../pages/about/about';
 
 firebase.initializeApp(Login.firebaseConfig);
 
 @NgModule({
   declarations: [
+    AboutPage,
+    FeedbackPage,
+    TermofconditionPage,
     InvoiceListPage,
     BuyPacketPage,
     PaymentStatusPage,
@@ -161,6 +167,9 @@ firebase.initializeApp(Login.firebaseConfig);
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    AboutPage,
+    FeedbackPage,
+    TermofconditionPage,
     InvoiceListPage,
     BuyPacketPage,
     PaymentStatusPage,

@@ -1,0 +1,16 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Komentar</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <h4>Setiap masukan darimu sangat berharga bagi kami. Baik kendala, error, atau saran setelah menggunakan aplikasi.</h4>
+  <ion-item>
+    <ion-textarea [(ngModel)]="feedback" class="textarea" rows="6" placeholder="Bagaimana pendapatmu tentang kami?"></ion-textarea>
+  </ion-item>
+  <button ion-button full color="primary" (click)="sendFeedback()" [disabled]="!feedback">Kirim</button>
+</ion-content>

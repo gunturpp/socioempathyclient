@@ -15,6 +15,8 @@ import { Camera } from '@ionic-native/camera';
 import { ModalController, ViewController } from 'ionic-angular';
 import { ProfilePage } from '../profile/profile';
 import { Observable } from 'rxjs/Observable';
+import { FeedbackPage } from '../feedback/feedback';
+import { AboutPage } from '../about/about';
 
 
 @Component({
@@ -61,12 +63,20 @@ export class HomePage {
       });
   
   }
+  openFeedback() {
+    this.navCtrl.push(FeedbackPage,{
+      userId: this.user.userId
+    })
+  }
   underconstruction() {
     this.alert = this.alertCtrl.create({
       title: 'Ooops..',
       subTitle: 'Sorry, this feature under maintenance.',
       buttons: ['Ok']
     }).present();
+  }
+  about() {
+    this.navCtrl.push(AboutPage)
   }
   // Change user's profile photo. Uses imageProvider to process image and upload on Firebase and update userData.
   setPhoto() {

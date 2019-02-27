@@ -130,7 +130,7 @@ export class BookingPage {
     });
 
     // create data booking inside psg table as attribut "booking"
-    this.angularfireDatabase.object('psg/' + this.psgProfile.userId + '/booking/' +  firebase.auth().currentUser.uid)
+    this.angularfireDatabase.object('psg/' + this.psgProfile.userId + '/booking/' +  this.createdAt)
     .update({
       seesionke: localStorage.getItem("sessionke"),
       id: this.createdAt

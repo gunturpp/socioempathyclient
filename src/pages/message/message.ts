@@ -25,11 +25,8 @@ import * as moment from "moment";
 export class MessagePage {
   allMessage: any;
   @ViewChild(Content) content: Content;
-  psgId: any;
-  idConversation: any;
   stopConversation: any;
   private userId: any;
-  private title: any;
   private message: any;
   private conversationId: any;
   private messages: any;
@@ -42,8 +39,6 @@ export class MessagePage {
   private numberOfMessages = 10;
   timeInSeconds: number;
   displayTime='';
-  session: any;
-  day: any;
   restartSession:any;
   isShow = false;
   timeSession:any;
@@ -54,11 +49,16 @@ export class MessagePage {
     mode: "month",
     currentDate: new Date()
   };
-  confirmation: any;
-  inSession: any;
   tickets: any;
-
-  // MessagePage
+  reminder: string;
+  confirmation: any;
+  idConversation: any;
+  psgId: any;
+  session: any;
+  day: any;
+  inSession: any;
+  title: any;
+// MessagePage
   // This is the page where the user can chat with a friend.
   constructor(
     public navCtrl: NavController,
@@ -74,20 +74,22 @@ export class MessagePage {
     public keyboard: Keyboard
   ) {}
   ionViewDidLoad() {
-    this.userId = firebase.auth().currentUser.uid
-    this.psgId = this.navParams.get("psgId");
+    this.userId = firebase.auth().currentUser
+    this.psgId = this.navParams.get("sender");
     this.idConversation = this.navParams.get("idConversation");
     this.session = this.navParams.get("session");
     this.day = this.navParams.get("day");
     this.confirmation = this.navParams.get("confirmation");
-    console.log("confirmationnz", this.confirmation)
+    console.log("psgId", this.psgId)
+    console.log("idConversation", this.idConversation)
+    console.log("session", this.session)
+    console.log("day", this.day)
+    console.log("confirmation", this.confirmation)
     this.inSession = this.navParams.get("inSession");
+    this.title = this.navParams.get("name");
+  
     // Get psychology details.
-    // console.log("psgId", this.psgId);
     this.ticket();
-    this.dataProvider.getPsgAvailable(this.psgId).subscribe(user => {
-      this.title = user.name;
-    });
     // Get conversation
     this.dataProvider.getConversationMessages(this.idConversation).subscribe(messages => {
         console.log("msg messages", messages);
@@ -165,8 +167,6 @@ export class MessagePage {
   ionViewDidEnter(){
     this.setMessagesRead(this.messages.length);  
     console.log('read',this.messages); 
-  }
-  ionViewWillEnter(){
     this.countdown();  
   }
   ticket() {
@@ -220,18 +220,25 @@ export class MessagePage {
     setInterval(() => { 
       var a = moment();
       this.timeInSeconds = Math.round(b.diff(a)/1000);
+      // // console.log("this.timeInSeconds", this.timeInSeconds); //just uncoment to show countdown in console	
       this.displayTime = this.getSecondsAsDigitalClock(this.timeInSeconds)
-      // console.log("this.displayTime", this.displayTime); //just uncoment to show countdown in console	
    }, 1000);
   }
+  timeendAlert() {
+    this.reminder = "Waktu anda kurang dari 15 menit lagi.";
+   }
+ 
   getSecondsAsDigitalClock(inputSeconds: number) {	
       var sec_num = inputSeconds; // don't forget the second param	
+      console.log("milisecond", sec_num); //just uncoment to show countdown in console	
       if(sec_num > 3600) {
         return 'notyetready';	
       } else if (sec_num < 0) {	
         return 'timeover';	
       } else {	
-      // console.log("milisecond", sec_num); //just uncoment to show countdown in console	
+      if(sec_num < 900) {
+        this.timeendAlert()
+      }
       var days = Math.floor(sec_num / 86400); // 3600 * 24	
       var hours = Math.floor(sec_num / 3600) - days * 24;	
       var temphours = Math.floor(sec_num / 3600);	

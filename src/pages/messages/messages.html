@@ -10,6 +10,7 @@
       <ion-icon name="md-text"></ion-icon>
     </h1>
     <p>Booking psikologmu segera.</p>
+      
   </div>
   <!-- Show conversations -->
   <ion-list class="avatar-list" *ngIf="conversations && conversations.length > 0">
@@ -17,15 +18,15 @@
     <!-- press button di comment -->
     <!-- <ion-item color="red" (press)="pressEvent(conversation.sender)" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index" -->
     <ion-item color="red" *ngFor="let conversation of conversations | conversationFilter:searchFriend; let i = index"
-      no-lines tappable (click)="message(conversation.key,conversation.conversationId,i)">
-      <ion-avatar item-left *ngIf="profilePsg">
-          <img src="{{profilePsg[i].img}}">
+      no-lines tappable (click)="message(conversation)">
+      <ion-avatar item-left>
+          <img src="{{conversation.img}}">
         </ion-avatar>
         <div [ngClass]=hasUnreadMessages(conversation)>
-          <h2 *ngIf="profilePsg">{{profilePsg[i].name}}</h2>
+          <h2>{{conversation.name}}</h2>
           <ion-badge color="danger" *ngIf="conversation.unreadMessagesCount > 0">{{conversation.unreadMessagesCount}}</ion-badge>
           <p>{{conversation.message}}</p>
-          <span class="date">{{displayTime[i]}}
+          <span class="date">{{displayTime[conversation.index]}}
             <br>{{conversation.date | DateFormat}}</span>
         </div>
     </ion-item>

@@ -9,6 +9,12 @@
     </ion-buttons> -->
   </ion-navbar>
 </ion-header>
+
+  <!-- Problem -->
+  <div *ngIf="reminder" class="problems">
+    <span class="field-problem">{{reminder}}</span><br>
+  </div>    
+
 <ion-content has-footer>
   <!-- rating -->
   <!-- <div class="rating">
@@ -19,7 +25,6 @@
     </div>
     <button ion-button>SUBMIT</button>
   </div> -->
-
   <!-- Messages -->
   <div class="messages">
     <p class="center" *ngIf="startIndex > 0">
@@ -61,7 +66,7 @@
   </div>
 </ion-content>
 <!-- Message Box -->
-<ion-footer *ngIf="displayTime  !== 'timeover' || displayTime  !== 'notyetready' || confirmation!= 'waiting' ">
+<ion-footer *ngIf="displayTime  !== 'timeover' || displayTime  !== 'notyetready' || confirmation != 'waiting' ">
   <div class="bottom_bar">
     <!-- <ion-fab middle left>
       <button ion-fab mini tappable (click)="sendPhoto()"><ion-icon name="md-camera"></ion-icon></button>
@@ -75,21 +80,21 @@
   </div>
 </ion-footer>
 
-<ion-footer *ngIf="displayTime  == 'timeover' && confirmation!= 'waiting'">
-  <div class="session_end">Your session is ended, create next session with your psychologist.
+<ion-footer *ngIf="displayTime  == 'timeover' && confirmation != 'waiting'">
+  <div class="session_end">Sesi anda telah berakhir, buat sesi baru dengan konselor
     <br>
     <button *ngIf="isShow == false" ion-button color="primary" (click)="reSession()">Buat jadwal baru</button>
     <ion-item *ngIf="isShow == true">
       <ion-label>Tentukan jadwal</ion-label>
-      <ion-datetime placeholder="YYYY-MM-DD HH" displayFormat="YYYY-MM-DD HH" min="2018" max="2025-11-31" [(ngModel)]="timeSession">
+      <ion-datetime placeholder="YYYY-MMM-DD HH" displayFormat="YYYY-MMM-DD HH" min="2019" max="2025-11-31" [(ngModel)]="timeSession">
       </ion-datetime>
     </ion-item>
     <button *ngIf="isShow == true" ion-button color="primary" (click)="reBooking()">Lanjutkan</button>
   </div>
 </ion-footer>
 <ion-footer *ngIf="displayTime  == 'notyetready' && confirmation!= 'waiting'">
-  <div class="session_end">Your session not yet ready. </div>
+  <div class="session_end">Sesi anda dimulai saat durasi sudah 1 jam. </div>
 </ion-footer>
 <ion-footer *ngIf="confirmation  == 'waiting'">
-  <div class="session_end">waiting for confirmation. </div>
+  <div class="session_end">Harap menunggu konfirmasi konselor. </div>
 </ion-footer>

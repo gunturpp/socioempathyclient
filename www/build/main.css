@@ -33213,7 +33213,7 @@ ion-header ion-title p {
 
 .empty-list {
   position: absolute;
-  top: 20%;
+  top: 10%;
   width: 100%;
   text-align: center;
 }
@@ -34059,6 +34059,11 @@ page-editprofile ion-list ion-item.activated ion-icon {
   color: #549AD4;
 }
 
+page-feedback .textarea {
+  border: 1px #000000 solid;
+  border-radius: 5px;
+}
+
 page-friends .premiumCss {
   background: #ffcd00;
   color: white;
@@ -34525,9 +34530,21 @@ page-message .session_end {
   padding: 20px;
 }
 
+page-message .problems {
+  position: absolute;
+  display: block;
+  top: 8%;
+  width: 100%;
+  z-index: 15;
+  background-color: white;
+  padding: 10px;
+}
+
 page-message .field-problem {
-  font-size: 10px;
-  color: #aaaaaa;
+  z-index: 10;
+  text-align: center;
+  font-size: 14px;
+  color: red;
 }
 
 page-message .rating {
@@ -35076,6 +35093,33 @@ page-tabs .tabs-wp .tab-button {
   content: url("../assets/images/svg/psi.svg");
   width: 24px;
   height: 30px;
+}
+
+page-termofcondition .term-service {
+  height: 400px !important;
+  width: 90%;
+  margin: auto;
+  margin-top: 10%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5%;
+  text-align: left;
+}
+
+page-termofcondition .btn-agree {
+  width: 90%;
+  margin: auto;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  font-size: 24px;
+  text-align: center;
+  background-color: #549AD4;
+  margin-bottom: 10px;
+  padding: 10px;
+  color: #ffffff;
+  cursor: pointer;
 }
 
 page-time-line ion-navbar {

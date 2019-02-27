@@ -5,6 +5,7 @@ import { MessagesPage } from '../messages/messages';
 import { ConsultationPage } from '../consultation/consultation';
 import { DataProvider } from '../../providers/data';
 import * as moment from "moment";
+import { TermofconditionPage } from '../termofcondition/termofcondition';
 
 @Component({
   selector: 'page-tabs',
@@ -22,10 +23,15 @@ export class TabsPage {
   // TabsPage
   // This is the page where we set our tabs.
   constructor(public toastCtrl: ToastController,public navCtrl: NavController, public navParams: NavParams, public dataProvider: DataProvider) { 
-   
   }
-
-  ionViewDidLoad() {
+  
+  ionViewDidLoad() {  
+    
+    // this.dataProvider.getCurrentUser().subscribe(currentUser => {
+    //   if(currentUser.termofcondition == 0) {
+    //     this.navCtrl.setRoot(TermofconditionPage)
+    //   }
+    // })
     this.getUnreadMessagesCount();
     // Get conversations and add/update if the conversation exists, otherwise delete from list.
     this.dataProvider.getValueConversations().subscribe((conversationsInfo) => {

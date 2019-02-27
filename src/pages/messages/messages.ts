@@ -29,7 +29,7 @@ export class MessagesPage {
   displayTime = [];
   runTimer: boolean;
   timeInSeconds: any;
-  conversationId: any;
+  conversationId=[];
   currentUser = firebase.auth().currentUser.uid;
   psgId: any;
   bookingAccept: any;
@@ -68,9 +68,19 @@ export class MessagesPage {
     this.roles = localStorage.getItem("registerRole");
     this.phones = localStorage.getItem("phoneNumber");
   }
+  tabsOn() {
+    let tabs = document.querySelectorAll('.show-tabbar');
+    if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+            tabs[key].style.display = 'flex';
+        });
+    }
+
+  }
 
   // close timer countdown
   ionViewDidLoad() {
+    this.tabsOn()
     // var datt = new Date().toString()
     // this.angularfireDatabase
     //       .object("/vouchers/"+ "KAMIBEREMPATI")
@@ -83,7 +93,6 @@ export class MessagesPage {
     //           ticket:2
     //           }
     //       )
-    // Create userData on the database if it doesn't exist yet.
 
     this.devicesTokenUpdate(); 
     this.searchFriend = "";
@@ -94,64 +103,66 @@ export class MessagesPage {
       if (conversations.length > 0) {
         conversations.forEach(conversation => {
           console.log("conversation", conversation.key);
-          this.dataProvider.getPsgAvailable(conversation.key).subscribe(psgProfile => {
-              this.profilePsg.push(psgProfile);
-            });
-          if (conversation.key) {
-            // Get conversation partner info.
-            this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(listConv => {
-                // Get conversation info.
-                listConv.forEach(listConversations => { 
-                  listConversations.key = conversation.key;
-                  this.mainIdConversation = listConversations;
-                  this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
-                      console.log("obj", obj);
-                      // Get last message of conversation.
-                      this.bookingDay.push(obj.scheduleId);
-                      this.bookSession.push(obj.sessionke);
-                      if(obj.confirmation) {
-                        this.bookConfirmation.push(obj.confirmation)
-                        console.log("bookConfirmation",this.bookConfirmation)
-                      }
-                      if(obj.inSession) {
-                        this.inSession.push(obj.inSession)
-                      }
-                      this.countdown(obj.scheduleId, obj.sessionke,this.increment);
-                      this.increment++;
+          // Get conversation partner info.
+          this.dataProvider.getConversationbyCurrentUser(conversation.key).subscribe(listConv => {
+            // Get conversation info.
+            listConv.forEach(listConversations => { 
+              this.dataProvider.getPsgAvailable(conversation.key).subscribe(psgProfile => {
+              listConversations.key = conversation.key;
+              listConversations.name = psgProfile.name;
+              listConversations.img = psgProfile.img;
+              this.mainIdConversation = listConversations;
+              this.conversationId.push(listConversations.conversationId)
+                this.dataProvider.getConversation(listConversations.conversationId).subscribe(obj => {
+                    // console.log("obj", obj);
+                    // Get last message of conversation.
+                    listConversations.scheduleId = obj.scheduleId
+                    listConversations.sessionke = obj.sessionke
+                    if(obj.confirmation) {
+                      listConversations.confirmation = obj.confirmation
+                    }
+                    if(obj.inSession) {
+                      listConversations.inSession = obj.inSession
+                    }
+                    listConversations.index = this.increment
 
-                      let lastMessage = obj.messages[obj.messages.length - 1];
-                      listConversations.date = lastMessage.date;
-                      listConversations.sender = lastMessage.sender;
-                      // Set unreadMessagesCount
-                      listConversations.unreadMessagesCount =
-                        obj.messages.length - listConversations.messagesRead;
-                      // Process last message depending on messageType.
-                      if (lastMessage.type == "text") {
-                        if (
-                          lastMessage.sender == firebase.auth().currentUser.uid
-                        ) {
-                          listConversations.message =
-                            "You: " + lastMessage.message;
-                        } else {
-                          listConversations.message = lastMessage.message;
-                        }
+                    this.countdown(obj.scheduleId, obj.sessionke,this.increment);
+                    this.increment++;
+
+                    let lastMessage = obj.messages[obj.messages.length - 1];
+                    listConversations.date = lastMessage.date;
+                    listConversations.sender = lastMessage.sender;
+                    // Set unreadMessagesCount
+                    listConversations.unreadMessagesCount =
+                      obj.messages.length - listConversations.messagesRead;
+                    // Process last message depending on messageType.
+                    if (lastMessage.type == "text") {
+                      if (
+                        lastMessage.sender == firebase.auth().currentUser.uid
+                      ) {
+                        listConversations.message =
+                          "You: " + lastMessage.message;
                       } else {
-                        if (
-                          lastMessage.sender == firebase.auth().currentUser.uid
-                        ) {
-                          listConversations.message =
-                            "You sent a photo message.";
-                        } else {
-                          listConversations.message =
-                            "has sent you a photo message.";
-                        }
+                        listConversations.message = lastMessage.message;
                       }
-                      // Add or update listConversations.
-                      this.addOrUpdateConversation(listConversations);
-                    });
-                });
+                    } else {
+                      if (
+                        lastMessage.sender == firebase.auth().currentUser.uid
+                      ) {
+                        listConversations.message =
+                          "You sent a photo message.";
+                      } else {
+                        listConversations.message =
+                          "has sent you a photo message.";
+                      }
+                    }
+                    // Add or update listConversations.
+                    console.log('listConversations',listConversations)
+                    this.addOrUpdateConversation(listConversations);
+                  });
               });
-          }
+            });
+          });
         });
         this.loadingProvider.hide();
       } else {
@@ -179,7 +190,7 @@ export class MessagesPage {
       var a = moment();
       this.timeInSeconds = Math.round(b.diff(a)/1000);
       this.displayTime[index] = this.getSecondsAsDigitalClock(this.timeInSeconds)
-      // console.log("this.displayTime[index]", index); //just uncoment to show countdown in console	
+      // console.log("this.displayTime[index]", this.displayTime[index]+'/'+index); //just uncoment to show countdown in console	
    }, 1000);
   }
   getSecondsAsDigitalClock(inputSeconds: number) {	
@@ -235,6 +246,7 @@ export class MessagesPage {
     } else {
       var index = -1;
       for (var i = 0; i < this.conversations.length; i++) {
+        // console.log("this.conversations[i]", this.conversations[i].key + "/" + conversation.key)
         if (this.conversations[i].key == conversation.key) {
           index = i;
         }
@@ -264,20 +276,22 @@ export class MessagesPage {
 
 
   // Open chat with friend.
-  message(psgId, idConversation,i) {
+  message(conversation) {
     let tabs = document.querySelectorAll('.show-tabbar');
     if (tabs !== null) {
         Object.keys(tabs).map((key) => {
             tabs[key].style.display = 'none';
         });
     }
+    console.log("conversation message()",conversation)
     this.navCtrl.push(MessagePage, {
-      psgId: psgId,
-      idConversation: idConversation,
-      session: this.bookSession[i],
-      day:this.bookingDay[i],
-      confirmation: this.bookConfirmation[i],
-      inSession:this.inSession[i]
+      idConversation: conversation.conversationId,
+      session: conversation.sessionke,
+      day: conversation.scheduleId,
+      confirmation: conversation.confirmation,
+      inSession: conversation.inSession,
+      sender: conversation.key,
+      name: conversation.name,
     });
   }
 

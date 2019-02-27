@@ -11,6 +11,7 @@ const errorMessages = {
 
   // Firebase Error Messages
   accountExistsWithDifferentCredential: { title: 'Akun Telah digunakan!', subTitle: 'Silahkan coba lagi menggunakan akun lain. Terima kasih.' },
+  failFeedback: { title: 'Gagal mengirim tanggapan', subTitle: 'Silahkan ketik ulang untuk mengirim tanggapan.' },
   notClient: { title: 'Tidak Dapat Masuk.', subTitle: 'Gunakan akun lain dan login kembali.' },
   invalidCredential: { title: 'Invalid Credential!', subTitle: 'An error occured logging in with this credential.' },
   operationNotAllowed: { title: 'Login Gagal!', subTitle: 'Login ditolah, silahkan hubungi tim kami. Terima kasih.' },
@@ -53,6 +54,7 @@ const errorMessages = {
 };
 
 const successMessages = {
+  feedbackSubmit: { title: 'Berhasil mengirim tanggapan', subTitle: 'Terimakasih, tanggapanmu sangat berarti bagi evaluasi kami,' },
   passwordResetSent: { title: 'Reset Password Telah Dikirim!', subTitle: 'reset password telah dikirim ke email: ' },
   profileUpdated: { title: 'Berhasil Mengganti Profil!', subTitle: 'Terima kasih!' },
   numberUpdated: { title: 'Berhasil Mengganti Nomer Handphone!', subTitle: 'Terima kasih!' },
@@ -92,6 +94,13 @@ export class AlertProvider {
     this.alert = this.alertCtrl.create({
       title: successMessages.invoiceUpdated["title"],
       subTitle: successMessages.invoiceUpdated["subTitle"],
+      buttons: ['OK']
+    }).present();
+  }
+  showFeedbackSubmitMessage() {
+    this.alert = this.alertCtrl.create({
+      title: successMessages.feedbackSubmit["title"],
+      subTitle: successMessages.feedbackSubmit["subTitle"],
       buttons: ['OK']
     }).present();
   }
@@ -229,6 +238,13 @@ export class AlertProvider {
         this.alert = this.alertCtrl.create({
           title: errorMessages.notClient["title"],
           subTitle: errorMessages.notClient["subTitle"],
+          buttons: ['OK']
+        }).present();
+        break;
+      case 'fail-feedback':
+        this.alert = this.alertCtrl.create({
+          title: errorMessages.failFeedback["title"],
+          subTitle: errorMessages.failFeedback["subTitle"],
           buttons: ['OK']
         }).present();
         break;

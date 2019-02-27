@@ -7,6 +7,7 @@ import { AlertProvider } from '../../providers/alert';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Validator } from '../../validator';
 import * as firebase from 'firebase';
+import * as moment from 'moment';
 
 @Component({
   selector: 'page-verification',
@@ -273,7 +274,7 @@ export class VerificationPage {
               birth: "None",
               profession: "None",
               role:"client",
-              emailVerified:false
+              termofcondition:"setuju"
             })
             .then(() => {
               this.loadingProvider.hide();
@@ -282,9 +283,9 @@ export class VerificationPage {
           .object("/tickets/" + userId)
           .set({
             userId: userId,
-            ticketTotal:0,
+            ticketTotal:3,
             code:'',
-            expiredDate:'',
+            expiredDate: moment().add(14, 'days').toString(),
             isExpired:false
           })
           .then(() => {

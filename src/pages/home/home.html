@@ -17,18 +17,18 @@
       <ion-icon name="logo-facebook" *ngIf="user.provider == 'Facebook'" class="facebook"></ion-icon>
       <ion-icon name="logo-google" *ngIf="user.provider == 'Google'" class="google"></ion-icon> -->
     </h4>
-    <p tappable (click)="setUsername()" class="username">@{{user.username}}</p>
+    <!-- <p tappable (click)="setUsername()" class="username">@{{user.username}}</p> -->
     <!-- <p tappable (click)="setDescription()" class="gender">{{user.description}}</p> -->
     <p tappable class="gender">{{user.gender}}</p>
     <!-- Profile Menu -->
     <ion-list>
       <ion-item>
-          <ion-label>Account</ion-label>
+          <ion-label>Akun</ion-label>
       </ion-item>
       
     <ion-item no-lines tappable (click)="profile()">
         <ion-icon color="theblues" name="person" item-left></ion-icon>
-        <ion-label>Profile</ion-label>
+        <ion-label>Profil</ion-label>
     </ion-item>
 
       <!-- <ion-item no-lines tappable>
@@ -69,7 +69,7 @@
   
       <ion-item no-lines tappable (click)="setPassword()" *ngIf="user && user.provider == 'Firebase'">
         <ion-icon color="theblues" name="md-key" item-left></ion-icon>
-        Change Password
+        Ubah Password
       </ion-item>
       <!-- <ion-item no-lines tappable (click)="deleteAccount()">
         Delete Account
@@ -79,20 +79,15 @@
         <ion-icon color="danger" name="md-log-out" item-left></ion-icon>
         <span style="color:#f53d3d">Logout</span>
       </ion-item>
-
-      <!-- details -->
-      <ion-item>
-          <ion-label>Details</ion-label>
-      </ion-item>
   
-      <ion-item no-lines tappable (click)="underconstruction()">
+      <ion-item no-lines tappable (click)="openFeedback()">
         <ion-icon color="theblues" name="information" item-left></ion-icon>
-        Feedback
+        Tanggapanmu
       </ion-item>
     
-      <ion-item no-lines tappable (click)="underconstruction()">
+      <ion-item no-lines tappable (click)="about()">
         <ion-icon color="theblues" name="information-circle" item-left></ion-icon>
-        About
+        Tentang
       </ion-item>
 
     </ion-list>

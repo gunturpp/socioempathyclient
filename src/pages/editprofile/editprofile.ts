@@ -41,8 +41,9 @@ export class EditprofilePage {
       this.loadingProvider.hide();
       this.user = user;
       console.log("usernya",this.user);
-      
+      this.birth = this.user.birth
     });
+    console.log("birthhh", this.birth)
   }
 
   // Change user's profile name, username, and description.

@@ -1,0 +1,8 @@
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks app-release-unsigned.apk my-alias
+
+C:\Users\Guntur\AppData\Local\Android\sdk\build-tools\25.0.3\zipalign -v 4 app-release-unsigned.apk SocioEmpathy.apk
+
+
+check apk
+keytool -list -printcert -jarfile SocioPsikolog.apk
+keytool -list -printcert -jarfile SocioEmpathy.apk

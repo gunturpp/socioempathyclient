@@ -8,11 +8,10 @@ import * as firebase from "firebase";
 import { FcmProvider } from "../providers/fcm/fcm";
 //Pages
 import { LoginPage } from "../pages/login/login";
-import { MessagesPage } from "../pages/messages/messages";
 import { InAppBrowser } from "../../node_modules/@ionic-native/in-app-browser/ngx";
 import { DataProvider } from "../providers/data";
 import { AppVersion } from "../../node_modules/@ionic-native/app-version";
-
+import { TabsPage } from "../pages/tabs/tabs";
 @Component({
   templateUrl: "app.html"
 })
@@ -30,13 +29,15 @@ export class MyApp {
     public dataProvider: DataProvider,
     private appVersion: AppVersion,
   ) {
+
     platform.ready().then(() => {
-      // comment if want to deploy
+        // comment if want to deploy
       if (localStorage.getItem("toggle") == "true") {
         if (firebase.auth().currentUser) {
-          this.rootPage = MessagesPage;
+          this.rootPage = TabsPage;
         } else {this.rootPage = LoginPage;}
       } else {this.rootPage = BoardingPage;}
+      this.appVersions()
 
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -48,7 +49,6 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
       keyboard.hideKeyboardAccessoryBar(true);
-      this.appVersions()
     });              
   }
   appVersions() {
@@ -61,7 +61,7 @@ export class MyApp {
     if( await this.appVersion.getVersionNumber() == app){
       if (localStorage.getItem("toggle") == "true") {
         if (firebase.auth().currentUser) {
-          this.rootPage = MessagesPage;
+          this.rootPage = TabsPage;
         } else {this.rootPage = LoginPage;}
       } else {this.rootPage = BoardingPage;}
     } else {this.updateApp()}
@@ -71,7 +71,7 @@ export class MyApp {
     const alert = this.alertCtrl.create({
         title: "Perbaharui aplikasi",
         message: "Update baru sudah tersedia, anda harus mengupdate aplikasi SocioEmpathy",
-        buttons: [{text: "Update",handler: () => {this.browser.create('https://play.google.com/store/apps/details?id=id.socio.socioempathy&hl=in')}}]
+        buttons: [{text: "Update",handler: () => {this.browser.create('https://play.google.com/store/apps/details?id=id.socio2.socioempathy&hl=in')}}]
       })
       alert.present();
   }
